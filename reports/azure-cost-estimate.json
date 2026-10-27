@@ -1,0 +1,66 @@
+{
+  "createdAt": "2026-10-27T00:40:29.870Z",
+  "solutionRoot": "<run>/reports\\worktrees\\HarborLane.Integration",
+  "parameterFile": "<run>/reports\\worktrees\\HarborLane.Integration\\infra\\params\\dev.bicepparam",
+  "region": "canadacentral",
+  "regionSource": "default, because the Bicep parameter location is unresolved (REPLACE_AZURE_LOCATION_DEV) and migration.costEstimation.region is not set",
+  "planSku": "WS1",
+  "planSkuSource": "Bicep parameter appServicePlanSku",
+  "currency": "CAD",
+  "assumptions": {
+    "environment": "dev",
+    "hostingModel": "standard",
+    "hostingEnvironment": "multitenant",
+    "hoursPerMonth": 730,
+    "planInstances": 1,
+    "logIngestionGbPerMonth": 5,
+    "workflowStorageGb": 5,
+    "keyVaultOperationsPerMonth": 10000
+  },
+  "lines": [
+    {
+      "resource": "Logic Apps Standard compute (vCPU)",
+      "sku": "WS1 × 1",
+      "quantity": "1 vCPU × 730 hours",
+      "unitPrice": 0.2808,
+      "monthlyCost": 204.98,
+      "sourceMeter": "Logic Apps / Standard vCPU Duration (1 Hour)"
+    },
+    {
+      "resource": "Logic Apps Standard compute (memory)",
+      "sku": "WS1 × 1",
+      "quantity": "3.5 GiB × 730 hours",
+      "unitPrice": 0.0201,
+      "monthlyCost": 51.36,
+      "sourceMeter": "Logic Apps / Standard Memory Duration (1 GiB Hour)"
+    },
+    {
+      "resource": "Workflow host storage",
+      "sku": "Standard LRS / Azure Files",
+      "quantity": "5 GB-month",
+      "unitPrice": 0.0935,
+      "monthlyCost": 0.47,
+      "sourceMeter": "Files v2 / LRS Data Stored (1 GB/Month)"
+    },
+    {
+      "resource": "Application Insights / Log Analytics ingestion",
+      "sku": "Analytics Logs",
+      "quantity": "5 GB",
+      "unitPrice": 3.9097,
+      "monthlyCost": 19.55,
+      "sourceMeter": "Log Analytics / Analytics Logs Data Ingestion (1 GB)"
+    }
+  ],
+  "excluded": [
+    "Existing/shared archive storage base charge",
+    "Existing API Management service base charge",
+    "Bandwidth, managed-connector calls, support, taxes, reservations, and negotiated discounts"
+  ],
+  "total": 276.36,
+  "indicativeRange": {
+    "low": 221.09,
+    "high": 331.63
+  },
+  "pricingSource": "https://prices.azure.com/api/retail/prices",
+  "disclaimer": "Retail planning estimate only. Actual Azure charges depend on usage, contract, discounts, taxes, and resource configuration."
+}

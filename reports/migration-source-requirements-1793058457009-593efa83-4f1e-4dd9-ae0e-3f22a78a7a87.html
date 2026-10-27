@@ -1,0 +1,529 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Migration source requirements 1793058457009 593efa83 4f1e 4dd9 ae0e 3f22a78a7a87</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="solution-report.html">Solution report</a> · <a href="migration-source-requirements-1793058457009-593efa83-4f1e-4dd9-ae0e-3f22a78a7a87.json">Source (JSON)</a></nav><h1 id="migration-source-requirements-1793058457009-593efa83-4f1e-4dd9-ae0e-3f22a78a7a87">Migration source requirements 1793058457009 593efa83 4f1e 4dd9 ae0e 3f22a78a7a87</h1>
+<p>Source contract: <a href="migration-source-requirements-1793058457009-593efa83-4f1e-4dd9-ae0e-3f22a78a7a87.json">migration-source-requirements-1793058457009-593efa83-4f1e-4dd9-ae0e-3f22a78a7a87.json</a></p>
+<ul><li><strong>Stage:</strong> conversion</li></ul>
+<ul><li><strong>Ready:</strong> Yes</li></ul>
+<ul><li><strong>Checked At:</strong> 2026-10-26T23:47:37.009Z</li></ul>
+<h2 id="issues">Issues</h2>
+<h3 id="item-1">Item 1</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li><strong>Requirement:</strong> biztalk-component: Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<h4 id="searched">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<ul><li><strong>Action:</strong> Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> BizTalk component/assembly declaration; candidate identities, runtime deployment, and binding behavior require verification.</li></ul>
+<h3 id="item-2">Item 2</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_SOURCE_AVAILABLE</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li><strong>Requirement:</strong> biztalk-component: HarborLane.Integration.Pipelines.InventoryFlatFileReceive</li></ul>
+<h4 id="searched-1">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\HarborLane.Integration.Pipelines.InventoryFlatFileReceive</li></ul>
+<ul><li>Unverified candidate: <sample>\src\HarborLane.Integration.Pipelines\HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Evidence:</strong> BizTalk component declaration matched a source project in the recursive source inventory. Source is retained for migration without requiring a prior DLL build; assembly identity/version and runtime behavior require verification.</li></ul>
+<ul><li><strong>Action:</strong> Use the supplied source project(s) for migration: src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj. No prior DLL build is required for analysis. Verify assembly identity/version and any ambiguous candidates before relying on binary compatibility.</li></ul>
+<h3 id="item-3">Item 3</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li><strong>Requirement:</strong> biztalk-component: Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<h4 id="searched-2">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<ul><li><strong>Action:</strong> Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> BizTalk component/assembly declaration; candidate identities, runtime deployment, and binding behavior require verification.</li></ul>
+<h3 id="item-4">Item 4</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li><strong>Requirement:</strong> biztalk-component: Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<h4 id="searched-3">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Action:</strong> Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> BizTalk component/assembly declaration; candidate identities, runtime deployment, and binding behavior require verification.</li></ul>
+<h3 id="item-5">Item 5</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Helpers/HarborLane.Integration.Helpers.csproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-sdk: Microsoft.NET.Sdk</li></ul>
+<h4 id="searched-4">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Helpers\Microsoft.NET.Sdk</li></ul>
+<ul><li><strong>Action:</strong> Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> SDK availability is not checked.</li></ul>
+<h3 id="item-6">Item 6</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Helpers/HarborLane.Integration.Helpers.csproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Xml</li></ul>
+<h4 id="searched-5">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Helpers\System.Xml</li></ul>
+<ul><li><strong>Action:</strong> Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-7">Item 7</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System</li></ul>
+<h4 id="searched-6">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\System</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-8">Item 8</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Xml</li></ul>
+<h4 id="searched-7">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\System.Xml</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-9">Item 9</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Configuration</li></ul>
+<h4 id="searched-8">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\System.Configuration</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-10">Item 10</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.Pipeline</li></ul>
+<h4 id="searched-9">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\Microsoft.BizTalk.Pipeline</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-11">Item 11</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.DefaultPipelines</li></ul>
+<h4 id="searched-10">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\Microsoft.BizTalk.DefaultPipelines</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-12">Item 12</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<h4 id="searched-11">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-13">Item 13</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.TestTools</li></ul>
+<h4 id="searched-12">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\Microsoft.BizTalk.TestTools</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-14">Item 14</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.XLANGs.BaseTypes</li></ul>
+<h4 id="searched-13">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Maps\Microsoft.XLANGs.BaseTypes</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-15">Item 15</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildToolsPath)\Microsoft.CSharp.targets</li></ul>
+<h4 id="searched-14">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-16">Item 16</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildExtensionsPath)\Microsoft\BizTalk\BizTalkC.targets</li></ul>
+<h4 id="searched-15">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-17">Item 17</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_InventoryFlatFile_To_InventoryUpdate.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-16">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-18">Item 18</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_InventoryFlatFile_To_InventoryUpdate.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-17">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-19">Item 19</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_PurchaseOrder_To_CanonicalOrder.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-18">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-20">Item 20</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_PurchaseOrder_To_CanonicalOrder.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-19">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-21">Item 21</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_ShipmentNotice_To_ShipmentAck.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-20">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-22">Item 22</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Maps/Map_ShipmentNotice_To_ShipmentAck.btm</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: </li></ul>
+<h4 id="searched-21">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Maps/HarborLane.Integration.Maps.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-23">Item 23</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System</li></ul>
+<h4 id="searched-22">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\System</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-24">Item 24</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Xml</li></ul>
+<h4 id="searched-23">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\System.Xml</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-25">Item 25</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Configuration</li></ul>
+<h4 id="searched-24">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\System.Configuration</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-26">Item 26</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.Pipeline</li></ul>
+<h4 id="searched-25">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\Microsoft.BizTalk.Pipeline</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-27">Item 27</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.DefaultPipelines</li></ul>
+<h4 id="searched-26">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\Microsoft.BizTalk.DefaultPipelines</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-28">Item 28</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<h4 id="searched-27">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-29">Item 29</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.TestTools</li></ul>
+<h4 id="searched-28">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\Microsoft.BizTalk.TestTools</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-30">Item 30</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.XLANGs.BaseTypes</li></ul>
+<h4 id="searched-29">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Orchestrations\Microsoft.XLANGs.BaseTypes</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-31">Item 31</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildToolsPath)\Microsoft.CSharp.targets</li></ul>
+<h4 id="searched-30">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-32">Item 32</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildExtensionsPath)\Microsoft\BizTalk\BizTalkC.targets</li></ul>
+<h4 id="searched-31">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Orchestrations/HarborLane.Integration.Orchestrations.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-33">Item 33</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System</li></ul>
+<h4 id="searched-32">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\System</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-34">Item 34</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Xml</li></ul>
+<h4 id="searched-33">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\System.Xml</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-35">Item 35</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Configuration</li></ul>
+<h4 id="searched-34">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\System.Configuration</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-36">Item 36</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.Pipeline</li></ul>
+<h4 id="searched-35">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.BizTalk.Pipeline</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-37">Item 37</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.DefaultPipelines</li></ul>
+<h4 id="searched-36">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.BizTalk.DefaultPipelines</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-38">Item 38</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<h4 id="searched-37">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-39">Item 39</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.TestTools</li></ul>
+<h4 id="searched-38">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.BizTalk.TestTools</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-40">Item 40</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.XLANGs.BaseTypes</li></ul>
+<h4 id="searched-39">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.XLANGs.BaseTypes</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-41">Item 41</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildToolsPath)\Microsoft.CSharp.targets</li></ul>
+<h4 id="searched-40">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-42">Item 42</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildExtensionsPath)\Microsoft\BizTalk\BizTalkC.targets</li></ul>
+<h4 id="searched-41">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-43">Item 43</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Pipelines/InventoryFlatFileReceive.btp</li></ul>
+<ul><li><strong>Requirement:</strong> biztalk-component: Microsoft.BizTalk.Component.FFDasmComp</li></ul>
+<h4 id="searched-42">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Pipelines\Microsoft.BizTalk.Component.FFDasmComp</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Pipelines/HarborLane.Integration.Pipelines.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> BizTalk component/assembly declaration; candidate identities, runtime deployment, and binding behavior require verification.</li></ul>
+<h3 id="item-44">Item 44</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System</li></ul>
+<h4 id="searched-43">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\System</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-45">Item 45</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Xml</li></ul>
+<h4 id="searched-44">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\System.Xml</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-46">Item 46</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: System.Configuration</li></ul>
+<h4 id="searched-45">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\System.Configuration</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-47">Item 47</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.Pipeline</li></ul>
+<h4 id="searched-46">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\Microsoft.BizTalk.Pipeline</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-48">Item 48</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.DefaultPipelines</li></ul>
+<h4 id="searched-47">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\Microsoft.BizTalk.DefaultPipelines</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-49">Item 49</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<h4 id="searched-48">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\Microsoft.BizTalk.GlobalPropertySchemas</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-50">Item 50</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.BizTalk.TestTools</li></ul>
+<h4 id="searched-49">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\Microsoft.BizTalk.TestTools</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-51">Item 51</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> assembly-reference: Microsoft.XLANGs.BaseTypes</li></ul>
+<h4 id="searched-50">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li>Declared path (not read outside source root): <sample>\src\HarborLane.Integration.Schemas\Microsoft.XLANGs.BaseTypes</li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Verify this external/framework/assembly dependency in the intended build environment. Supply application-owned binaries or source if needed; this scan does not inspect GAC or DLL implementation.</li></ul>
+<ul><li><strong>Evidence:</strong> Assembly identity declared in project; version/public-key identity and GAC/framework availability are not verified.</li></ul>
+<h3 id="item-52">Item 52</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildToolsPath)\Microsoft.CSharp.targets</li></ul>
+<h4 id="searched-51">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+<h3 id="item-53">Item 53</h3>
+<ul><li><strong>Code:</strong> DEPENDENCY_NOT_VERIFIED</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Artifact:</strong> src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj</li></ul>
+<ul><li><strong>Requirement:</strong> msbuild-import: $(MSBuildExtensionsPath)\Microsoft\BizTalk\BizTalkC.targets</li></ul>
+<h4 id="searched-52">Searched</h4>
+<ul><li>Selected source inventory: <sample></li></ul>
+<ul><li><strong>Action:</strong> Not needed to migrate: it belongs to test project src/HarborLane.Integration.Schemas/HarborLane.Integration.Schemas.btproj, which is not migrated as runtime code. Evaluate this reference for the intended build configuration; supply any required generated/imported artifacts. This static scan does not evaluate MSBuild conditions or properties.</li></ul>
+<ul><li><strong>Evidence:</strong> MSBuild property, item expression, or wildcard requires evaluation.</li></ul>
+
+</main></body></html>

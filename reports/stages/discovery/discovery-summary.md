@@ -22,7 +22,7 @@ Discovery root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migratio
 - [Message flow](order-intake/messageFlow.md)
 - [Patterns](order-intake/patterns.md)
 - [Architecture](order-intake/architecture.md)
-- [Result folder](order-intake/)
+- [Result folder](order-intake)
 
 ### Inventory Update
 
@@ -33,7 +33,7 @@ Discovery root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migratio
 - [Message flow](inventory-update/messageFlow.md)
 - [Patterns](inventory-update/patterns.md)
 - [Architecture](inventory-update/architecture.md)
-- [Result folder](inventory-update/)
+- [Result folder](inventory-update)
 
 ### Shipment Notification
 
@@ -44,4 +44,4 @@ Discovery root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migratio
 - [Message flow](shipment-notification/messageFlow.md)
 - [Patterns](shipment-notification/patterns.md)
 - [Architecture](shipment-notification/architecture.md)
-- [Result folder](shipment-notification/)
+- [Result folder](shipment-notification)

@@ -16,7 +16,7 @@ Planning root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migration
 - [Plan](order-intake/plan.md)
 - [Workflow order intake](order-intake/workflow-order-intake.md)
 - [Architecture](order-intake/architecture.md)
-- [Result folder](order-intake/)
+- [Result folder](order-intake)
 
 ## [inventory-update](inventory-update/plan.md)
 
@@ -29,7 +29,7 @@ Planning root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migration
 - [Plan](inventory-update/plan.md)
 - [Workflow inventory update](inventory-update/workflow-inventory-update.md)
 - [Architecture](inventory-update/architecture.md)
-- [Result folder](inventory-update/)
+- [Result folder](inventory-update)
 
 ## [shipment-notification](shipment-notification/plan.md)
 
@@ -43,4 +43,4 @@ Planning root: `<run>/reports\worktrees\HarborLane.Integration\.vscode\migration
 - [Plan](shipment-notification/plan.md)
 - [Workflow shipment notification](shipment-notification/workflow-shipment-notification.md)
 - [Architecture](shipment-notification/architecture.md)
-- [Result folder](shipment-notification/)
+- [Result folder](shipment-notification)

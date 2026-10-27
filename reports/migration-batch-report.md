@@ -12,27 +12,27 @@ Completed: 2026-10-27T00:40:30.905Z
 | HarborLane.Integration | 17 | 32129157 | 232251 | 32361408 | 17 exact / 0 estimated |
 | **Batch total** | **17** | **32129157** | **232251** | **32361408** | **17 exact / 0 estimated** |
 
-Machine-readable report: [JSON](migration-batch-2026-10-27T00-40-30-905Z.json)
+Machine-readable report: [JSON](migration-batch-report.json)
 
 ## HarborLane.Integration
 
 - **Status:** passed
 - **Branch:** migration/harborlane-integration
-- **Solution report:** [Open HTML report](HarborLane.Integration/solution-report.html)
-- **Worktree:** [Open folder](worktrees/HarborLane.Integration)
-- **Conversion manifest:** [Open report](worktrees/HarborLane.Integration/.vscode/migration/wa/HarborLane.Integration/conversion/17164048a33d/candidate-manifest.json)
+- **Solution report:** [Open HTML report](solution-report.html)
+- **Worktree:** [Open folder](../after)
+- **Conversion manifest:** Open report
 - **Model usage:** 32,361,408 tokens (32,129,157 input + 232,251 output) across 17 calls
-- **Token report:** [Open report](HarborLane.Integration/token-usage.md)
+- **Token report:** [Open report](token-usage.md)
 
 | Stage | Status | Model tokens | Report |
 | --- | --- | ---: | --- |
-| Precheck | passed | 0 | [Open report](HarborLane.Integration/precheck-summary.md) |
-| Discovery | passed | 1,160,009 | [Open report](worktrees/HarborLane.Integration/.vscode/migration/discovery/discovery-summary.md) |
-| Planning | passed | 3,781,002 | [Open report](worktrees/HarborLane.Integration/.vscode/migration/planning/planning-summary.md) |
-| Conversion | passed | 11,855,491 | [Open report](worktrees/HarborLane.Integration/.vscode/migration/conversion/conversion-summary.md) |
-| Test | passed | 15,564,906 | [Open report](worktrees/HarborLane.Integration/.vscode/migration/test/test-summary.md) |
-| Deployment package | passed | 0 | [Open report](worktrees/HarborLane.Integration/deployment-package/harborlane.integration/manifest.md) |
-| Cost estimation | passed | 0 | [Open report](HarborLane.Integration/azure-cost-estimate-2026-10-27T00-40-29-870Z.md) |
+| Precheck | passed | 0 | [Open report](precheck-summary.md) |
+| Discovery | passed | 1,160,009 | [Open report](stages/discovery/discovery-summary.md) |
+| Planning | passed | 3,781,002 | [Open report](stages/planning/planning-summary.md) |
+| Conversion | passed | 11,855,491 | [Open report](stages/conversion/conversion-summary.md) |
+| Test | passed | 15,564,906 | [Open report](stages/test/test-summary.md) |
+| Deployment package | passed | 0 | Open report |
+| Cost estimation | passed | 0 | [Open report](azure-cost-estimate.md) |
 
 ## Run details
 

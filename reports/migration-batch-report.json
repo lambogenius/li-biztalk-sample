@@ -1,0 +1,429 @@
+{
+  "mode": "batch",
+  "startedAt": "2026-10-26T23:30:51.192Z",
+  "completedAt": "2026-10-27T00:40:30.905Z",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "items": [
+    {
+      "id": "HarborLane.Integration",
+      "status": "passed",
+      "branch": "migration/harborlane-integration",
+      "worktree": "<run>/reports\\worktrees\\HarborLane.Integration",
+      "manifestFile": "<run>/reports\\worktrees\\HarborLane.Integration\\.vscode\\migration\\wa\\HarborLane.Integration\\conversion\\17164048a33d\\candidate-manifest.json",
+      "stages": [
+        {
+          "stage": "precheck",
+          "status": "passed",
+          "reportFile": "<run>/reports\\HarborLane.Integration\\precheck-summary.md",
+          "tokenUsage": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "startedAt": "2026-10-26T23:30:51.427Z",
+          "completedAt": "2026-10-26T23:30:55.776Z",
+          "durationMs": 4349
+        },
+        {
+          "stage": "discovery",
+          "status": "passed",
+          "reportFile": "<run>/reports\\worktrees\\HarborLane.Integration\\.vscode\\migration\\discovery\\discovery-summary.md",
+          "tokenUsage": {
+            "inputTokens": 1142002,
+            "outputTokens": 18007,
+            "totalTokens": 1160009,
+            "calls": 1,
+            "exactCalls": 1,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 1069568
+          },
+          "startedAt": "2026-10-26T23:30:55.896Z",
+          "completedAt": "2026-10-26T23:35:46.139Z",
+          "durationMs": 290243
+        },
+        {
+          "stage": "planning",
+          "status": "passed",
+          "reportFile": "<run>/reports\\worktrees\\HarborLane.Integration\\.vscode\\migration\\planning\\planning-summary.md",
+          "tokenUsage": {
+            "inputTokens": 3728615,
+            "outputTokens": 52387,
+            "totalTokens": 3781002,
+            "calls": 4,
+            "exactCalls": 4,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 3495238
+          },
+          "startedAt": "2026-10-26T23:35:54.037Z",
+          "completedAt": "2026-10-26T23:47:32.999Z",
+          "durationMs": 698962
+        },
+        {
+          "stage": "conversion",
+          "status": "passed",
+          "reportFile": "<run>/reports\\worktrees\\HarborLane.Integration\\.vscode\\migration\\conversion\\conversion-summary.md",
+          "tokenUsage": {
+            "inputTokens": 11768401,
+            "outputTokens": 87090,
+            "totalTokens": 11855491,
+            "calls": 4,
+            "exactCalls": 4,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 11301846
+          },
+          "startedAt": "2026-10-26T23:47:33.119Z",
+          "completedAt": "2026-10-27T00:13:33.257Z",
+          "durationMs": 1560138
+        },
+        {
+          "stage": "test",
+          "status": "passed",
+          "reportFile": "<run>/reports\\worktrees\\HarborLane.Integration\\.vscode\\migration\\test\\test-summary.md",
+          "tokenUsage": {
+            "inputTokens": 15490139,
+            "outputTokens": 74767,
+            "totalTokens": 15564906,
+            "calls": 8,
+            "exactCalls": 8,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 14964539
+          },
+          "startedAt": "2026-10-27T00:13:33.509Z",
+          "completedAt": "2026-10-27T00:36:12.073Z",
+          "durationMs": 1358564
+        },
+        {
+          "stage": "deployment-package",
+          "status": "passed",
+          "reportFile": "<run>/reports\\worktrees\\HarborLane.Integration\\deployment-package\\harborlane.integration\\manifest.md",
+          "tokenUsage": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "startedAt": "2026-10-27T00:36:13.004Z",
+          "completedAt": "2026-10-27T00:36:23.109Z",
+          "durationMs": 10105
+        },
+        {
+          "stage": "cost-estimation",
+          "status": "passed",
+          "reportFile": "<run>/reports\\HarborLane.Integration\\azure-cost-estimate-2026-10-27T00-40-29-870Z.md",
+          "tokenUsage": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "startedAt": "2026-10-27T00:36:23.399Z",
+          "completedAt": "2026-10-27T00:40:30.119Z",
+          "durationMs": 246720
+        }
+      ],
+      "tokenUsage": {
+        "solutionId": "HarborLane.Integration",
+        "inputTokens": 32129157,
+        "cachedInputTokens": 30831191,
+        "outputTokens": 232251,
+        "totalTokens": 32361408,
+        "calls": 17,
+        "exactCalls": 17,
+        "estimatedCalls": 0,
+        "durationMs": 3673963,
+        "stages": {
+          "precheck": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "discovery": {
+            "inputTokens": 1142002,
+            "outputTokens": 18007,
+            "totalTokens": 1160009,
+            "calls": 1,
+            "exactCalls": 1,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 1069568
+          },
+          "planning": {
+            "inputTokens": 3728615,
+            "outputTokens": 52387,
+            "totalTokens": 3781002,
+            "calls": 4,
+            "exactCalls": 4,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 3495238
+          },
+          "conversion": {
+            "inputTokens": 11768401,
+            "outputTokens": 87090,
+            "totalTokens": 11855491,
+            "calls": 4,
+            "exactCalls": 4,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 11301846
+          },
+          "test": {
+            "inputTokens": 15490139,
+            "outputTokens": 74767,
+            "totalTokens": 15564906,
+            "calls": 8,
+            "exactCalls": 8,
+            "estimatedCalls": 0,
+            "cachedInputTokens": 14964539
+          },
+          "deployment-package": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "cost-estimation": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          },
+          "other": {
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0,
+            "calls": 0,
+            "exactCalls": 0,
+            "estimatedCalls": 0
+          }
+        },
+        "invocations": [
+          {
+            "provider": "codex",
+            "inputTokens": 1142002,
+            "cachedInputTokens": 1069568,
+            "outputTokens": 18007,
+            "exact": true,
+            "durationMs": 289328,
+            "stage": "discovery",
+            "totalTokens": 1160009
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 1057925,
+            "cachedInputTokens": 978432,
+            "outputTokens": 23356,
+            "exact": true,
+            "durationMs": 310653,
+            "stage": "planning",
+            "totalTokens": 1081281
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 634344,
+            "cachedInputTokens": 566591,
+            "outputTokens": 9587,
+            "exact": true,
+            "durationMs": 116010,
+            "stage": "planning",
+            "totalTokens": 643931
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 1651619,
+            "cachedInputTokens": 1610880,
+            "outputTokens": 12592,
+            "exact": true,
+            "durationMs": 193164,
+            "stage": "planning",
+            "totalTokens": 1664211
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 384727,
+            "cachedInputTokens": 339335,
+            "outputTokens": 6852,
+            "exact": true,
+            "durationMs": 74601,
+            "stage": "planning",
+            "totalTokens": 391579
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 7525774,
+            "cachedInputTokens": 7307008,
+            "outputTokens": 46337,
+            "exact": true,
+            "durationMs": 926788,
+            "stage": "conversion",
+            "totalTokens": 7572111
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 1606969,
+            "cachedInputTokens": 1487026,
+            "outputTokens": 19479,
+            "exact": true,
+            "durationMs": 222448,
+            "stage": "conversion",
+            "totalTokens": 1626448
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 2241137,
+            "cachedInputTokens": 2161664,
+            "outputTokens": 14957,
+            "exact": true,
+            "durationMs": 339983,
+            "stage": "conversion",
+            "totalTokens": 2256094
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 394521,
+            "cachedInputTokens": 346148,
+            "outputTokens": 6317,
+            "exact": true,
+            "durationMs": 57844,
+            "stage": "conversion",
+            "totalTokens": 400838
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 5459545,
+            "cachedInputTokens": 5340288,
+            "outputTokens": 13206,
+            "exact": true,
+            "durationMs": 368709,
+            "stage": "test",
+            "totalTokens": 5472751
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 1856209,
+            "cachedInputTokens": 1736081,
+            "outputTokens": 17888,
+            "exact": true,
+            "durationMs": 207326,
+            "stage": "test",
+            "totalTokens": 1874097
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 2628595,
+            "cachedInputTokens": 2603392,
+            "outputTokens": 8466,
+            "exact": true,
+            "durationMs": 148699,
+            "stage": "test",
+            "totalTokens": 2637061
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 1892060,
+            "cachedInputTokens": 1768015,
+            "outputTokens": 15454,
+            "exact": true,
+            "durationMs": 164523,
+            "stage": "test",
+            "totalTokens": 1907514
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 1317561,
+            "cachedInputTokens": 1306752,
+            "outputTokens": 3304,
+            "exact": true,
+            "durationMs": 56603,
+            "stage": "test",
+            "totalTokens": 1320865
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 219992,
+            "cachedInputTokens": 181838,
+            "outputTokens": 3672,
+            "exact": true,
+            "durationMs": 47898,
+            "stage": "test",
+            "totalTokens": 223664
+          },
+          {
+            "provider": "codex",
+            "inputTokens": 1423729,
+            "cachedInputTokens": 1404288,
+            "outputTokens": 4723,
+            "exact": true,
+            "durationMs": 69574,
+            "stage": "test",
+            "totalTokens": 1428452
+          },
+          {
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "inputTokens": 692448,
+            "cachedInputTokens": 623885,
+            "outputTokens": 8054,
+            "exact": true,
+            "durationMs": 79812,
+            "stage": "test",
+            "totalTokens": 700502
+          }
+        ],
+        "jsonReportFile": "<run>/reports\\HarborLane.Integration\\token-usage.json",
+        "markdownReportFile": "<run>/reports\\HarborLane.Integration\\token-usage.md"
+      },
+      "source": "<sample>",
+      "startedAt": "2026-10-26T23:30:51.217Z",
+      "completedAt": "2026-10-27T00:40:30.544Z",
+      "durationMs": 4179327,
+      "costEstimate": {
+        "currency": "CAD",
+        "monthlyTotal": 276.36,
+        "region": "canadacentral"
+      },
+      "solutionReportFile": "<run>/reports\\HarborLane.Integration\\solution-report.html"
+    }
+  ],
+  "reportFile": "<run>/reports\\migration-batch-2026-10-27T00-40-30-905Z.json",
+  "markdownReportFile": "<run>/reports\\migration-batch-2026-10-27T00-40-30-905Z.md",
+  "htmlReportFile": "<run>/reports\\migration-batch-2026-10-27T00-40-30-905Z.html",
+  "selectedCount": 1,
+  "notRun": [],
+  "runOptions": {
+    "resume": false,
+    "conversionOnly": false,
+    "preflightOnly": false,
+    "continueOnError": true,
+    "concurrency": 1
+  },
+  "tokenUsage": {
+    "inputTokens": 32129157,
+    "outputTokens": 232251,
+    "totalTokens": 32361408,
+    "calls": 17,
+    "exactCalls": 17,
+    "estimatedCalls": 0,
+    "durationMs": 3673963
+  }
+}
