@@ -1,0 +1,144 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+      "MigrationMetadata": {
+        "MigrationCorrelationId": "d4ce59b0-bf81-4360-a234-a18f9c124add",
+        "MigrationDate": "2026-10-26T23:47:37.248Z"
+      }
+    },
+    "parameters": {},
+    "triggers": {
+      "Receive_ShipmentNotice": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": { "method": "POST", "relativePath": "HarborLaneShipments/{ShipmentService_svc}/notices" },
+        "metadata": { "sourceIds": ["d1d0ea0e-7c30-447a-b96c-9af1948c2765"], "contentType": "application/xml", "callerContract": "Request-trigger SAS only; no added application caller identity" }
+      }
+    },
+    "actions": {
+      "Normalize_ShipmentNotice_Payload": {
+        "type": "Compose", "runAfter": {},
+        "inputs": "@if(empty(triggerBody()?['$content']), string(triggerBody()), base64ToString(triggerBody()?['$content']))"
+      },
+      "Measure_Request_Body_Bytes": {
+        "type": "Compose", "runAfter": { "Normalize_ShipmentNotice_Payload": ["Succeeded"] },
+        "inputs": "@sub(mul(div(length(base64(outputs('Normalize_ShipmentNotice_Payload'))), 4), 3), if(endsWith(base64(outputs('Normalize_ShipmentNotice_Payload')), '=='), 2, if(endsWith(base64(outputs('Normalize_ShipmentNotice_Payload')), '='), 1, 0)))"
+      },
+      "Check_Request_Size": {
+        "type": "If",
+        "runAfter": { "Measure_Request_Body_Bytes": ["Succeeded"] },
+        "expression": { "and": [ { "greater": [ "@int(outputs('Measure_Request_Body_Bytes'))", 65536 ] } ] },
+        "actions": {
+          "Reject_Oversize_Request": {
+            "type": "Response", "kind": "Http", "runAfter": {},
+            "inputs": { "statusCode": "@int(appsetting('SHIPMENT_OVERSIZE_STATUS_CODE'))", "headers": { "Content-Type": "application/xml" }, "body": "<Error>Request exceeds 65536 bytes.</Error>" }
+          },
+          "Stop_Oversize_Request": {
+            "type": "Terminate", "runAfter": { "Reject_Oversize_Request": ["Succeeded"] },
+            "inputs": { "runStatus": "Failed", "runError": { "code": "shipment-fault-contract", "message": "shipment-fault-contract: Request exceeds the source 65536-byte maximum." } }
+          }
+        },
+        "else": { "actions": {} }
+      },
+      "Parse_WellFormed_ShipmentNotice_XML": {
+        "type": "Compose", "runAfter": { "Check_Request_Size": ["Succeeded"] }, "inputs": "@xml(outputs('Normalize_ShipmentNotice_Payload'))"
+      },
+      "Check_ShipmentNotice_MessageType": {
+        "type": "Compose",
+        "runAfter": { "Parse_WellFormed_ShipmentNotice_XML": ["Succeeded"] },
+        "inputs": "@xml(if(and(equals(xpath(outputs('Parse_WellFormed_ShipmentNotice_XML'), 'string(local-name(/*))'), 'ShipmentNotice'), equals(xpath(outputs('Parse_WellFormed_ShipmentNotice_XML'), 'string(namespace-uri(/*))'), 'http://HarborLane.Integration.Schemas.ShipmentNotice')), '<MessageTypeValid />', 'Expected root QName {http://HarborLane.Integration.Schemas.ShipmentNotice}ShipmentNotice.'))"
+      },
+      "Expr_ValidateAndComputeEta": {
+        "type": "Scope",
+        "runAfter": { "Check_ShipmentNotice_MessageType": ["Succeeded"] },
+        "metadata": { "sourceIds": ["89eabd48-046c-40a9-9e38-29da4cca3750"] },
+        "actions": {
+          "Validate_ShipmentNotice": {
+            "type": "InvokeFunction", "runAfter": {},
+            "inputs": {
+              "functionName": "ShipmentRules_IsValidNotice",
+              "parameters": {
+                "shipmentId": "@xpath(xml(outputs('Normalize_ShipmentNotice_Payload')), 'string(/*[local-name()=\"ShipmentNotice\"]/*[local-name()=\"ShipmentId\"])')",
+                "trackingNumber": "@xpath(xml(outputs('Normalize_ShipmentNotice_Payload')), 'string(/*[local-name()=\"ShipmentNotice\"]/*[local-name()=\"TrackingNumber\"])')",
+                "packageCount": "@int(xpath(xml(outputs('Normalize_ShipmentNotice_Payload')), 'string(/*[local-name()=\"ShipmentNotice\"]/*[local-name()=\"PackageCount\"])'))"
+              },
+              "retryPolicy": { "type": "none" }
+            }
+          },
+          "Compute_EstimatedDelivery": {
+            "type": "InvokeFunction", "runAfter": { "Validate_ShipmentNotice": ["Succeeded"] },
+            "inputs": {
+              "functionName": "DeliveryCalendar_EstimateDeliveryDate",
+              "parameters": {
+                "shipDate": "@xpath(xml(outputs('Normalize_ShipmentNotice_Payload')), 'string(/*[local-name()=\"ShipmentNotice\"]/*[local-name()=\"ShipDate\"])')",
+                "serviceLevel": "@xpath(xml(outputs('Normalize_ShipmentNotice_Payload')), 'string(/*[local-name()=\"ShipmentNotice\"]/*[local-name()=\"ServiceLevel\"])')"
+              },
+              "retryPolicy": { "type": "none" }
+            }
+          }
+        }
+      },
+      "ConstructMessage_ShipmentAck": {
+        "type": "Scope",
+        "runAfter": { "Expr_ValidateAndComputeEta": ["Succeeded"] },
+        "metadata": { "sourceIds": ["6a2500f4-e96f-4b04-a5ad-aaa92c3ca95f"] },
+        "actions": {
+          "Transform_NoticeToAck": {
+            "type": "Xslt", "runAfter": {},
+            "inputs": { "content": "@outputs('Normalize_ShipmentNotice_Payload')", "map": { "source": "LogicApp", "name": "Map_ShipmentNotice_To_ShipmentAck.xslt" } },
+            "metadata": { "sourceIds": ["778b029d-f23e-4ca6-9de5-290e310bb8ff"] }
+          },
+          "Construct_ShipmentAck_MessagePartReference_1": {
+            "type": "Compose", "runAfter": { "Transform_NoticeToAck": ["Succeeded"] }, "inputs": "@outputs('Normalize_ShipmentNotice_Payload')",
+            "metadata": { "sourceIds": ["533038ca-d2dd-429c-928e-497bd4178f3e"] }
+          },
+          "Construct_ShipmentAck_MessagePartReference_2": {
+            "type": "Compose", "runAfter": { "Construct_ShipmentAck_MessagePartReference_1": ["Succeeded"] }, "inputs": "@if(empty(body('Transform_NoticeToAck')?['$content']), string(body('Transform_NoticeToAck')), base64ToString(body('Transform_NoticeToAck')?['$content']))",
+            "metadata": { "sourceIds": ["bbfd2e92-f3a6-448c-957e-854d8105eeca"] }
+          },
+          "Construct_ShipmentAck_Assign_AckStatus": {
+            "type": "InvokeFunction", "runAfter": { "Construct_ShipmentAck_MessagePartReference_2": ["Succeeded"] },
+            "inputs": {
+              "functionName": "ShipmentRules_AckStatus",
+              "parameters": { "isValid": "@body('Validate_ShipmentNotice')", "estimatedDelivery": "@body('Compute_EstimatedDelivery')", "ackXml": "@outputs('Construct_ShipmentAck_MessagePartReference_2')" },
+              "retryPolicy": { "type": "none" }
+            },
+            "metadata": { "sourceIds": ["f0e6d40c-29ce-430a-998d-3979e4f31d8a"] }
+          },
+          "Construct_ShipmentAck_MessageRef": {
+            "type": "Compose", "runAfter": { "Construct_ShipmentAck_Assign_AckStatus": ["Succeeded"] }, "inputs": "@body('Construct_ShipmentAck_Assign_AckStatus')",
+            "metadata": { "sourceIds": ["b4129c27-0dcd-4503-ac2a-8c0abacd3d37"] }
+          }
+        }
+      },
+      "Send_ShipmentAck": {
+        "type": "Response", "kind": "Http",
+        "runAfter": { "ConstructMessage_ShipmentAck": ["Succeeded"] },
+        "inputs": { "statusCode": 200, "headers": { "Content-Type": "application/xml" }, "body": "@outputs('Construct_ShipmentAck_MessageRef')" },
+        "metadata": { "sourceIds": ["118abb97-6f4f-4807-b594-e26b58244db7"], "timeoutObjective": "PT1M" }
+      },
+      "Decide_NoticeAccepted": {
+        "type": "If",
+        "runAfter": { "Send_ShipmentAck": ["Succeeded"] },
+        "expression": { "and": [ { "equals": [ "@body('Validate_ShipmentNotice')", true ] } ] },
+        "metadata": { "sourceIds": ["d3fe9ade-e0c0-4eaf-8597-6e8755d8337a", "79a50232-5828-434f-bc40-4f5c450493c9", "99f2031c-e319-4ade-b2e1-4983ec528464"] },
+        "actions": {
+          "Send_NoticeToFolder": {
+            "type": "ServiceProvider", "runAfter": {},
+            "inputs": {
+              "parameters": { "containerName": "@appsetting('SHIPMENT_ARCHIVE_CONTAINER')", "blobName": "@concat(if(empty(appsetting('SHIPMENT_ARCHIVE_FOLDER')), '', concat(appsetting('SHIPMENT_ARCHIVE_FOLDER'), '/')), workflow().run.name, '.xml')", "content": "@outputs('Normalize_ShipmentNotice_Payload')", "overrideIfExists": "false" },
+              "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "uploadBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+              "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+            },
+            "metadata": { "sourceIds": ["e666384c-8ef4-40ec-a88f-d2c16bfc9712"], "orderedDelivery": false }
+          }
+        },
+        "else": { "actions": {} }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

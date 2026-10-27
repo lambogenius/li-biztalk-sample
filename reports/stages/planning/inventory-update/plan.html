@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>inventory-update — Plan</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="plan.md">Source (MD)</a></nav><h1 id="inventory-update-plan">inventory-update — Plan</h1>
+<p>Source contract: <a href="plan.json">plan.json</a></p>
+<ul><li><strong>Flow Id:</strong> inventory-update</li></ul>
+<ul><li><strong>Scope:</strong> Convert the messaging-only FILE receive, supplied flat-file disassembly, receive-port subscription, outbound map, XML serialization, and FILE send into one stateful Logic Apps Standard workflow using built-in Azure Blob operations.</li></ul>
+<h2 id="workflows">Workflows</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Name</th><th scope="col">Design File</th><th scope="col">Runtime Path</th><th scope="col">Kind</th><th scope="col">Trigger</th><th scope="col">Purpose</th></tr></thead><tbody><tr><td>wf-inventory-update</td><td>workflow-inventory-update.json</td><td>logicapp/wf-inventory-update/workflow.json</td><td>Stateful</td><td>Azure Blob built-in polling trigger</td><td>Parse inventory CSV, map it to InventoryUpdate XML, and upload the result.</td></tr></tbody></table></div>
+<h2 id="sequence">Sequence</h2>
+<ul><li>Poll REPLACE_INVENTORY_INPUT_CONTAINER/REPLACE_INVENTORY_INPUT_FOLDER every 60 seconds for CSV blobs.</li></ul>
+<ul><li>Parse the CRLF-delimited HDR record followed by repeating comma-delimited DTL records using the supplied InventoryFlatFile schema; validate structure and fail the whole interchange on an invalid record because recoverable interchange processing is false.</li></ul>
+<ul><li>The dedicated workflow itself preserves the BizTalk BTS.ReceivePortName subscription boundary; no shared MessageBox dispatcher is introduced.</li></ul>
+<ul><li>Run the converted Map_InventoryFlatFile_To_InventoryUpdate XSLT, including detail looping and yyyyMMdd-to-yyyy-MM-dd conversion; preserve the evidenced omission of RecordCount.</li></ul>
+<ul><li>Serialize and upload InventoryUpdate XML to REPLACE_INVENTORY_OUTPUT_CONTAINER/REPLACE_INVENTORY_OUTPUT_FOLDER using 3 retries at 5-minute intervals.</li></ul>
+<h2 id="dependencies">Dependencies</h2>
+<h3 id="schemas">Schemas</h3>
+<ul><li>InventoryFlatFile.xsd</li></ul>
+<ul><li>InventoryUpdate.xsd</li></ul>
+<h3 id="maps">Maps</h3>
+<ul><li>Map_InventoryFlatFile_To_InventoryUpdate.btm converted to XSLT</li></ul>
+<h3 id="pipelines">Pipelines</h3>
+<ul><li>InventoryFlatFileReceive converted to the built-in Flat File Decoding action using InventoryFlatFile.xsd annotations</li></ul>
+<h3 id="custom-code">Custom Code</h3>
+<p><em>None.</em></p>
+<h3 id="connections">Connections</h3>
+<ul><li>/serviceProviders/AzureBlob using workflow app managed identity</li></ul>
+<h3 id="infrastructure">Infrastructure</h3>
+<ul><li>Workflow Standard workflow app and plan</li></ul>
+<ul><li>Azure Storage account with input/output Blob paths</li></ul>
+<ul><li>Key Vault</li></ul>
+<ul><li>Application Insights and Log Analytics</li></ul>
+<h2 id="decisions">Decisions</h2>
+<ul><li>The built-in File System connector is prohibited because it requires App Service Environment v3; both FILE endpoints become built-in Azure Blob /serviceProviders/AzureBlob operations.</li></ul>
+<ul><li>The source folders are preserved as REPLACE_INVENTORY_INPUT_CONTAINER/REPLACE_INVENTORY_INPUT_FOLDER and REPLACE_INVENTORY_OUTPUT_CONTAINER/REPLACE_INVENTORY_OUTPUT_FOLDER app-setting values.</li></ul>
+<ul><li>Flat-file disassembly uses the Logic Apps Standard built-in Flat File Decoding action with the supplied annotated InventoryFlatFile.xsd; no custom parser or shared dispatcher is introduced.</li></ul>
+<ul><li>Public HTTPS endpoints remain enabled because no network policy is configured. No VNet, subnet, private endpoint, private DNS, VNet integration, APIM, custom domain, or disabled public access is planned.</li></ul>
+<ul><li>Managed identity authorizes Blob and Key Vault access; no storage credentials are embedded.</li></ul>
+<ul><li>Blob output names use run id plus .xml as the %MessageID%.xml equivalent, subject to runtime-equivalence acceptance.</li></ul>
+<h2 id="validation">Validation</h2>
+<ul><li>Parse TestMessages/InventorySnapshot.csv and compare the intermediate InventoryFlatFile XML with the supplied flat-file schema semantics.</li></ul>
+<ul><li>Reject malformed HDR/DTL structure as one failed interchange and verify recoverable per-record continuation is not introduced.</li></ul>
+<ul><li>Golden-message test the XSLT for repeating details, warehouse/item fields, date conversion, and intentional RecordCount omission.</li></ul>
+<ul><li>Verify only the dedicated inventory workflow consumes its configured input Blob path and produces schema-valid InventoryUpdate XML.</li></ul>
+<ul><li>Verify duplicate/idempotency behavior, 3-at-5-minute upload retries, terminal failure telemetry, managed-identity RBAC, and representative volume.</li></ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul><li>The supplied XSD, BTP, BTM, binding, and sample CSV are authoritative and structurally complete.</li></ul>
+<ul><li>The Azure Blob built-in connector is available on multitenant Workflow Standard.</li></ul>
+<ul><li>No external migration standards were configured; repository instructions and stage constraints are the only standards applied.</li></ul>
+<ul><li>Owner may evaluate network hardening later as a recommendation, without adding source-absent caller authentication in this migration.</li></ul>
+<h2 id="deployment-gates">Deployment Gates</h2>
+<ul><li>Supply and approve all REPLACE_* storage and resource values.</li></ul>
+<ul><li>Approve idempotency behavior and execute runtime-equivalence tests for parser, map, serialization, filename, and failure behavior.</li></ul>
+<ul><li>Define terminal alert/dead-letter handling plus retention, replay, and purge policy.</li></ul>
+<ul><li>Verify least-privilege managed-identity Blob/Key Vault permissions and credentials outside source control.</li></ul>
+<ul><li>Acknowledge the external-standards gap, record acceptance evidence, and obtain independent approval before promotion or deployment.</li></ul>
+
+</main></body></html>

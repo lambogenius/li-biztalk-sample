@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Inventory Update — Analysis</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="analysis.md">Source (MD)</a></nav><h1 id="inventory-update-analysis">Inventory Update — Analysis</h1>
+<p>Source contract: <a href="analysis.json">analysis.json</a></p>
+<ul><li><strong>Summary:</strong> This is the catalog&#39;s sole messagingRoutes entry. BizTalk publishes the disassembled inventory message and SP_HarborLane_Inventory_Update directly subscribes by receive-port name, applies its outbound map, and sends the result without an orchestration.</li></ul>
+<ul><li><strong>Mermaid Code:</strong> flowchart LR<br>  A[&quot;FILE: In/Inventory/*.csv&quot;] --&gt; B[&quot;InventoryFlatFileReceive&quot;]<br>  B --&gt; C[&quot;InventoryFlatFile XML&quot;]<br>  C --&gt; D{&quot;Subscription: BTS.ReceivePortName&quot;}<br>  D --&gt; E[&quot;SP_HarborLane_Inventory_Update&quot;]<br>  E --&gt; F[&quot;Map InventoryFlatFile to InventoryUpdate&quot;]<br>  F --&gt; G[&quot;XMLTransmit&quot;]<br>  G --&gt; H[&quot;FILE: Out/Inventory&quot;]</li></ul>
+<h2 id="message-flow">Message Flow</h2>
+<ul><li>The FILE receive location polls C:\HarborLane\In\Inventory*.csv.</li></ul>
+<ul><li>InventoryFlatFileReceive disassembles and validates HDR/DTL records into InventoryFlatFile XML.</li></ul>
+<ul><li>SP_HarborLane_Inventory_Update subscribes when BTS.ReceivePortName equals RP_HarborLane_Inventory_File.</li></ul>
+<ul><li>The send port maps InventoryFlatFile to InventoryUpdate, including a yyyyMMdd to yyyy-MM-dd date conversion.</li></ul>
+<ul><li>XMLTransmit writes C:\HarborLane\Out\Inventory\%MessageID%.xml.</li></ul>
+<h2 id="component-details">Component Details</h2>
+<h3 id="entry-point">Entry Point</h3>
+<ul><li><strong>Name:</strong> RL_HarborLane_Inventory_File</li></ul>
+<ul><li><strong>Binding Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<h3 id="messaging-route">Messaging Route</h3>
+<ul><li><strong>Send Port:</strong> SP_HarborLane_Inventory_Update</li></ul>
+<ul><li><strong>Subscription:</strong> BTS.ReceivePortName == RP_HarborLane_Inventory_File</li></ul>
+<ul><li><strong>Pipeline:</strong> InventoryFlatFileReceive (8b374df5-c3df-49e4-8c0d-70c8f0758e66)</li></ul>
+<h3 id="schemas">Schemas</h3>
+<ul><li>InventoryFlatFile (34872ed2-8c16-4108-bc40-3fe72970de23)</li></ul>
+<ul><li>InventoryUpdate (b64dd345-a34a-440a-99ee-889a021cfcce)</li></ul>
+<ul><li><strong>Map:</strong> Map_InventoryFlatFile_To_InventoryUpdate (6c00b69b-2efc-4e0b-a722-6b017ac04c9f)</li></ul>
+<ul><li><strong>Archive Behavior:</strong> No archive behavior is present.</li></ul>
+<h2 id="gaps">Gaps</h2>
+<ul><li>External migration standards and extension resources are not configured.</li></ul>
+<ul><li>Target Azure storage endpoints, connections, identity, and networking are unresolved.</li></ul>
+<ul><li>Terminal handling for flat-file/map failures and retry exhaustion is unspecified.</li></ul>
+<ul><li>Archive, retention, replay, and purge behavior is absent.</li></ul>
+<h2 id="patterns">Patterns</h2>
+<ul><li>Messaging-only publish/subscribe</li></ul>
+<ul><li>Flat-file disassembly</li></ul>
+<ul><li>Outbound transform</li></ul>
+<ul><li>Transport retry</li></ul>
+<h2 id="dependency-analysis">Dependency Analysis</h2>
+<h3 id="custom-code">Custom Code</h3>
+<p><em>None.</em></p>
+<h3 id="transport">Transport</h3>
+<ul><li><strong>Receive:</strong> FILE with 60-second polling; custom Flat File Disassembler pipeline</li></ul>
+<ul><li><strong>Send:</strong> FILE with XMLTransmit; 3 retries at 5-minute intervals</li></ul>
+<h3 id="routing">Routing</h3>
+<ul><li><strong>Type:</strong> direct message subscription</li></ul>
+<ul><li><strong>Filter:</strong> BTS.ReceivePortName == RP_HarborLane_Inventory_File</li></ul>
+<ul><li><strong>Send Port:</strong> SP_HarborLane_Inventory_Update</li></ul>
+<h3 id="source-references">Source References</h3>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li>src/HarborLane.Integration.Pipelines/InventoryFlatFileReceive.btp</li></ul>
+<ul><li>src/HarborLane.Integration.Maps/Map_InventoryFlatFile_To_InventoryUpdate.btm</li></ul>
+
+</main></body></html>

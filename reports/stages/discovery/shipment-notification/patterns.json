@@ -1,0 +1,7 @@
+[
+  {"name":"HTTPS request-response","evidence":"WCF-WebHttp maps SubmitNotice to POST /notices and the orchestration sends ShipmentAck on the same two-way port.","sourcePath":"HarborLane.Integration.BindingInfo.xml"},
+  {"name":"Validation and enrichment","evidence":"Expr_ValidateAndComputeEta invokes supplied helper code for validation and business-day ETA calculation.","sourcePath":"src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx"},
+  {"name":"Response mapping","evidence":"Map_ShipmentNotice_To_ShipmentAck maps identifiers and UTC receipt time; orchestration assigns final status and ETA.","sourcePath":"src/HarborLane.Integration.Maps/Map_ShipmentNotice_To_ShipmentAck.btm"},
+  {"name":"Conditional archive","evidence":"Decide_NoticeAccepted sends the original notice to SP_HarborLane_Shipments_Archive only when isValid is true.","sourcePath":"src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx"},
+  {"name":"Transport retry","evidence":"The archive FILE send port specifies RetryCount 3 and RetryInterval 5; ordered delivery and stop-on-failure are false.","sourcePath":"HarborLane.Integration.BindingInfo.xml"}
+]

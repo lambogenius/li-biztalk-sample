@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns0:ShipmentNotice xmlns:ns0="http://HarborLane.Integration.Schemas.ShipmentNotice"><ShipmentId>SHP-77120</ShipmentId><OrderNumber>HLS-PO-104233</OrderNumber><Carrier>Northbound Parcel</Carrier><ServiceLevel>Ground</ServiceLevel><TrackingNumber>NBP4410093372</TrackingNumber><ShipDate>2026-10-21</ShipDate><PackageCount>3</PackageCount><Destination><City>Cedar Hollow</City><Region>OR</Region><PostalCode>97000</PostalCode></Destination></ns0:ShipmentNotice>

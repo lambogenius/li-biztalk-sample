@@ -1,0 +1,18 @@
+# Shipment Notification — Architecture
+
+Source diagram: [architecture.mmd](architecture.mmd)
+
+```mermaid
+flowchart TB
+  A["Carrier HTTPS POST /notices"] --> B["XMLReceive"]
+  B --> C["ShipmentNotificationOrchestration"]
+  C --> D["ShipmentRules.IsValidNotice"]
+  C --> E["DeliveryCalendar.EstimateDeliveryDate"]
+  D --> F["Map Notice to Ack"]
+  E --> F
+  F --> G["ShipmentRules.AckStatus"]
+  G --> H["HTTP ShipmentAck response"]
+  D --> I{"isValid?"}
+  I -->|Yes| J["FILE: Out/Shipments archive"]
+  I -->|No| K["No archive"]
+```

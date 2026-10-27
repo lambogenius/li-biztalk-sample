@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.ShipmentNotice" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.ShipmentNotice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="ShipmentNotice" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ShipmentNotice">
+    <xs:annotation>
+      <xs:appinfo>
+        <b:properties>
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentNotice' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentNotice']/*[local-name()='ShipmentId' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentNotice' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentNotice']/*[local-name()='ShipDate' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentNotice' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentNotice']/*[local-name()='ServiceLevel' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentNotice' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentNotice']/*[local-name()='TrackingNumber' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentNotice' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentNotice']/*[local-name()='PackageCount' and namespace-uri()='']" />
+        </b:properties>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ShipmentId" type="xs:string" />
+        <xs:element name="OrderNumber" type="xs:string" />
+        <xs:element name="Carrier" type="xs:string" />
+        <xs:element name="ServiceLevel" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Express, Ground or Freight.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="TrackingNumber" type="xs:string" />
+        <xs:element name="ShipDate" type="xs:date" />
+        <xs:element name="PackageCount" type="xs:int" />
+        <xs:element name="Destination">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="City" type="xs:string" />
+              <xs:element name="Region" type="xs:string" />
+              <xs:element name="PostalCode" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

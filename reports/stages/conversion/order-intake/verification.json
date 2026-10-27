@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "engine": "microsoft",
+  "executionMode": "workspace-agent",
+  "structuralCoverage": "passed",
+  "candidateHash": "e4e778d2cc79e054ea4fa44cddf465d4cd1294457853d5b10fd82390157fd38e",
+  "attemptId": "5f0fd82d20f2",
+  "files": [
+    {
+      "path": ".vscode/migration/conversion/placeholders.json",
+      "bytes": 2806,
+      "sha256": "55143ddadd4e9a74e046849179173e4f89df388623bf0f6b3303d6f7180e077b"
+    },
+    {
+      "path": "Functions/HarborLane.Integration.Functions.csproj",
+      "bytes": 1008,
+      "sha256": "5712e64c3ad032a6368322f8d49f83708d27f9e9f636af8ed6c8750ba1b1ea0b"
+    },
+    {
+      "path": "Functions/SourceRules.cs",
+      "bytes": 3402,
+      "sha256": "6967b9c6f09a47f03f0ab8a6e6edc69b1f9dc6de7f6d09a6b5ae518d346965d1"
+    },
+    {
+      "path": "Functions/WorkflowFunctions.cs",
+      "bytes": 2740,
+      "sha256": "bb28f3c7de16204297d96aa1d85976424634bd149fbcd3c08ddb093e2ab55361"
+    },
+    {
+      "path": "infra/main.bicep",
+      "bytes": 8748,
+      "sha256": "4bdcff4e3b2c7c4dbb57fa1a80fe7ab534c9a43bcb486b723b716746242c88af"
+    },
+    {
+      "path": "infra/params/dev.bicepparam",
+      "bytes": 131,
+      "sha256": "13cbaf157fe6df3d448dbd510aa5e92aae1221973f5ab432b17318ed67913929"
+    },
+    {
+      "path": "infra/params/prod.bicepparam",
+      "bytes": 133,
+      "sha256": "559095242a12b2f84c8ba26b8e89fd12d9cc8fc7b828524931be4fb22c316ca5"
+    },
+    {
+      "path": "infra/params/uat.bicepparam",
+      "bytes": 131,
+      "sha256": "5aa98ef1845d68ab388c1b7e3c619915a1de61d72fafc1f958b6bd13f2148902"
+    },
+    {
+      "path": "logicapp/Artifacts/Maps/Apply_Pricing_To_CanonicalOrder.xslt",
+      "bytes": 728,
+      "sha256": "78127fac96a096c3bcdb6ffbb356591f04f9af860fdb1ad25dcdfa5d90b57e8e"
+    },
+    {
+      "path": "logicapp/Artifacts/Maps/Map_InventoryFlatFile_To_InventoryUpdate.xslt",
+      "bytes": 1552,
+      "sha256": "89f2ee790c4a7cfccf2c4d6b9bc8f0761a328d3988eff8688e2808d32c8fb9e7"
+    },
+    {
+      "path": "logicapp/Artifacts/Maps/Map_PurchaseOrder_To_CanonicalOrder.xslt",
+      "bytes": 2251,
+      "sha256": "085febacbcaef2c16ff665b8abd086e79341f77731fac81ca3e9d55251f8622c"
+    },
+    {
+      "path": "logicapp/Artifacts/Maps/Map_ShipmentNotice_To_ShipmentAck.xslt",
+      "bytes": 866,
+      "sha256": "5948f0ecf0bca5d6e90431eaab95813c398ff7f519ea03557e7c55e9df265658"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/CanonicalOrder.xsd",
+      "bytes": 1387,
+      "sha256": "0fc12ae6254ba7e526c3cad44907851a8517cd6673e3aa4e98b6e5aaba3916b1"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/InventoryFlatFile.xsd",
+      "bytes": 3809,
+      "sha256": "cfcb8501925f288e2dbf9e60d506c5df4a4802949aaf3cfae1b6f223fc43cad4"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/InventoryUpdate.xsd",
+      "bytes": 891,
+      "sha256": "b29cdde09d7a1af33ea6a99d8c71ac64a7ee3f98f691af4f76f69d3f2ebc5c61"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/OrderError.xsd",
+      "bytes": 536,
+      "sha256": "48a5ef2aeea674ab624c7e8e95fbf0af2d8bdc7a57095e1e00911bea5f92582e"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/PurchaseOrder.xsd",
+      "bytes": 1758,
+      "sha256": "d5694e5ef8af96e24fe0f1d85b12d0057636db00526c2ebd72a0b49b45a21179"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/ShipmentAck.xsd",
+      "bytes": 585,
+      "sha256": "751b7fb10dda9f3ed9261a2173efe18a0a016892cc52abe17a4080ca5cf5689c"
+    },
+    {
+      "path": "logicapp/Artifacts/Schemas/ShipmentNotice.xsd",
+      "bytes": 923,
+      "sha256": "4501f1cf6e74e3b366cae869519cd53873562f5a099b5059d4dce88ad04fb2d3"
+    },
+    {
+      "path": "logicapp/connections.json",
+      "bytes": 485,
+      "sha256": "7251457b9ef75a149bddb6b336776b8f28a9d68c412995616117f48ec5a38cf2"
+    },
+    {
+      "path": "logicapp/host.json",
+      "bytes": 274,
+      "sha256": "366f66a635fbfa01a32a17583ac321b9586bfca241dacfea1bbf62dc8b5f77df"
+    },
+    {
+      "path": "logicapp/wf-inventory-update/workflow.json",
+      "bytes": 3841,
+      "sha256": "71f582aa9db1fad86839a8e86da77c494f69d86ccca007f55b88275a654f2030"
+    },
+    {
+      "path": "logicapp/wf-order-intake/workflow.json",
+      "bytes": 12481,
+      "sha256": "c886d03485427b6dfb66ac5df5f6fc6b270b4f464abcdcdc390e23b514e0a912"
+    },
+    {
+      "path": "logicapp/wf-shipment-notification/workflow.json",
+      "bytes": 8905,
+      "sha256": "da1f4fa6addb991e7ee97776ba5910e116698bba53a4383490d039b8d7267550"
+    },
+    {
+      "path": "tests/messages/.gitattributes",
+      "bytes": 12,
+      "sha256": "b95357803c03ba40f5e35ab78e3a42c0997a597f9bd46b4c65c50967364444ea"
+    },
+    {
+      "path": "tests/messages/InventorySnapshot.csv",
+      "bytes": 240,
+      "sha256": "0be0d481dbacad0c95007ae317bc5725b63b7c242442496f5a72c3e59fb02db9"
+    },
+    {
+      "path": "tests/messages/PurchaseOrder_Approval.xml",
+      "bytes": 951,
+      "sha256": "87cbb114f59677973ae039d98e0f52f9ff70df752af2f52e4be2c3c03dfb6173"
+    },
+    {
+      "path": "tests/messages/PurchaseOrder_Fulfilment.xml",
+      "bytes": 1110,
+      "sha256": "dfbb3e4fc318b374c54d15f1b485fcf9d52f2337e6b14624fd3ad66fb3287fdd"
+    },
+    {
+      "path": "tests/messages/ShipmentNotice_Rejected.xml",
+      "bytes": 494,
+      "sha256": "f89c82c46f68207afb65e844c042c8da0dcf35542e1b3fd7371edc00e5ba5523"
+    },
+    {
+      "path": "tests/messages/ShipmentNotice.xml",
+      "bytes": 499,
+      "sha256": "d9cb0527586035ca9b018159f593eb8ca158bebcb92eda0bc6093f73fde5c09b"
+    },
+    {
+      "path": "tests/validate-conversion.ps1",
+      "bytes": 27220,
+      "sha256": "0a805e4020e11e52ce5aa108083f4ae1c9e1ce8adb6ec4c5d5e66d094bd3ad21"
+    },
+    {
+      "path": "tests/workflow-runs.json",
+      "bytes": 2847,
+      "sha256": "7011e167e9806e7d00e70467fa10a82a248c062c5aae27c5a1adef3f05e90c36"
+    }
+  ],
+  "verifiedAt": "2026-10-27T00:34:41.421Z"
+}

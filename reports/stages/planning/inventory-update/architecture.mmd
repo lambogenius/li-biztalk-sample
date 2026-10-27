@@ -1,0 +1,9 @@
+flowchart LR
+  SRC[Inventory CSV blob container/folder] -->|Azure Blob built-in trigger, 60 s| WF[wf-inventory-update stateful workflow]
+  WF --> PARSE[Built-in Flat File Decoding with InventoryFlatFile.xsd]
+  PARSE --> XSLT[InventoryFlatFile to InventoryUpdate XSLT]
+  XSLT --> OUT[Inventory XML blob container/folder]
+  MI[Workflow managed identity] --> SRC
+  MI --> OUT
+  MI --> KV[Key Vault]
+  WF --> AI[Application Insights]

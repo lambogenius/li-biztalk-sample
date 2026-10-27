@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mapsource Name="BizTalk Map" Version="2" BizTalkServerMapperTool_Version="3.0" XRange="100" YRange="420" OmitXmlDeclaration="Yes" UseXSLTransform="Undefined" XsltEngine="" TreatElementsAsRecords="No" OptimizeValueMapping="Yes" GenerateDefaultFixedNodes="Yes" PreserveSequenceOrder="No" IgnoreNamespacesForLinks="Yes" method="xml" CopyPIs="No" xmlVersion="1.0">
+  <SrcTree RootNode_Name="InventoryFile">
+    <Reference Location="HarborLane.Integration.Schemas.InventoryFlatFile" />
+  </SrcTree>
+  <TrgTree RootNode_Name="InventoryUpdate">
+    <Reference Location="HarborLane.Integration.Schemas.InventoryUpdate" />
+  </TrgTree>
+  <ScriptTypePrecedence>
+    <CSharp Enabled="Yes" />
+    <ExternalAssembly Enabled="Yes" />
+    <VbNet Enabled="Yes" />
+    <JScript Enabled="Yes" />
+    <XsltCallTemplate Enabled="Yes" />
+    <Xslt Enabled="Yes" />
+  </ScriptTypePrecedence>
+  <TreeValues>
+    <TestValues />
+    <ConstantValues />
+  </TreeValues>
+  <Pages>
+    <Page Name="Page 1">
+      <Links>
+        <Link LinkID="1" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Header']/*[local-name()='WarehouseCode']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Warehouse']" Label="" />
+        <Link LinkID="2" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Header']/*[local-name()='SnapshotDate']" LinkTo="2" Label="" />
+        <Link LinkID="3" LinkFrom="2" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='SnapshotDate']" Label="" />
+        <Link LinkID="4" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']" LinkTo="1" Label="" />
+        <Link LinkID="5" LinkFrom="1" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']" Label="" />
+        <Link LinkID="6" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']/*[local-name()='Sku']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']/*[local-name()='Sku']" Label="" />
+        <Link LinkID="7" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']/*[local-name()='Description']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']/*[local-name()='Description']" Label="" />
+        <Link LinkID="8" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']/*[local-name()='BinLocation']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']/*[local-name()='Location']" Label="" />
+        <Link LinkID="9" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']/*[local-name()='QuantityOnHand']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']/*[local-name()='OnHand']" Label="" />
+        <Link LinkID="10" LinkFrom="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryFile']/*[local-name()='Detail']/*[local-name()='ReorderPoint']" LinkTo="/*[local-name()='&lt;Schema&gt;']/*[local-name()='InventoryUpdate']/*[local-name()='Items']/*[local-name()='Item']/*[local-name()='ReorderPoint']" Label="" />
+      </Links>
+      <Functoids>
+        <Functoid FunctoidID="1" Functoid-FID="424" X-Cell="52" Y-Cell="186">
+          <Input-Parameters>
+            <Parameter Type="link" Value="4" linkIndex="0" Guid="9bfcab33-6198-4f42-b501-0e729a1b9846" />
+          </Input-Parameters>
+        </Functoid>
+        <Functoid FunctoidID="2" Functoid-FID="260" X-Cell="52" Y-Cell="181">
+          <Input-Parameters>
+            <Parameter Type="link" Value="2" linkIndex="0" Guid="64ccae7c-1dc5-4c3e-8b5c-4825b4cdfc9a" />
+          </Input-Parameters>
+          <ScripterCode>
+            <Script Language="CSharp"><![CDATA[// Warehouse snapshot files carry the date as yyyyMMdd; downstream systems expect yyyy-MM-dd.
+public string FormatSnapshotDate(string snapshotDate)
+{
+    System.DateTime parsed;
+    if (System.DateTime.TryParseExact(snapshotDate, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out parsed))
+    {
+        return parsed.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+    }
+    return snapshotDate;
+}]]></Script>
+          </ScripterCode>
+        </Functoid>
+      </Functoids>
+    </Page>
+  </Pages>
+</mapsource>

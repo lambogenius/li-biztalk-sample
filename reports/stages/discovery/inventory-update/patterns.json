@@ -1,0 +1,6 @@
+[
+  {"name":"Messaging-only publish/subscribe","evidence":"SP_HarborLane_Inventory_Update subscribes on BTS.ReceivePortName and is not bound to an orchestration.","sourcePath":"HarborLane.Integration.BindingInfo.xml"},
+  {"name":"Flat-file disassembly","evidence":"InventoryFlatFileReceive uses FFDasmComp with InventoryFlatFile and structural validation enabled.","sourcePath":"src/HarborLane.Integration.Pipelines/InventoryFlatFileReceive.btp"},
+  {"name":"Outbound transform","evidence":"The subscribed send port applies Map_InventoryFlatFile_To_InventoryUpdate before XMLTransmit.","sourcePath":"HarborLane.Integration.BindingInfo.xml"},
+  {"name":"Transport retry","evidence":"The FILE send port specifies RetryCount 3 and RetryInterval 5; ordered delivery and stop-on-failure are false.","sourcePath":"HarborLane.Integration.BindingInfo.xml"}
+]

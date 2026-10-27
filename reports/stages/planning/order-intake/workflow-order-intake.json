@@ -1,0 +1,29 @@
+{
+  "name": "wf-order-intake",
+  "runtimePath": "logicapp/wf-order-intake/workflow.json",
+  "kind": "Stateful",
+  "sourceArtifactIds": ["2f24ba50-d70a-438c-9f1a-cdd172fbdfcd", "3fabf49a-3cac-41e2-b455-73edf3780ff7", "be43cc25-a9be-47dd-b01a-cbcdcff49ddf", "09894875-9b3e-4daa-bc15-335bbdc1f92d", "65305d9c-1266-4e93-97ab-53706ac74bde", "340189a8-5bd2-4871-b052-086477b58c5d", "0a1efce2-5810-42a5-8d11-a2bb79802259", "0b7615ea-4911-4e5f-88bb-eed16c14b762"],
+  "trigger": {"name": "Receive_PurchaseOrder", "type": "ServiceProvider", "serviceProvider": "/serviceProviders/AzureBlob", "operation": "When_a_blob_is_added_or_modified", "recurrence": {"frequency": "Second", "interval": 60}, "configuration": ["REPLACE_ORDER_INPUT_CONTAINER", "REPLACE_ORDER_INPUT_FOLDER"], "splitOn": "one workflow run per blob"},
+  "actions": [
+    {"name": "Check_PurchaseOrder_MessageType", "type": "JavaScriptCode", "behavior": "Parse well-formed XML and require root QName {http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder; fail the run before Scope_ProcessOrder on mismatch so Catch_OrderFailure cannot emit OrderError."},
+    {"name": "Scope_ProcessOrder", "type": "Scope", "runAfter": {"Check_PurchaseOrder_MessageType": ["Succeeded"]}, "children": ["ConstructMessage_CanonicalOrder", "Expr_CalculateDiscount", "ConstructMessage_PricedOrder", "Decide_ApprovalRequired", "Catch_OrderFailure"]},
+    {"name": "ConstructMessage_CanonicalOrder", "type": "Scope", "parent": "Scope_ProcessOrder", "children": ["Transform_PurchaseOrderToCanonical", "Construct_CanonicalOrder_MessagePartReference_1", "Construct_CanonicalOrder_MessagePartReference_2", "Construct_CanonicalOrder_MessageRef"]},
+    {"name": "Transform_PurchaseOrderToCanonical", "type": "Xslt", "parent": "ConstructMessage_CanonicalOrder", "map": "Map_PurchaseOrder_To_CanonicalOrder.xslt"},
+    {"name": "Expr_CalculateDiscount", "type": "InvokeFunction", "parent": "Scope_ProcessOrder", "function": "PricingRules_CalculateDiscount"},
+    {"name": "ConstructMessage_PricedOrder", "type": "Scope", "parent": "Scope_ProcessOrder", "children": ["Construct_PricedOrder_Assign_PricedOrder", "Construct_PricedOrder_MessageRef"]},
+    {"name": "Construct_PricedOrder_Assign_PricedOrder", "type": "Compose", "parent": "ConstructMessage_PricedOrder"},
+    {"name": "Decide_ApprovalRequired", "type": "If", "parent": "Scope_ProcessOrder", "expression": "decimal(OrderTotal) >= 5000", "trueAction": "Send_ToApproval", "falseAction": "Send_ToFulfilment"},
+    {"name": "Send_ToApproval", "type": "ServiceProvider", "parent": "Decide_ApprovalRequired/actions", "serviceProvider": "/serviceProviders/AzureBlob", "operation": "uploadBlob", "retry": {"type": "fixed", "count": 3, "interval": "PT5M"}},
+    {"name": "Send_ToFulfilment", "type": "ServiceProvider", "parent": "Decide_ApprovalRequired/else/actions", "serviceProvider": "/serviceProviders/AzureBlob", "operation": "uploadBlob", "retry": {"type": "fixed", "count": 3, "interval": "PT5M"}},
+    {"name": "Catch_OrderFailure", "type": "Scope", "parent": "Scope_ProcessOrder", "runAfter": {"Decide_ApprovalRequired": ["Failed", "TimedOut", "Skipped"]}, "children": ["ConstructMessage_OrderError", "Send_OrderError"]},
+    {"name": "ConstructMessage_OrderError", "type": "Scope", "parent": "Catch_OrderFailure", "children": ["Construct_OrderError_Assign_OrderError", "Construct_OrderError_MessageRef"]},
+    {"name": "Construct_OrderError_Assign_OrderError", "type": "InvokeFunction", "parent": "ConstructMessage_OrderError", "function": "ErrorMessageBuilder_BuildOrderError"},
+    {"name": "Send_OrderError", "type": "ServiceProvider", "parent": "Catch_OrderFailure", "serviceProvider": "/serviceProviders/AzureBlob", "operation": "uploadBlob", "retry": {"type": "fixed", "count": 3, "interval": "PT5M"}}
+  ],
+  "ordering": "The XML well-formedness/root-QName check completes before Scope_ProcessOrder. Inside the scope, mapping, pricing, construction, and exactly one routing branch run sequentially. Catch_OrderFailure explicitly runs after Decide_ApprovalRequired is Failed, TimedOut, or Skipped and is skipped when that action succeeds. Ordered delivery is not enabled.",
+  "retryErrorBehavior": "Blob uploads use three fixed retries at five-minute intervals. Processing failures build OrderError. Error-upload or terminal send failure fails the run and alerts are an unresolved owner gate.",
+  "inputs": [{"name": "PurchaseOrder", "format": "XML", "messageType": "{http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder", "runtimeValidation": "well-formed XML and root QName only; no strict XSD validation", "source": "configured Blob container/folder"}],
+  "outputs": [{"name": "CanonicalOrder", "condition": "OrderTotal >= 5000", "destination": "approval Blob container/folder"}, {"name": "CanonicalOrder", "condition": "else", "destination": "fulfilment Blob container/folder"}, {"name": "OrderError", "condition": "processing failure", "destination": "error Blob container/folder"}],
+  "configurationNeeds": ["REPLACE_ORDER_INPUT_CONTAINER", "REPLACE_ORDER_INPUT_FOLDER", "REPLACE_ORDER_APPROVAL_CONTAINER", "REPLACE_ORDER_APPROVAL_FOLDER", "REPLACE_ORDER_FULFILMENT_CONTAINER", "REPLACE_ORDER_FULFILMENT_FOLDER", "REPLACE_ORDER_ERROR_CONTAINER", "REPLACE_ORDER_ERROR_FOLDER", "managed identity Blob RBAC", "Key Vault-backed settings if secrets are introduced"],
+  "network": {"publicEndpoints": true, "httpsOnly": true, "privateNetworking": false, "recommendation": "Owner may evaluate IP restrictions or private networking in a later approved change."}
+}

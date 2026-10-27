@@ -1,0 +1,62 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+      "MigrationMetadata": {
+        "MigrationCorrelationId": "d4ce59b0-bf81-4360-a234-a18f9c124add",
+        "MigrationDate": "2026-10-26T23:47:37.248Z"
+      }
+    },
+    "parameters": {},
+    "triggers": {
+      "Receive_InventorySnapshot": {
+        "type": "ServiceProvider",
+        "inputs": {
+          "parameters": { "path": "@concat(appsetting('INVENTORY_INPUT_CONTAINER'), '/', appsetting('INVENTORY_INPUT_FOLDER'), if(empty(appsetting('INVENTORY_INPUT_FOLDER')), '', '/'), '{name}.csv')" },
+          "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "whenABlobIsAddedOrModified", "serviceProviderId": "/serviceProviders/AzureBlob" }
+        },
+        "metadata": { "sourceIds": ["RL_HarborLane_Inventory_File"] }
+      }
+    },
+    "actions": {
+      "Read_InventorySnapshot_Blob": {
+        "type": "ServiceProvider", "runAfter": {},
+        "inputs": {
+          "parameters": { "containerName": "@appsetting('INVENTORY_INPUT_CONTAINER')", "blobName": "@join(skip(split(triggerBody()?['properties']?['blobFullPathWithContainer'], '/'), if(startsWith(triggerBody()?['properties']?['blobFullPathWithContainer'], '/'), 2, 1)), '/')", "inferContentType": "true" },
+          "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "readBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+          "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+        }
+      },
+      "Normalize_InventorySnapshot_Payload": {
+        "type": "Compose",
+        "runAfter": { "Read_InventorySnapshot_Blob": ["Succeeded"] },
+        "inputs": "@if(empty(body('Read_InventorySnapshot_Blob')?['content']?['$content']), string(body('Read_InventorySnapshot_Blob')?['content']), base64ToString(body('Read_InventorySnapshot_Blob')?['content']?['$content']))"
+      },
+      "Parse_InventoryFlatFile": {
+        "type": "FlatFileDecoding",
+        "runAfter": { "Normalize_InventorySnapshot_Payload": ["Succeeded"] },
+        "inputs": { "content": "@outputs('Normalize_InventorySnapshot_Payload')", "schema": { "source": "LogicApp", "name": "InventoryFlatFile.xsd" } },
+        "metadata": { "sourceIds": ["InventoryFlatFileReceive"], "ValidateDocumentStructure": true, "PreserveHeader": false, "RecoverableInterchangeProcessing": false }
+      },
+      "Transform_InventoryToUpdate": {
+        "type": "Xslt",
+        "runAfter": { "Parse_InventoryFlatFile": ["Succeeded"] },
+        "inputs": { "content": "@body('Parse_InventoryFlatFile')", "map": { "source": "LogicApp", "name": "Map_InventoryFlatFile_To_InventoryUpdate.xslt" } },
+        "metadata": { "sourceIds": ["Map_InventoryFlatFile_To_InventoryUpdate", "BTS.ReceivePortName == RP_HarborLane_Inventory_File"] }
+      },
+      "Send_InventoryUpdate": {
+        "type": "ServiceProvider",
+        "runAfter": { "Transform_InventoryToUpdate": ["Succeeded"] },
+        "inputs": {
+          "parameters": { "containerName": "@appsetting('INVENTORY_OUTPUT_CONTAINER')", "blobName": "@concat(if(empty(appsetting('INVENTORY_OUTPUT_FOLDER')), '', concat(appsetting('INVENTORY_OUTPUT_FOLDER'), '/')), workflow().run.name, '.xml')", "content": "@body('Transform_InventoryToUpdate')", "overrideIfExists": "false" },
+          "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "uploadBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+          "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+        },
+        "metadata": { "sourceIds": ["SP_HarborLane_Inventory_Update"], "orderedDelivery": false }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

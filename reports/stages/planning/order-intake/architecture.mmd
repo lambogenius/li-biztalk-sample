@@ -1,0 +1,16 @@
+flowchart LR
+  SRC[Partner order blob container/folder] -->|Azure Blob built-in trigger, 60 s| WF[wf-order-intake stateful workflow]
+  WF --> TYPE[Well-formed XML and PurchaseOrder QName check]
+  TYPE --> XSLT[PurchaseOrder to CanonicalOrder XSLT]
+  XSLT --> PRICE[PricingRules local function]
+  PRICE --> ROUTE{OrderTotal >= 5000}
+  ROUTE -->|yes| APPROVAL[Approval blob container/folder]
+  ROUTE -->|no| FULFIL[Fulfilment blob container/folder]
+  WF -. processing failure .-> ERRORFN[ErrorMessageBuilder local function]
+  ERRORFN --> ERRORS[Errors blob container/folder]
+  MI[Workflow managed identity] --> SRC
+  MI --> APPROVAL
+  MI --> FULFIL
+  MI --> ERRORS
+  MI --> KV[Key Vault]
+  WF --> AI[Application Insights]

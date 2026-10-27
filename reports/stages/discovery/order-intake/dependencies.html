@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Order Intake — Dependencies</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="dependencies.md">Source (MD)</a></nav><h1 id="order-intake-dependencies">Order Intake — Dependencies</h1>
+<p>Source contract: <a href="dependencies.json">dependencies.json</a></p>
+<h2 id="schemas">Schemas</h2>
+<ul><li>be43cc25-a9be-47dd-b01a-cbcdcff49ddf</li></ul>
+<ul><li>09894875-9b3e-4daa-bc15-335bbdc1f92d</li></ul>
+<ul><li>65305d9c-1266-4e93-97ab-53706ac74bde</li></ul>
+<h2 id="maps">Maps</h2>
+<ul><li>340189a8-5bd2-4871-b052-086477b58c5d</li></ul>
+<h2 id="bindings">Bindings</h2>
+<h3 id="item-1">Item 1</h3>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h4 id="ports">Ports</h4>
+<ul><li>RP_HarborLane_Orders_File</li></ul>
+<ul><li>SP_HarborLane_Orders_Approval</li></ul>
+<ul><li>SP_HarborLane_Orders_Fulfilment</li></ul>
+<ul><li>SP_HarborLane_Orders_Error</li></ul>
+<h2 id="custom-code">Custom Code</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Class</th><th scope="col">Method</th><th scope="col">Artifact Id</th><th scope="col">Source Path</th><th scope="col">Orchestration</th><th scope="col">Use</th></tr></thead><tbody><tr><td>HarborLane.Integration.Helpers.PricingRules</td><td>CalculateDiscount</td><td>0a1efce2-5810-42a5-8d11-a2bb79802259</td><td>src/HarborLane.Integration.Helpers/PricingRules.cs</td><td>src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx</td><td>Calculates the monetary discount from OrderTotal and CustomerTier: Gold 10%, Silver 5%, other 0%, plus 1% for totals at least 1000; rounds to two decimals away from zero.</td></tr><tr><td>HarborLane.Integration.Helpers.ErrorMessageBuilder</td><td>BuildOrderError</td><td>0b7615ea-4911-4e5f-88bb-eed16c14b762</td><td>src/HarborLane.Integration.Helpers/ErrorMessageBuilder.cs</td><td>src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx</td><td>Builds an OrderError XML document containing flow name, order reference, exception text, and a UTC occurrence timestamp.</td></tr></tbody></table></div>
+<h2 id="external-systems">External Systems</h2>
+<h3 id="item-1-1">Item 1</h3>
+<ul><li><strong>Type:</strong> file-system</li></ul>
+<ul><li><strong>Role:</strong> input</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\In\Orders*.xml</li></ul>
+<h3 id="item-2">Item 2</h3>
+<ul><li><strong>Type:</strong> file-system</li></ul>
+<ul><li><strong>Role:</strong> output</li></ul>
+<h4 id="addresses">Addresses</h4>
+<ul><li>C:\HarborLane\Out\Approval\%MessageID%.xml</li></ul>
+<ul><li>C:\HarborLane\Out\Fulfilment\%MessageID%.xml</li></ul>
+<ul><li>C:\HarborLane\Out\Errors\%MessageID%.xml</li></ul>
+
+</main></body></html>

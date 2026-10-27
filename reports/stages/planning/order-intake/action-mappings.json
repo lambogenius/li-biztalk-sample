@@ -1,0 +1,16 @@
+{
+  "flowId": "order-intake",
+  "mappings": [
+    {"source": "RL_HarborLane_Orders_File / FILE C:\\HarborLane\\In\\Orders\\*.xml", "target": "AzureBlob ServiceProvider trigger When_a_blob_is_added_or_modified", "configuration": ["REPLACE_ORDER_INPUT_CONTAINER", "REPLACE_ORDER_INPUT_FOLDER"], "notes": "60-second polling; File System connector is not used."},
+    {"source": "XMLReceive", "target": "JavaScriptCode action Check_PurchaseOrder_MessageType before Scope_ProcessOrder", "notes": "Parse well-formed XML and verify the PurchaseOrder root QName only; fail before the catchable scope on mismatch, with no strict XSD validation and no OrderError side effect."},
+    {"source": "Map_PurchaseOrder_To_CanonicalOrder", "target": "Xslt action Transform_PurchaseOrderToCanonical", "notes": "Convert supplied BTM behavior to XSLT."},
+    {"source": "PricingRules.CalculateDiscount", "target": "InvokeFunction action Expr_CalculateDiscount", "notes": "Dedicated local function generated from supplied code."},
+    {"source": "ConstructMessage_PricedOrder", "target": "Compose actions copying CanonicalOrder and assigning discount/net total", "notes": "Preserve message construction order."},
+    {"source": "Decide_ApprovalRequired", "target": "If action on decimal OrderTotal >= 5000", "notes": "Approval branch and else fulfilment branch."},
+    {"source": "SP_HarborLane_Orders_Approval", "target": "AzureBlob ServiceProvider upload action Send_ToApproval", "configuration": ["REPLACE_ORDER_APPROVAL_CONTAINER", "REPLACE_ORDER_APPROVAL_FOLDER"], "retry": {"count": 3, "interval": "PT5M"}},
+    {"source": "SP_HarborLane_Orders_Fulfilment", "target": "AzureBlob ServiceProvider upload action Send_ToFulfilment", "configuration": ["REPLACE_ORDER_FULFILMENT_CONTAINER", "REPLACE_ORDER_FULFILMENT_FOLDER"], "retry": {"count": 3, "interval": "PT5M"}},
+    {"source": "Catch_OrderFailure", "target": "Catch_OrderFailure Scope with runAfter Decide_ApprovalRequired = Failed/TimedOut/Skipped", "notes": "Earlier processing failures cascade to Decide_ApprovalRequired as Skipped; successful processing skips the catch."},
+    {"source": "ErrorMessageBuilder.BuildOrderError", "target": "InvokeFunction action Assign_OrderError", "notes": "Dedicated local function generated from supplied code."},
+    {"source": "SP_HarborLane_Orders_Error", "target": "AzureBlob ServiceProvider upload action Send_OrderError", "configuration": ["REPLACE_ORDER_ERROR_CONTAINER", "REPLACE_ORDER_ERROR_FOLDER"], "retry": {"count": 3, "interval": "PT5M"}}
+  ]
+}

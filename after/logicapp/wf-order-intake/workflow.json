@@ -1,0 +1,194 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+      "MigrationMetadata": {
+        "MigrationCorrelationId": "d4ce59b0-bf81-4360-a234-a18f9c124add",
+        "MigrationDate": "2026-10-26T23:47:37.248Z"
+      }
+    },
+    "parameters": {},
+    "triggers": {
+      "Receive_PurchaseOrder": {
+        "type": "ServiceProvider",
+        "inputs": {
+          "parameters": {
+            "path": "@concat(appsetting('ORDER_INPUT_CONTAINER'), '/', appsetting('ORDER_INPUT_FOLDER'), if(empty(appsetting('ORDER_INPUT_FOLDER')), '', '/'), '{name}.xml')"
+          },
+          "serviceProviderConfiguration": {
+            "connectionName": "AzureBlob",
+            "operationId": "whenABlobIsAddedOrModified",
+            "serviceProviderId": "/serviceProviders/AzureBlob"
+          }
+        },
+        "metadata": { "sourceIds": ["8c7e1ce4-1f6a-409c-a92a-6290897a732b"] }
+      }
+    },
+    "actions": {
+      "Read_PurchaseOrder_Blob": {
+        "type": "ServiceProvider",
+        "runAfter": {},
+        "inputs": {
+          "parameters": {
+            "containerName": "@appsetting('ORDER_INPUT_CONTAINER')",
+            "blobName": "@join(skip(split(triggerBody()?['properties']?['blobFullPathWithContainer'], '/'), if(startsWith(triggerBody()?['properties']?['blobFullPathWithContainer'], '/'), 2, 1)), '/')",
+            "inferContentType": "true"
+          },
+          "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "readBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+          "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+        }
+      },
+      "Normalize_PurchaseOrder_Payload": {
+        "type": "Compose",
+        "runAfter": { "Read_PurchaseOrder_Blob": ["Succeeded"] },
+        "inputs": "@if(empty(body('Read_PurchaseOrder_Blob')?['content']?['$content']), string(body('Read_PurchaseOrder_Blob')?['content']), base64ToString(body('Read_PurchaseOrder_Blob')?['content']?['$content']))"
+      },
+      "Parse_WellFormed_PurchaseOrder_XML": {
+        "type": "Compose",
+        "runAfter": { "Normalize_PurchaseOrder_Payload": ["Succeeded"] },
+        "inputs": "@xml(outputs('Normalize_PurchaseOrder_Payload'))"
+      },
+      "Check_PurchaseOrder_MessageType": {
+        "type": "Compose",
+        "runAfter": { "Parse_WellFormed_PurchaseOrder_XML": ["Succeeded"] },
+        "inputs": "@xml(if(and(equals(xpath(outputs('Parse_WellFormed_PurchaseOrder_XML'), 'string(local-name(/*))'), 'PurchaseOrder'), equals(xpath(outputs('Parse_WellFormed_PurchaseOrder_XML'), 'string(namespace-uri(/*))'), 'http://HarborLane.Integration.Schemas.PurchaseOrder')), '<MessageTypeValid />', 'Expected root QName {http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder.'))"
+      },
+      "Scope_ProcessOrder": {
+        "type": "Scope",
+        "runAfter": { "Check_PurchaseOrder_MessageType": ["Succeeded"] },
+        "metadata": { "sourceIds": ["1c280d3e-561c-40e0-97a1-1805aa7ea77c"] },
+        "actions": {
+          "ConstructMessage_CanonicalOrder": {
+            "type": "Scope",
+            "runAfter": {},
+            "metadata": { "sourceIds": ["8870709a-5246-4639-8dec-62fd576ff7e5"] },
+            "actions": {
+              "Transform_PurchaseOrderToCanonical": {
+                "type": "Xslt", "runAfter": {},
+                "inputs": { "content": "@outputs('Normalize_PurchaseOrder_Payload')", "map": { "source": "LogicApp", "name": "Map_PurchaseOrder_To_CanonicalOrder.xslt" } },
+                "metadata": { "sourceIds": ["c9073b80-ed71-4a1d-b70a-78f8d5ae640b"] }
+              },
+              "Construct_CanonicalOrder_MessagePartReference_1": {
+                "type": "Compose", "runAfter": { "Transform_PurchaseOrderToCanonical": ["Succeeded"] }, "inputs": "@outputs('Normalize_PurchaseOrder_Payload')",
+                "metadata": { "sourceIds": ["49d904fd-51e6-47c6-b07b-dc2cd72cb0b2"] }
+              },
+              "Construct_CanonicalOrder_MessagePartReference_2": {
+                "type": "Compose", "runAfter": { "Construct_CanonicalOrder_MessagePartReference_1": ["Succeeded"] }, "inputs": "@body('Transform_PurchaseOrderToCanonical')",
+                "metadata": { "sourceIds": ["77618953-288a-40ab-8531-fe4a171ef064"] }
+              },
+              "Construct_CanonicalOrder_MessageRef": {
+                "type": "Compose", "runAfter": { "Construct_CanonicalOrder_MessagePartReference_2": ["Succeeded"] }, "inputs": "@outputs('Construct_CanonicalOrder_MessagePartReference_2')",
+                "metadata": { "sourceIds": ["284ee37f-aee7-4652-ad4a-4f8fc7e77657"] }
+              }
+            }
+          },
+          "Expr_CalculateDiscount": {
+            "type": "InvokeFunction",
+            "runAfter": { "ConstructMessage_CanonicalOrder": ["Succeeded"] },
+            "inputs": {
+              "functionName": "PricingRules_CalculateDiscount",
+              "parameters": {
+                "total": "@xpath(xml(body('Transform_PurchaseOrderToCanonical')), 'string(/*[local-name()=\"CanonicalOrder\"]/*[local-name()=\"OrderTotal\"])')",
+                "customerTier": "@xpath(xml(body('Transform_PurchaseOrderToCanonical')), 'string(/*[local-name()=\"CanonicalOrder\"]/*[local-name()=\"CustomerTier\"])')"
+              },
+              "retryPolicy": { "type": "none" }
+            },
+            "metadata": { "sourceIds": ["59df1065-9bfa-4f9b-8a24-877a2c302ef5"] }
+          },
+          "ConstructMessage_PricedOrder": {
+            "type": "Scope",
+            "runAfter": { "Expr_CalculateDiscount": ["Succeeded"] },
+            "metadata": { "sourceIds": ["37794941-da90-4668-b298-08f61436139e"] },
+            "actions": {
+              "Apply_Pricing_Values": {
+                "type": "Xslt", "runAfter": {},
+                "inputs": {
+                  "content": "@body('Transform_PurchaseOrderToCanonical')",
+                  "map": { "source": "LogicApp", "name": "Apply_Pricing_To_CanonicalOrder.xslt" },
+                  "xsltParameters": { "discountAmount": "@body('Expr_CalculateDiscount')?['discountAmount']", "netTotal": "@body('Expr_CalculateDiscount')?['netTotal']" }
+                }
+              },
+              "Construct_PricedOrder_Assign_PricedOrder": {
+                "type": "Compose", "runAfter": { "Apply_Pricing_Values": ["Succeeded"] }, "inputs": "@body('Apply_Pricing_Values')",
+                "metadata": { "sourceIds": ["2b8c9f3d-a334-4806-9055-c9b688b4167d"] }
+              },
+              "Construct_PricedOrder_MessageRef": {
+                "type": "Compose", "runAfter": { "Construct_PricedOrder_Assign_PricedOrder": ["Succeeded"] }, "inputs": "@outputs('Construct_PricedOrder_Assign_PricedOrder')",
+                "metadata": { "sourceIds": ["a8c3e340-a4bf-4b57-865e-1576ab2c0b9c"] }
+              }
+            }
+          },
+          "Decide_ApprovalRequired": {
+            "type": "If",
+            "runAfter": { "ConstructMessage_PricedOrder": ["Succeeded"] },
+            "expression": { "and": [ { "greaterOrEquals": [ "@float(xpath(xml(outputs('Construct_PricedOrder_MessageRef')), 'string(/*[local-name()=\"CanonicalOrder\"]/*[local-name()=\"OrderTotal\"])'))", 5000 ] } ] },
+            "metadata": { "sourceIds": ["e92438fa-25f3-4c07-8ad9-29f34b6f0d39", "5a954666-5d13-44a0-a186-362d2f605bed", "db5d7488-c519-474b-b9a9-4dbf12c3bb74"] },
+            "actions": {
+              "Send_ToApproval": {
+                "type": "ServiceProvider", "runAfter": {},
+                "inputs": {
+                  "parameters": { "containerName": "@appsetting('ORDER_APPROVAL_CONTAINER')", "blobName": "@concat(if(empty(appsetting('ORDER_APPROVAL_FOLDER')), '', concat(appsetting('ORDER_APPROVAL_FOLDER'), '/')), workflow().run.name, '.xml')", "content": "@outputs('Construct_PricedOrder_MessageRef')", "overrideIfExists": "false" },
+                  "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "uploadBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+                  "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+                },
+                "metadata": { "sourceIds": ["455c9b8a-5788-4d21-9fd1-169f6d36f47d"], "orderedDelivery": false }
+              }
+            },
+            "else": { "actions": {
+              "Send_ToFulfilment": {
+                "type": "ServiceProvider", "runAfter": {},
+                "inputs": {
+                  "parameters": { "containerName": "@appsetting('ORDER_FULFILMENT_CONTAINER')", "blobName": "@concat(if(empty(appsetting('ORDER_FULFILMENT_FOLDER')), '', concat(appsetting('ORDER_FULFILMENT_FOLDER'), '/')), workflow().run.name, '.xml')", "content": "@outputs('Construct_PricedOrder_MessageRef')", "overrideIfExists": "false" },
+                  "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "uploadBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+                  "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+                },
+                "metadata": { "sourceIds": ["e6d99d57-59b2-4c8b-96f3-9d4f3eed7079"], "orderedDelivery": false }
+              }
+            } }
+          },
+          "Catch_OrderFailure": {
+            "type": "Scope",
+            "runAfter": { "Decide_ApprovalRequired": ["Failed", "TimedOut", "Skipped"] },
+            "metadata": { "sourceIds": ["0bd7cb54-5a87-450c-89c2-100badaa9392"] },
+            "actions": {
+              "ConstructMessage_OrderError": {
+                "type": "Scope", "runAfter": {}, "metadata": { "sourceIds": ["218ebf57-ff80-4e44-8e9f-0912530b622b"] },
+                "actions": {
+                  "Construct_OrderError_Assign_OrderError": {
+                    "type": "InvokeFunction", "runAfter": {},
+                    "inputs": {
+                      "functionName": "ErrorMessageBuilder_BuildOrderError",
+                      "parameters": {
+                        "flowName": "OrderIntake",
+                        "orderReference": "@xpath(xml(outputs('Normalize_PurchaseOrder_Payload')), 'string(/*[local-name()=\"PurchaseOrder\"]/*[local-name()=\"Header\"]/*[local-name()=\"OrderNumber\"])')",
+                        "errorText": "@coalesce(if(equals(actions('ConstructMessage_CanonicalOrder').status, 'Failed'), actions('ConstructMessage_CanonicalOrder')?['error']?['message'], null), if(equals(actions('Expr_CalculateDiscount').status, 'Failed'), actions('Expr_CalculateDiscount')?['error']?['message'], null), if(equals(actions('ConstructMessage_PricedOrder').status, 'Failed'), actions('ConstructMessage_PricedOrder')?['error']?['message'], null), if(equals(actions('Decide_ApprovalRequired').status, 'Failed'), actions('Decide_ApprovalRequired')?['error']?['message'], null), 'Order processing failed')"
+                      },
+                      "retryPolicy": { "type": "none" }
+                    },
+                    "metadata": { "sourceIds": ["508ddaa3-0055-4257-8628-0e0da92a0342"] }
+                  },
+                  "Construct_OrderError_MessageRef": {
+                    "type": "Compose", "runAfter": { "Construct_OrderError_Assign_OrderError": ["Succeeded"] }, "inputs": "@body('Construct_OrderError_Assign_OrderError')",
+                    "metadata": { "sourceIds": ["e2d26188-b7e3-4c14-8f2a-1d2b1e009034"] }
+                  }
+                }
+              },
+              "Send_OrderError": {
+                "type": "ServiceProvider", "runAfter": { "ConstructMessage_OrderError": ["Succeeded"] },
+                "inputs": {
+                  "parameters": { "containerName": "@appsetting('ORDER_ERROR_CONTAINER')", "blobName": "@concat(if(empty(appsetting('ORDER_ERROR_FOLDER')), '', concat(appsetting('ORDER_ERROR_FOLDER'), '/')), workflow().run.name, '.xml')", "content": "@outputs('Construct_OrderError_MessageRef')", "overrideIfExists": "false" },
+                  "serviceProviderConfiguration": { "connectionName": "AzureBlob", "operationId": "uploadBlob", "serviceProviderId": "/serviceProviders/AzureBlob" },
+                  "retryPolicy": { "type": "fixed", "count": 3, "interval": "PT5M" }
+                },
+                "metadata": { "sourceIds": ["4d68cc63-6692-4ae9-8377-43838d49a6db"], "orderedDelivery": false }
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

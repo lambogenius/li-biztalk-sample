@@ -1,0 +1,11 @@
+{"flowId":"shipment-notification","artifacts":[
+  {"sourceArtifactId":"932c2a59-e3c4-4e78-bd9d-3a5fdab0c032","source":"ShipmentNotificationOrchestration.odx","disposition":"convert","target":"logicapp/wf-shipment-notification/workflow.json"},
+  {"sourceArtifactId":"2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","source":"HarborLane.Integration.BindingInfo.xml","disposition":"convert","target":"Request/Response contract and conditional Blob upload"},
+  {"sourceArtifactId":"86609c47-41a2-4823-8165-bcb24c2632c5","source":"ShipmentNotice.xsd","disposition":"retain","target":"logicapp Artifacts/Schemas"},
+  {"sourceArtifactId":"d6ea3ebe-4481-4f01-a6aa-c6555214e101","source":"ShipmentAck.xsd","disposition":"retain","target":"logicapp Artifacts/Schemas"},
+  {"sourceArtifactId":"ccf378ed-8b47-4221-adeb-0c4fde245709","source":"Map_ShipmentNotice_To_ShipmentAck.btm","disposition":"convert","target":"logicapp Artifacts/Maps/Map_ShipmentNotice_To_ShipmentAck.xslt"},
+  {"sourceArtifactId":"f55951bb-a9ef-4521-82b1-949162d8261b","source":"ShipmentRules.cs","disposition":"convert","target":"dedicated ShipmentRules local implementation"},
+  {"sourceArtifactId":"cf84db1c-883c-4821-a8a5-34fc188d8388","source":"DeliveryCalendar.cs","disposition":"convert","target":"dedicated DeliveryCalendar local implementation"},
+  {"source":"Microsoft.BizTalk.DefaultPipelines.XMLReceive/XMLTransmit","disposition":"replace","target":"XML validation/serialization, Request/Response, and Azure Blob upload"},
+  {"source":"WCF ServiceBehavior and EndpointBehavior","disposition":"no-custom-code","target":"No blocker: binding contains empty named behavior elements and repository states no custom WCF behaviors are used"}
+],"omitted":[]}

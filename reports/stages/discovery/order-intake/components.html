@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Order Intake — Components</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="components.md">Source (MD)</a></nav><h1 id="order-intake-components">Order Intake — Components</h1>
+<p>Source contract: <a href="components.json">components.json</a></p>
+<h2 id="item-1">Item 1</h2>
+<ul><li><strong>Kind:</strong> receive-location</li></ul>
+<ul><li><strong>Name:</strong> RL_HarborLane_Orders_File</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details">Details</h3>
+<ul><li><strong>Receive Port:</strong> RP_HarborLane_Orders_File</li></ul>
+<ul><li><strong>Adapter:</strong> FILE</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\In\Orders*.xml</li></ul>
+<ul><li><strong>Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<ul><li><strong>Enabled:</strong> Yes</li></ul>
+<ul><li><strong>Polling Interval Ms:</strong> 60000</li></ul>
+<ul><li><strong>Batch Size:</strong> 20</li></ul>
+<ul><li><strong>File Network Retry Count:</strong> 5</li></ul>
+<ul><li><strong>File Network Retry Interval Seconds:</strong> 5</li></ul>
+<ul><li><strong>Remove Received File Retry Count:</strong> 5</li></ul>
+<h2 id="item-2">Item 2</h2>
+<ul><li><strong>Kind:</strong> orchestration</li></ul>
+<ul><li><strong>Name:</strong> OrderIntakeOrchestration</li></ul>
+<ul><li><strong>Artifact Id:</strong> 3fabf49a-3cac-41e2-b455-73edf3780ff7</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx</li></ul>
+<h3 id="details-1">Details</h3>
+<ul><li><strong>Activation Receive:</strong> Receive_PurchaseOrder</li></ul>
+<ul><li><strong>Scope:</strong> Scope_ProcessOrder</li></ul>
+<ul><li><strong>Catch:</strong> Catch_OrderFailure (System.Exception)</li></ul>
+<h2 id="item-3">Item 3</h2>
+<ul><li><strong>Kind:</strong> schema</li></ul>
+<ul><li><strong>Name:</strong> PurchaseOrder</li></ul>
+<ul><li><strong>Artifact Id:</strong> be43cc25-a9be-47dd-b01a-cbcdcff49ddf</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Schemas/PurchaseOrder.xsd</li></ul>
+<h3 id="details-2">Details</h3>
+<ul><li><strong>Namespace:</strong> <a href="http://HarborLane.Integration.Schemas.PurchaseOrder">http://HarborLane.Integration.Schemas.PurchaseOrder</a></li></ul>
+<h2 id="item-4">Item 4</h2>
+<ul><li><strong>Kind:</strong> map</li></ul>
+<ul><li><strong>Name:</strong> Map_PurchaseOrder_To_CanonicalOrder</li></ul>
+<ul><li><strong>Artifact Id:</strong> 340189a8-5bd2-4871-b052-086477b58c5d</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Maps/Map_PurchaseOrder_To_CanonicalOrder.btm</li></ul>
+<h3 id="details-3">Details</h3>
+<ul><li><strong>Source:</strong> PurchaseOrder</li></ul>
+<ul><li><strong>Target:</strong> CanonicalOrder</li></ul>
+<ul><li><strong>Behavior:</strong> Copies order fields and repeating lines, concatenates buyer/address fields, converts yyyyMMdd to yyyy-MM-dd, initializes discount and net total to 0.00, and status to Received.</li></ul>
+<h2 id="item-5">Item 5</h2>
+<ul><li><strong>Kind:</strong> schema</li></ul>
+<ul><li><strong>Name:</strong> CanonicalOrder</li></ul>
+<ul><li><strong>Artifact Id:</strong> 09894875-9b3e-4daa-bc15-335bbdc1f92d</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Schemas/CanonicalOrder.xsd</li></ul>
+<h3 id="details-4">Details</h3>
+<ul><li><strong>Namespace:</strong> <a href="http://HarborLane.Integration.Schemas.CanonicalOrder">http://HarborLane.Integration.Schemas.CanonicalOrder</a></li></ul>
+<h2 id="item-6">Item 6</h2>
+<ul><li><strong>Kind:</strong> schema</li></ul>
+<ul><li><strong>Name:</strong> OrderError</li></ul>
+<ul><li><strong>Artifact Id:</strong> 65305d9c-1266-4e93-97ab-53706ac74bde</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Schemas/OrderError.xsd</li></ul>
+<h3 id="details-5">Details</h3>
+<ul><li><strong>Namespace:</strong> <a href="http://HarborLane.Integration.Schemas.OrderError">http://HarborLane.Integration.Schemas.OrderError</a></li></ul>
+<h2 id="item-7">Item 7</h2>
+<ul><li><strong>Kind:</strong> custom-code</li></ul>
+<ul><li><strong>Name:</strong> PricingRules</li></ul>
+<ul><li><strong>Artifact Id:</strong> 0a1efce2-5810-42a5-8d11-a2bb79802259</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Helpers/PricingRules.cs</li></ul>
+<h3 id="details-6">Details</h3>
+<ul><li><strong>Called Method:</strong> CalculateDiscount</li></ul>
+<h2 id="item-8">Item 8</h2>
+<ul><li><strong>Kind:</strong> custom-code</li></ul>
+<ul><li><strong>Name:</strong> ErrorMessageBuilder</li></ul>
+<ul><li><strong>Artifact Id:</strong> 0b7615ea-4911-4e5f-88bb-eed16c14b762</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Helpers/ErrorMessageBuilder.cs</li></ul>
+<h3 id="details-7">Details</h3>
+<ul><li><strong>Called Method:</strong> BuildOrderError</li></ul>
+<h2 id="item-9">Item 9</h2>
+<ul><li><strong>Kind:</strong> send-port</li></ul>
+<ul><li><strong>Name:</strong> SP_HarborLane_Orders_Approval</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details-8">Details</h3>
+<ul><li><strong>Adapter:</strong> FILE</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\Out\Approval\%MessageID%.xml</li></ul>
+<ul><li><strong>Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Retry Count:</strong> 3</li></ul>
+<ul><li><strong>Retry Interval Minutes:</strong> 5</li></ul>
+<h2 id="item-10">Item 10</h2>
+<ul><li><strong>Kind:</strong> send-port</li></ul>
+<ul><li><strong>Name:</strong> SP_HarborLane_Orders_Fulfilment</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details-9">Details</h3>
+<ul><li><strong>Adapter:</strong> FILE</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\Out\Fulfilment\%MessageID%.xml</li></ul>
+<ul><li><strong>Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Retry Count:</strong> 3</li></ul>
+<ul><li><strong>Retry Interval Minutes:</strong> 5</li></ul>
+<h2 id="item-11">Item 11</h2>
+<ul><li><strong>Kind:</strong> send-port</li></ul>
+<ul><li><strong>Name:</strong> SP_HarborLane_Orders_Error</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details-10">Details</h3>
+<ul><li><strong>Adapter:</strong> FILE</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\Out\Errors\%MessageID%.xml</li></ul>
+<ul><li><strong>Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Retry Count:</strong> 3</li></ul>
+<ul><li><strong>Retry Interval Minutes:</strong> 5</li></ul>
+
+</main></body></html>

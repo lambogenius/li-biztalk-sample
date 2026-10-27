@@ -1,0 +1,27 @@
+{
+  "name":"wf-shipment-notification","runtimePath":"logicapp/wf-shipment-notification/workflow.json","kind":"Stateful",
+  "sourceArtifactIds":["2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","932c2a59-e3c4-4e78-bd9d-3a5fdab0c032","86609c47-41a2-4823-8165-bcb24c2632c5","d6ea3ebe-4481-4f01-a6aa-c6555214e101","ccf378ed-8b47-4221-adeb-0c4fde245709","f55951bb-a9ef-4521-82b1-949162d8261b","cf84db1c-883c-4821-a8a5-34fc188d8388"],
+  "trigger":{"name":"Receive_ShipmentNotice","type":"Request","method":"POST","relativePath":"HarborLaneShipments/ShipmentService.svc/notices","contentType":"application/xml","callbackUrlShape":"https://<workflow-host>/api/wf-shipment-notification/triggers/Receive_ShipmentNotice/invoke/<relativePath>?api-version=<version>&sig=<secret>","authentication":"Platform Request-trigger SAS signature only; no added application-level caller identity","httpsOnly":true},
+  "actions":[
+    {"name":"Measure_Request_Body_Bytes","type":"JavaScriptCode","behavior":"Return the UTF-8 byte count of the raw request body without parsing it"},
+    {"name":"Check_Request_Size","type":"If","runAfter":{"Measure_Request_Body_Bytes":["Succeeded"]},"expression":"outputs('Measure_Request_Body_Bytes') > 65536","trueActions":["Reject_Oversize_Request","Stop_Oversize_Request"],"falseAction":"Continue"},
+    {"name":"Reject_Oversize_Request","type":"Response","parent":"Check_Request_Size/actions","statusCode":"owner-approved fail-closed status","body":"No exception details; exact contract is gated by shipment-fault-contract"},
+    {"name":"Stop_Oversize_Request","type":"Terminate","parent":"Check_Request_Size/actions","runAfter":{"Reject_Oversize_Request":["Succeeded"]},"status":"Failed","message":"Request exceeds the source 65536-byte maximum; no exception detail is returned to the caller"},
+    {"name":"Check_ShipmentNotice_MessageType","type":"JavaScriptCode","runAfter":{"Check_Request_Size":["Succeeded"]},"behavior":"Parse well-formed XML and require root QName {http://HarborLane.Integration.Schemas.ShipmentNotice}ShipmentNotice; do not perform strict XSD validation"},
+    {"name":"Expr_ValidateAndComputeEta","type":"Scope","runAfter":{"Check_ShipmentNotice_MessageType":["Succeeded"]},"children":["Validate_ShipmentNotice","Compute_EstimatedDelivery"]},
+    {"name":"Validate_ShipmentNotice","type":"InvokeFunction","parent":"Expr_ValidateAndComputeEta","function":"ShipmentRules_IsValidNotice"},
+    {"name":"Compute_EstimatedDelivery","type":"InvokeFunction","parent":"Expr_ValidateAndComputeEta","function":"DeliveryCalendar_EstimateDeliveryDate"},
+    {"name":"ConstructMessage_ShipmentAck","type":"Scope","children":["Transform_NoticeToAck","Construct_ShipmentAck_MessagePartReference_1","Construct_ShipmentAck_MessagePartReference_2","Construct_ShipmentAck_Assign_AckStatus","Construct_ShipmentAck_MessageRef"]},
+    {"name":"Transform_NoticeToAck","type":"Xslt","parent":"ConstructMessage_ShipmentAck","map":"Map_ShipmentNotice_To_ShipmentAck.xslt"},
+    {"name":"Construct_ShipmentAck_Assign_AckStatus","type":"InvokeFunction","parent":"ConstructMessage_ShipmentAck","function":"ShipmentRules_AckStatus","alsoAssign":"EstimatedDelivery"},
+    {"name":"Send_ShipmentAck","type":"Response","statusCode":200,"contentType":"application/xml","timeoutObjective":"PT1M"},
+    {"name":"Decide_NoticeAccepted","type":"If","expression":"isValid == true","trueAction":"Send_NoticeToFolder","falseAction":"None"},
+    {"name":"Send_NoticeToFolder","type":"ServiceProvider","parent":"Decide_NoticeAccepted/actions","serviceProvider":"/serviceProviders/AzureBlob","operation":"uploadBlob","payload":"original ShipmentNotice XML","retry":{"type":"fixed","count":3,"interval":"PT5M"}}
+  ],
+  "ordering":"Measure_Request_Body_Bytes runs first, then Check_Request_Size. Oversize input returns Reject_Oversize_Request and Stop_Oversize_Request terminates the run; only a succeeded size check permits the top-level XML well-formedness/root-QName check. The workflow then sequentially computes, constructs, responds, and conditionally archives. Exactly one Request trigger activates the workflow; branches add no trigger.",
+  "retryErrorBehavior":"Archive upload retries three times at five-minute intervals after the response. Unexpected errors fail closed without exception details; exact fault response and terminal archive operations are gates.",
+  "inputs":[{"name":"ShipmentNotice","format":"XML","messageType":"{http://HarborLane.Integration.Schemas.ShipmentNotice}ShipmentNotice","runtimeValidation":"maximum 65536 body bytes plus well-formed XML/root QName; no strict XSD validation","source":"HTTPS Request-trigger callback body"}],
+  "outputs":[{"name":"ShipmentAck","format":"XML","schema":"ShipmentAck.xsd","destination":"HTTP response"},{"name":"ShipmentNotice","condition":"isValid == true","destination":"configured archive Blob path"}],
+  "configurationNeeds":["REPLACE_SHIPMENT_ARCHIVE_CONTAINER","REPLACE_SHIPMENT_ARCHIVE_FOLDER","managed identity Blob RBAC","Key Vault secret containing the deployed SAS-bearing callback URL for authorized callers","environment-generated HTTPS hostname","owner-approved oversize/malformed fault responses"],
+  "network":{"publicEndpoints":true,"httpsOnly":true,"callerAuthentication":"Platform Request-trigger SAS signature; no additional application-level caller identity","privateNetworking":false,"recommendation":"Owner may evaluate IP restrictions, private ingress, or stronger caller authentication only as a separately approved hardening change."}
+}

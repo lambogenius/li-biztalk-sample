@@ -1,0 +1,11 @@
+{
+  "id": "order-intake",
+  "name": "Order Intake",
+  "category": "orchestration",
+  "entryPoint": "RL_HarborLane_Orders_File",
+  "orchestration": "HarborLane.Integration.Orchestrations.OrderIntakeOrchestration",
+  "sourcePath": "src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx",
+  "orchestrationArtifactId": "3fabf49a-3cac-41e2-b455-73edf3780ff7",
+  "bindingArtifactId": "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd",
+  "summary": "Consumes PurchaseOrder XML from a FILE receive location, creates and prices CanonicalOrder XML, routes by the original order total, and writes an OrderError document when the processing scope throws."
+}

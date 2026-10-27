@@ -1,0 +1,10 @@
+{
+  "schemas": ["be43cc25-a9be-47dd-b01a-cbcdcff49ddf", "09894875-9b3e-4daa-bc15-335bbdc1f92d", "65305d9c-1266-4e93-97ab-53706ac74bde"],
+  "maps": ["340189a8-5bd2-4871-b052-086477b58c5d"],
+  "bindings": [{"artifactId":"2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","sourcePath":"HarborLane.Integration.BindingInfo.xml","ports":["RP_HarborLane_Orders_File","SP_HarborLane_Orders_Approval","SP_HarborLane_Orders_Fulfilment","SP_HarborLane_Orders_Error"]}],
+  "customCode": [
+    {"class":"HarborLane.Integration.Helpers.PricingRules","method":"CalculateDiscount","artifactId":"0a1efce2-5810-42a5-8d11-a2bb79802259","sourcePath":"src/HarborLane.Integration.Helpers/PricingRules.cs","orchestration":"src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx","use":"Calculates the monetary discount from OrderTotal and CustomerTier: Gold 10%, Silver 5%, other 0%, plus 1% for totals at least 1000; rounds to two decimals away from zero."},
+    {"class":"HarborLane.Integration.Helpers.ErrorMessageBuilder","method":"BuildOrderError","artifactId":"0b7615ea-4911-4e5f-88bb-eed16c14b762","sourcePath":"src/HarborLane.Integration.Helpers/ErrorMessageBuilder.cs","orchestration":"src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx","use":"Builds an OrderError XML document containing flow name, order reference, exception text, and a UTC occurrence timestamp."}
+  ],
+  "externalSystems": [{"type":"file-system","role":"input","address":"C:\\HarborLane\\In\\Orders\\*.xml"},{"type":"file-system","role":"output","addresses":["C:\\HarborLane\\Out\\Approval\\%MessageID%.xml","C:\\HarborLane\\Out\\Fulfilment\\%MessageID%.xml","C:\\HarborLane\\Out\\Errors\\%MessageID%.xml"]}]
+}

@@ -1,0 +1,8 @@
+{"flowId":"inventory-update","patterns":[
+  {"name":"Blob-triggered messaging flow","implementation":"Stateful workflow with Azure Blob polling at 60 seconds","sourcePattern":"FILE receive location"},
+  {"name":"Flat-file disassembly","implementation":"Built-in Flat File Decoding action configured with annotated InventoryFlatFile.xsd and source BTP semantics","sourcePattern":"FFDasmComp"},
+  {"name":"Dedicated subscription boundary","implementation":"Configured Blob path activates only wf-inventory-update","sourcePattern":"BTS.ReceivePortName filter"},
+  {"name":"Outbound transform","implementation":"XSLT action before XML upload","sourcePattern":"BizTalk outbound BTM map"},
+  {"name":"Transport retry","implementation":"Blob upload retries 3 times at PT5M","sourcePattern":"BizTalk FILE send retry"},
+  {"name":"Managed identity","implementation":"Workflow identity authorizes Blob and Key Vault","sourcePattern":"Target security requirement"}
+]}

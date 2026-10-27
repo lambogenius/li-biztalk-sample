@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.InventoryUpdate" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.InventoryUpdate" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="InventoryUpdate" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="InventoryUpdate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Warehouse" type="xs:string" />
+        <xs:element name="SnapshotDate" type="xs:string" />
+        <xs:element name="Items">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Item" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Sku" type="xs:string" />
+                    <xs:element name="Description" type="xs:string" />
+                    <xs:element name="Location" type="xs:string" />
+                    <xs:element name="OnHand" type="xs:int" />
+                    <xs:element name="ReorderPoint" type="xs:int" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,9 @@
+[
+  {"sequence":1,"from":"C:\\HarborLane\\In\\Orders\\*.xml","to":"RL_HarborLane_Orders_File","message":"PurchaseOrder","behavior":"FILE adapter polling through XMLReceive activates Receive_PurchaseOrder."},
+  {"sequence":2,"from":"Receive_PurchaseOrder","to":"Transform_PurchaseOrderToCanonical","message":"PurchaseOrder -> CanonicalOrder","behavior":"Map copies fields and lines, formats the order date, concatenates names/address, and supplies initial values."},
+  {"sequence":3,"from":"CanonicalOrderMsg","to":"Expr_CalculateDiscount","message":"CanonicalOrder","behavior":"CalculateDiscount returns discountAmount; netTotal is OrderTotal minus discountAmount."},
+  {"sequence":4,"from":"ConstructMessage_PricedOrder","to":"Decide_ApprovalRequired","message":"CanonicalOrder","behavior":"Copies the canonical message and assigns DiscountAmount and NetTotal."},
+  {"sequence":5,"from":"Decide_ApprovalRequired","to":"SP_HarborLane_Orders_Approval","message":"CanonicalOrder","condition":"OrderTotal >= 5000","behavior":"Writes XML to the approval folder."},
+  {"sequence":6,"from":"Decide_ApprovalRequired","to":"SP_HarborLane_Orders_Fulfilment","message":"CanonicalOrder","condition":"else","behavior":"Writes XML to the fulfilment folder."},
+  {"sequence":7,"from":"Catch_OrderFailure","to":"SP_HarborLane_Orders_Error","message":"OrderError","condition":"System.Exception in Scope_ProcessOrder","behavior":"BuildOrderError creates an error document and the FILE port writes it to the errors folder."}
+]

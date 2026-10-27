@@ -1,0 +1,273 @@
+#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="c05e7c61-0e2d-46ad-a191-40ee66a0bac2">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="HarborLane.Integration.Orchestrations" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="aa2aeac9-b170-462f-af02-36d5bcf50e78" ParentLink="Module_PortType">
+            <om:Property Name="Synchronous" Value="True" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_ShipmentNoticeService" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="ce3b2f2d-b287-419a-9596-7fa281d19d14" ParentLink="PortType_OperationDeclaration">
+                <om:Property Name="OperationType" Value="RequestResponse" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_SubmitNotice" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="be6a996c-1dba-471f-86e5-066fa53f9e7d" ParentLink="OperationDeclaration_RequestMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.ShipmentNotice" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+                <om:Element Type="MessageRef" OID="3a63f5b8-deec-4ccf-af49-01bfe0bdf662" ParentLink="OperationDeclaration_ResponseMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.ShipmentAck" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Response" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="e69e6579-74e7-41cf-8282-d01fa8001108" ParentLink="Module_PortType">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_ShipmentNoticeOut" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="682d041e-bf1d-4db7-9360-553ab19a6c57" ParentLink="PortType_OperationDeclaration">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_ArchiveNotice" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="5b2d549e-1c91-41a1-a413-3e5541f6a6d1" ParentLink="OperationDeclaration_RequestMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.ShipmentNotice" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="e5ffa76e-5282-4a95-a127-08a4795dde47" ParentLink="Module_ServiceDeclaration">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="ShipmentNotificationOrchestration" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="VariableDeclaration" OID="50ef7809-3ec8-4096-9eb6-4355f29a7bb9" ParentLink="ServiceDeclaration_VariableDeclaration">
+                <om:Property Name="InitialValue" Value="false" />
+                <om:Property Name="UseDefaultConstructor" Value="False" />
+                <om:Property Name="Type" Value="System.Boolean" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="isValid" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="VariableDeclaration" OID="81a74a4f-ed1a-4680-b72f-271aa3d05284" ParentLink="ServiceDeclaration_VariableDeclaration">
+                <om:Property Name="InitialValue" Value="&quot;&quot;" />
+                <om:Property Name="UseDefaultConstructor" Value="False" />
+                <om:Property Name="Type" Value="System.String" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="estimatedDelivery" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="494b9fe9-889b-4679-ba56-8ac80048c1ef" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.ShipmentNotice" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ShipmentNoticeMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="837d1476-c699-4bb9-8e0e-0f6fb1aefaa7" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.ShipmentAck" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ShipmentAckMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="ServiceBody" OID="a7a21467-a33d-4ed3-af3b-7a44a1ffdaf9" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="d1d0ea0e-7c30-447a-b96c-9af1948c2765" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="ShipmentNoticePort" />
+                    <om:Property Name="MessageName" Value="ShipmentNoticeMsg" />
+                    <om:Property Name="OperationName" Value="Operation_SubmitNotice" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_ShipmentNotice" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="VariableAssignment" OID="89eabd48-046c-40a9-9e38-29da4cca3750" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="Expression" Value="isValid = HarborLane.Integration.Helpers.ShipmentRules.IsValidNotice(ShipmentNoticeMsg.ShipmentId, ShipmentNoticeMsg.TrackingNumber, ShipmentNoticeMsg.PackageCount);&#xD;&#xA;estimatedDelivery = HarborLane.Integration.Helpers.DeliveryCalendar.EstimateDeliveryDate(ShipmentNoticeMsg.ShipDate, ShipmentNoticeMsg.ServiceLevel);" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Expr_ValidateAndComputeEta" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Construct" OID="6a2500f4-e96f-4b04-a5ad-aaa92c3ca95f" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="ConstructMessage_ShipmentAck" />
+                    <om:Property Name="Signal" Value="True" />
+                    <om:Element Type="Transform" OID="778b029d-f23e-4ca6-9de5-290e310bb8ff" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="ClassName" Value="HarborLane.Integration.Maps.Map_ShipmentNotice_To_ShipmentAck" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Transform_NoticeToAck" />
+                        <om:Property Name="Signal" Value="False" />
+                        <om:Element Type="MessagePartRef" OID="533038ca-d2dd-429c-928e-497bd4178f3e" ParentLink="Transform_InputMessagePartRef">
+                            <om:Property Name="MessageRef" Value="ShipmentNoticeMsg" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="MessagePartReference_1" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                        <om:Element Type="MessagePartRef" OID="bbfd2e92-f3a6-448c-957e-854d8105eeca" ParentLink="Transform_OutputMessagePartRef">
+                            <om:Property Name="MessageRef" Value="ShipmentAckMsg" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="MessagePartReference_2" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="MessageAssignment" OID="f0e6d40c-29ce-430a-998d-3979e4f31d8a" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="Expression" Value="ShipmentAckMsg.Status = HarborLane.Integration.Helpers.ShipmentRules.AckStatus(isValid);&#xD;&#xA;ShipmentAckMsg.EstimatedDelivery = estimatedDelivery;" />
+                        <om:Property Name="ReportToAnalyst" Value="False" />
+                        <om:Property Name="Name" Value="Assign_AckStatus" />
+                        <om:Property Name="Signal" Value="True" />
+                    </om:Element>
+                    <om:Element Type="MessageRef" OID="b4129c27-0dcd-4503-ac2a-8c0abacd3d37" ParentLink="Construct_MessageRef">
+                        <om:Property Name="Ref" Value="ShipmentAckMsg" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Signal" Value="False" />
+                    </om:Element>
+                </om:Element>
+                <om:Element Type="Send" OID="118abb97-6f4f-4807-b594-e26b58244db7" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="PortName" Value="ShipmentNoticePort" />
+                    <om:Property Name="MessageName" Value="ShipmentAckMsg" />
+                    <om:Property Name="OperationName" Value="Operation_SubmitNotice" />
+                    <om:Property Name="OperationMessageName" Value="Response" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Send_ShipmentAck" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Decision" OID="d3fe9ade-e0c0-4eaf-8597-6e8755d8337a" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Decide_NoticeAccepted" />
+                    <om:Property Name="Signal" Value="True" />
+                    <om:Element Type="DecisionBranch" OID="79a50232-5828-434f-bc40-4f5c450493c9" ParentLink="ReallyComplexStatement_Branch">
+                        <om:Property Name="Expression" Value="isValid == true" />
+                        <om:Property Name="IsGhostBranch" Value="True" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Rule_NoticeValid" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="Send" OID="e666384c-8ef4-40ec-a88f-d2c16bfc9712" ParentLink="ComplexStatement_Statement">
+                            <om:Property Name="PortName" Value="SendShipmentArchivePort" />
+                            <om:Property Name="MessageName" Value="ShipmentNoticeMsg" />
+                            <om:Property Name="OperationName" Value="Operation_ArchiveNotice" />
+                            <om:Property Name="OperationMessageName" Value="Request" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Send_NoticeToFolder" />
+                            <om:Property Name="Signal" Value="True" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="DecisionBranch" OID="99f2031c-e319-4ade-b2e1-4983ec528464" ParentLink="ReallyComplexStatement_Branch">
+                        <om:Property Name="IsGhostBranch" Value="True" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Else" />
+                        <om:Property Name="Signal" Value="False" />
+                    </om:Element>
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="80ced69f-238c-4e4f-a1e4-1a51da514868" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_ShipmentNoticeService" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ShipmentNoticePort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="9c564065-4435-4650-be63-944a5ff91e63" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="305cfa48-e363-42da-a165-743b31d323d8" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="14" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_ShipmentNoticeOut" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendShipmentArchivePort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="c154dd25-8a95-447a-b795-37bdf093014a" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module HarborLane.Integration.Orchestrations
+{
+    internal porttype PortType_ShipmentNoticeService
+    {
+        requestresponse Operation_SubmitNotice
+        {
+            HarborLane.Integration.Schemas.ShipmentNotice, HarborLane.Integration.Schemas.ShipmentAck
+        };
+    };
+    internal porttype PortType_ShipmentNoticeOut
+    {
+        oneway Operation_ArchiveNotice
+        {
+            HarborLane.Integration.Schemas.ShipmentNotice
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service ShipmentNotificationOrchestration
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements PortType_ShipmentNoticeService ShipmentNoticePort;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_ShipmentNoticeOut SendShipmentArchivePort;
+        message HarborLane.Integration.Schemas.ShipmentNotice ShipmentNoticeMsg;
+        message HarborLane.Integration.Schemas.ShipmentAck ShipmentAckMsg;
+        System.Boolean isValid;
+        System.String estimatedDelivery;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("d1d0ea0e-7c30-447a-b96c-9af1948c2765")]
+            activate receive (ShipmentNoticePort.Operation_SubmitNotice, ShipmentNoticeMsg);
+            isValid = false;
+            estimatedDelivery = "";
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("89eabd48-046c-40a9-9e38-29da4cca3750")]
+            isValid = HarborLane.Integration.Helpers.ShipmentRules.IsValidNotice(ShipmentNoticeMsg.ShipmentId, ShipmentNoticeMsg.TrackingNumber, ShipmentNoticeMsg.PackageCount);
+            estimatedDelivery = HarborLane.Integration.Helpers.DeliveryCalendar.EstimateDeliveryDate(ShipmentNoticeMsg.ShipDate, ShipmentNoticeMsg.ServiceLevel);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("6a2500f4-e96f-4b04-a5ad-aaa92c3ca95f")]
+            construct ShipmentAckMsg
+            {
+                [Microsoft.XLANGs.BaseTypes.DesignerPosition("778b029d-f23e-4ca6-9de5-290e310bb8ff")]
+                transform (ShipmentAckMsg) = HarborLane.Integration.Maps.Map_ShipmentNotice_To_ShipmentAck (ShipmentNoticeMsg);
+                [Microsoft.XLANGs.BaseTypes.DesignerPosition("f0e6d40c-29ce-430a-998d-3979e4f31d8a")]
+                ShipmentAckMsg.Status = HarborLane.Integration.Helpers.ShipmentRules.AckStatus(isValid);
+                ShipmentAckMsg.EstimatedDelivery = estimatedDelivery;
+            }
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("118abb97-6f4f-4807-b594-e26b58244db7")]
+            send (ShipmentNoticePort.Operation_SubmitNotice, ShipmentAckMsg);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("d3fe9ade-e0c0-4eaf-8597-6e8755d8337a")]
+            if (isValid == true)
+            {
+                [Microsoft.XLANGs.BaseTypes.DesignerPosition("e666384c-8ef4-40ec-a88f-d2c16bfc9712")]
+                send (SendShipmentArchivePort.Operation_ArchiveNotice, ShipmentNoticeMsg);
+            }
+        }
+    }
+}

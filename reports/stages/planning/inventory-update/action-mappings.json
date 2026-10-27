@@ -1,0 +1,7 @@
+{"flowId":"inventory-update","mappings":[
+  {"source":"RL_HarborLane_Inventory_File / FILE C:\\HarborLane\\In\\Inventory\\*.csv","target":"AzureBlob ServiceProvider trigger Receive_InventorySnapshot","configuration":["REPLACE_INVENTORY_INPUT_CONTAINER","REPLACE_INVENTORY_INPUT_FOLDER"],"notes":"60-second polling; File System connector is not used."},
+  {"source":"InventoryFlatFileReceive / FFDasmComp","target":"FlatFileDecoding action Parse_InventoryFlatFile","notes":"Built-in Logic Apps Standard Flat File Decoding uses InventoryFlatFile.xsd annotations, validates structure, preserves no header, and fails the whole interchange."},
+  {"source":"BTS.ReceivePortName == RP_HarborLane_Inventory_File","target":"Dedicated workflow boundary","notes":"The trigger path is the subscription; no unrelated messages enter this workflow."},
+  {"source":"Map_InventoryFlatFile_To_InventoryUpdate","target":"Xslt action Transform_InventoryToUpdate","notes":"Preserves repeating details/date conversion and leaves RecordCount unmapped."},
+  {"source":"XMLTransmit and SP_HarborLane_Inventory_Update","target":"AzureBlob ServiceProvider upload action Send_InventoryUpdate","configuration":["REPLACE_INVENTORY_OUTPUT_CONTAINER","REPLACE_INVENTORY_OUTPUT_FOLDER"],"retry":{"count":3,"interval":"PT5M"}}
+]}

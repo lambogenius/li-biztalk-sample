@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "settings": {
+    "ORDER_INPUT_CONTAINER": "orders-in",
+    "ORDER_INPUT_FOLDER": "Orders",
+    "ORDER_APPROVAL_CONTAINER": "orders-approval",
+    "ORDER_APPROVAL_FOLDER": "Approval",
+    "ORDER_FULFILMENT_CONTAINER": "orders-fulfilment",
+    "ORDER_FULFILMENT_FOLDER": "Fulfilment",
+    "ORDER_ERROR_CONTAINER": "orders-error",
+    "ORDER_ERROR_FOLDER": "Errors",
+    "INVENTORY_INPUT_CONTAINER": "inventory-in",
+    "INVENTORY_INPUT_FOLDER": "Inventory",
+    "INVENTORY_OUTPUT_CONTAINER": "inventory-out",
+    "INVENTORY_OUTPUT_FOLDER": "InventoryUpdate",
+    "SHIPMENT_ARCHIVE_CONTAINER": "shipments-archive",
+    "SHIPMENT_ARCHIVE_FOLDER": "Shipments",
+    "SHIPMENT_OVERSIZE_STATUS_CODE": "413"
+  },
+  "cases": [
+    {
+      "name": "Order of 5000 or more goes to approval",
+      "workflow": "wf-order-intake",
+      "send": { "blob": { "container": "orders-in", "name": "Orders/po-approval.xml" }, "file": "tests/messages/PurchaseOrder_Approval.xml" },
+      "expect": { "run": "Succeeded", "blobs": [ { "container": "orders-approval", "prefix": "Approval/" } ], "noBlobs": ["orders-fulfilment", "orders-error"] }
+    },
+    {
+      "name": "Order below 5000 goes to fulfilment",
+      "workflow": "wf-order-intake",
+      "send": { "blob": { "container": "orders-in", "name": "Orders/po-fulfilment.xml" }, "file": "tests/messages/PurchaseOrder_Fulfilment.xml" },
+      "expect": { "run": "Succeeded", "blobs": [ { "container": "orders-fulfilment", "prefix": "Fulfilment/" } ], "noBlobs": ["orders-approval", "orders-error"] }
+    },
+    {
+      "name": "Inventory CSV is decoded mapped and uploaded",
+      "workflow": "wf-inventory-update",
+      "send": { "blob": { "container": "inventory-in", "name": "Inventory/snapshot.csv" }, "file": "tests/messages/InventorySnapshot.csv" },
+      "expect": { "run": "Succeeded", "blobs": [ { "container": "inventory-out", "prefix": "InventoryUpdate/" } ], "noBlobs": [] }
+    },
+    {
+      "name": "Valid shipment notice is acknowledged and archived",
+      "workflow": "wf-shipment-notification",
+      "send": { "request": { "method": "POST", "contentType": "application/xml", "pathParameters": { "ShipmentService_svc": "ShipmentService.svc" } }, "file": "tests/messages/ShipmentNotice.xml" },
+      "expect": { "run": "Succeeded", "status": 200, "blobs": [ { "container": "shipments-archive", "prefix": "Shipments/" } ] }
+    },
+    {
+      "name": "Invalid shipment notice is rejected without archive",
+      "workflow": "wf-shipment-notification",
+      "send": { "request": { "method": "POST", "contentType": "application/xml", "pathParameters": { "ShipmentService_svc": "ShipmentService.svc" } }, "file": "tests/messages/ShipmentNotice_Rejected.xml" },
+      "expect": { "run": "Succeeded", "status": 200, "noBlobs": ["shipments-archive"] }
+    }
+  ],
+  "notRun": []
+}

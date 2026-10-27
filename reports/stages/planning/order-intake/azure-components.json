@@ -1,0 +1,13 @@
+{
+  "flowId": "order-intake",
+  "components": [
+    {"type": "Microsoft.Web/serverfarms", "purpose": "Multitenant Workflow Standard plan", "sku": "REPLACE_WORKFLOW_STANDARD_SKU", "publicNetworkAccess": "Enabled"},
+    {"type": "Microsoft.Web/sites", "kind": "functionapp,workflowapp", "purpose": "Stateful Logic Apps Standard host", "identity": "SystemAssigned", "httpsOnly": true, "publicNetworkAccess": "Enabled"},
+    {"type": "Microsoft.Storage/storageAccounts", "purpose": "Workflow runtime storage and source/target Blob containers or folders", "identityAccess": "RBAC", "publicNetworkAccess": "Enabled", "containersOrFolders": ["REPLACE_ORDER_INPUT_CONTAINER/REPLACE_ORDER_INPUT_FOLDER", "REPLACE_ORDER_APPROVAL_CONTAINER/REPLACE_ORDER_APPROVAL_FOLDER", "REPLACE_ORDER_FULFILMENT_CONTAINER/REPLACE_ORDER_FULFILMENT_FOLDER", "REPLACE_ORDER_ERROR_CONTAINER/REPLACE_ORDER_ERROR_FOLDER"]},
+    {"type": "Microsoft.KeyVault/vaults", "purpose": "Secrets referenced by app settings if required", "authentication": "ManagedIdentity", "publicNetworkAccess": "Enabled"},
+    {"type": "Microsoft.Insights/components", "purpose": "Workflow telemetry"},
+    {"type": "Microsoft.OperationalInsights/workspaces", "purpose": "Central logs"}
+  ],
+  "connections": [{"api": "/serviceProviders/AzureBlob", "authentication": "ManagedIdentity", "uses": ["blob trigger", "approval upload", "fulfilment upload", "error upload"]}],
+  "prohibited": ["/serviceProviders/FileSystem", "App Service Environment", "virtual network", "subnet", "private endpoint", "private DNS zone", "VNet integration", "API Management", "custom domain"]
+}

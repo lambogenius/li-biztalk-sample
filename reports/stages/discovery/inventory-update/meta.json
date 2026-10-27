@@ -1,0 +1,10 @@
+{
+  "id": "inventory-update",
+  "name": "Inventory Update",
+  "category": "messaging",
+  "entryPoint": "RL_HarborLane_Inventory_File",
+  "messagingRoute": "SP_HarborLane_Inventory_Update",
+  "sourcePath": "HarborLane.Integration.BindingInfo.xml",
+  "bindingArtifactId": "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd",
+  "summary": "A messaging-only BizTalk subscription consumes inventory CSV, disassembles it to InventoryFlatFile XML, maps it to InventoryUpdate XML, and writes it to a FILE endpoint without an orchestration."
+}

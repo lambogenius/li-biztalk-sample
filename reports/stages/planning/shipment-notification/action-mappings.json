@@ -1,0 +1,10 @@
+{"flowId":"shipment-notification","mappings":[
+  {"source":"RL_HarborLane_Shipments_Http / WCF-WebHttp POST /notices","target":"Request trigger Receive_ShipmentNotice plus Measure_Request_Body_Bytes, Check_Request_Size, and Check_ShipmentNotice_MessageType","notes":"Own workflow and HTTPS/application-xml semantics. Callers migrate to the platform callback URL with SAS query signature; JavaScriptCode measures raw UTF-8 bytes, the Condition rejects and terminates above 65536 bytes, and only its success permits well-formed XML/root-QName checking without strict XSD validation."},
+  {"source":"ShipmentRules.IsValidNotice","target":"InvokeFunction action Validate_ShipmentNotice","notes":"Dedicated supplied ShipmentRules implementation."},
+  {"source":"DeliveryCalendar.EstimateDeliveryDate","target":"InvokeFunction action Compute_EstimatedDelivery","notes":"Dedicated supplied DeliveryCalendar implementation; retains its ShipmentRules transit-day dependency."},
+  {"source":"Map_ShipmentNotice_To_ShipmentAck","target":"Xslt action Transform_NoticeToAck","notes":"Copies identifiers, Pending status, UTC ReceivedAt."},
+  {"source":"ShipmentRules.AckStatus and Ack assignment","target":"InvokeFunction Assign_AckStatus then Compose Assign_EstimatedDelivery","notes":"Finalize status and ETA."},
+  {"source":"Send_ShipmentAck","target":"Response action Send_ShipmentAck","notes":"Return XML before archive decision."},
+  {"source":"Decide_NoticeAccepted","target":"If action Decide_NoticeAccepted","notes":"True only when isValid."},
+  {"source":"SP_HarborLane_Shipments_Archive / FILE","target":"AzureBlob ServiceProvider upload Send_NoticeToFolder","configuration":["REPLACE_SHIPMENT_ARCHIVE_CONTAINER","REPLACE_SHIPMENT_ARCHIVE_FOLDER"],"retry":{"count":3,"interval":"PT5M"}}
+]}

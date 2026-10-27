@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.ShipmentNotice" targetNamespace="http://HarborLane.Integration.Schemas.ShipmentNotice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ShipmentNotice"><xs:complexType><xs:sequence><xs:element name="ShipmentId" type="xs:string"/><xs:element name="OrderNumber" type="xs:string"/><xs:element name="Carrier" type="xs:string"/><xs:element name="ServiceLevel" type="xs:string"/><xs:element name="TrackingNumber" type="xs:string"/><xs:element name="ShipDate" type="xs:date"/><xs:element name="PackageCount" type="xs:int"/><xs:element name="Destination"><xs:complexType><xs:sequence><xs:element name="City" type="xs:string"/><xs:element name="Region" type="xs:string"/><xs:element name="PostalCode" type="xs:string"/></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element>
+</xs:schema>

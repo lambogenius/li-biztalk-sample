@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PolicyFilePath="BTSReceivePolicy.xml" MajorVersion="1" MinorVersion="0">
+  <Description>Parses the warehouse inventory CSV (HDR record followed by DTL records) into InventoryFile XML.</Description>
+  <Stages>
+    <Stage CategoryId="9d0e4103-4cce-4536-83fa-4a5040674ad6">
+      <Components />
+    </Stage>
+    <Stage CategoryId="9d0e4105-4cce-4536-83fa-4a5040674ad6">
+      <Components>
+        <Component>
+          <Name>Microsoft.BizTalk.Component.FFDasmComp</Name>
+          <ComponentName>Flat file disassembler</ComponentName>
+          <Description>Streaming flat file disassembler</Description>
+          <Version>1.0</Version>
+          <Properties>
+            <Property Name="HeaderSpecName" />
+            <Property Name="DocumentSpecName">
+              <Value xsi:type="xsd:string">HarborLane.Integration.Schemas.InventoryFlatFile, HarborLane.Integration.Schemas, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8a3c51f0d27b9e46</Value>
+            </Property>
+            <Property Name="TrailerSpecName" />
+            <Property Name="PreserveHeader">
+              <Value xsi:type="xsd:boolean">false</Value>
+            </Property>
+            <Property Name="ValidateDocumentStructure">
+              <Value xsi:type="xsd:boolean">true</Value>
+            </Property>
+            <Property Name="RecoverableInterchangeProcessing">
+              <Value xsi:type="xsd:boolean">false</Value>
+            </Property>
+          </Properties>
+          <CachedDisplayName>Flat file disassembler</CachedDisplayName>
+          <CachedIsManaged>true</CachedIsManaged>
+        </Component>
+      </Components>
+    </Stage>
+    <Stage CategoryId="9d0e410d-4cce-4536-83fa-4a5040674ad6">
+      <Components />
+    </Stage>
+    <Stage CategoryId="9d0e410e-4cce-4536-83fa-4a5040674ad6">
+      <Components />
+    </Stage>
+  </Stages>
+</Document>

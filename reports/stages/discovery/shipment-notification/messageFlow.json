@@ -1,0 +1,7 @@
+[
+  {"sequence":1,"from":"Carrier","to":"RL_HarborLane_Shipments_Http","message":"ShipmentNotice XML","behavior":"POST /HarborLaneShipments/ShipmentService.svc/notices over transport security with no client credential; XMLReceive activates the orchestration."},
+  {"sequence":2,"from":"Receive_ShipmentNotice","to":"Expr_ValidateAndComputeEta","message":"ShipmentNotice","behavior":"IsValidNotice validates shipment id, tracking number, and package count; EstimateDeliveryDate computes weekend-aware business-day ETA."},
+  {"sequence":3,"from":"ShipmentNoticeMsg","to":"ConstructMessage_ShipmentAck","message":"ShipmentNotice -> ShipmentAck","behavior":"Map copies identifiers and stamps ReceivedAt UTC; AckStatus and calculated ETA overwrite Status and EstimatedDelivery."},
+  {"sequence":4,"from":"Send_ShipmentAck","to":"Carrier","message":"ShipmentAck XML","behavior":"Two-way port returns the response through XMLTransmit before the archive decision."},
+  {"sequence":5,"from":"Decide_NoticeAccepted","to":"SP_HarborLane_Shipments_Archive","message":"original ShipmentNotice XML","condition":"isValid == true","behavior":"Writes accepted notices to C:\\HarborLane\\Out\\Shipments\\%MessageID%.xml; rejected notices are not archived."}
+]

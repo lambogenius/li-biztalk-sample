@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Expected reply for ShipmentNotice.xml. ReceivedAt is the time of processing. Ground = 5 business days from Wed 2026-10-21. -->
+<ns0:ShipmentAck xmlns:ns0="http://HarborLane.Integration.Schemas.ShipmentAck">
+  <ShipmentId>SHP-77120</ShipmentId>
+  <OrderNumber>HLS-PO-104233</OrderNumber>
+  <Status>Accepted</Status>
+  <EstimatedDelivery>2026-10-28</EstimatedDelivery>
+  <ReceivedAt>2026-10-21T15:04:05Z</ReceivedAt>
+</ns0:ShipmentAck>

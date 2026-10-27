@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.PurchaseOrder" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.PurchaseOrder" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="PurchaseOrder" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PurchaseOrder">
+    <xs:annotation>
+      <xs:appinfo>
+        <b:properties>
+          <b:property distinguished="true" xpath="/*[local-name()='PurchaseOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.PurchaseOrder']/*[local-name()='Header' and namespace-uri()='']/*[local-name()='OrderNumber' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='PurchaseOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.PurchaseOrder']/*[local-name()='Header' and namespace-uri()='']/*[local-name()='CustomerId' and namespace-uri()='']" />
+        </b:properties>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Header">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OrderNumber" type="xs:string" />
+              <xs:element name="OrderDate" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Order date as sent by the retail partner, yyyyMMdd.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="CustomerId" type="xs:string" />
+              <xs:element name="CustomerTier" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Gold, Silver or Trail.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TotalAmount" type="xs:decimal" />
+              <xs:element name="Currency" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Buyer">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FirstName" type="xs:string" />
+              <xs:element name="LastName" type="xs:string" />
+              <xs:element name="Email" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ShipTo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Street" type="xs:string" />
+              <xs:element name="City" type="xs:string" />
+              <xs:element name="Region" type="xs:string" />
+              <xs:element name="PostalCode" type="xs:string" />
+              <xs:element name="Country" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Lines">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Line" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="LineNumber" type="xs:int" />
+                    <xs:element name="Sku" type="xs:string" />
+                    <xs:element name="Description" type="xs:string" />
+                    <xs:element name="Quantity" type="xs:int" />
+                    <xs:element name="UnitPrice" type="xs:decimal" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

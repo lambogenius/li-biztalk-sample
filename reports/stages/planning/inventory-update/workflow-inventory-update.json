@@ -1,0 +1,16 @@
+{
+  "name":"wf-inventory-update","runtimePath":"logicapp/wf-inventory-update/workflow.json","kind":"Stateful",
+  "sourceArtifactIds":["2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","8b374df5-c3df-49e4-8c0d-70c8f0758e66","34872ed2-8c16-4108-bc40-3fe72970de23","6c00b69b-2efc-4e0b-a722-6b017ac04c9f","b64dd345-a34a-440a-99ee-889a021cfcce"],
+  "trigger":{"name":"Receive_InventorySnapshot","type":"ServiceProvider","serviceProvider":"/serviceProviders/AzureBlob","operation":"When_a_blob_is_added_or_modified","recurrence":{"frequency":"Second","interval":60},"configuration":["REPLACE_INVENTORY_INPUT_CONTAINER","REPLACE_INVENTORY_INPUT_FOLDER"],"splitOn":"one workflow run per blob"},
+  "actions":[
+    {"name":"Parse_InventoryFlatFile","type":"FlatFileDecoding","schema":"InventoryFlatFile.xsd","behavior":"Built-in Flat File Decoding reads BizTalk flat-file annotations for one HDR plus repeating DTL CRLF records; invalid structure fails the whole interchange because recoverable interchange processing is false"},
+    {"name":"Transform_InventoryToUpdate","type":"Xslt","map":"Map_InventoryFlatFile_To_InventoryUpdate.xslt","runAfter":"Parse_InventoryFlatFile succeeded"},
+    {"name":"Send_InventoryUpdate","type":"ServiceProvider","serviceProvider":"/serviceProviders/AzureBlob","operation":"uploadBlob","retry":{"type":"fixed","count":3,"interval":"PT5M"},"runAfter":"Transform_InventoryToUpdate succeeded"}
+  ],
+  "ordering":"Strictly sequential Flat File Decoding, transform, and upload. Output XSD conformance is tested offline rather than enforced by a source-absent runtime validation action. One workflow replaces the receive-port subscription and no orchestration trigger is invented.",
+  "retryErrorBehavior":"Flat File Decoding or map failures fail the run without partial record recovery. Upload retries three times at five-minute intervals; terminal handling is gated.",
+  "inputs":[{"name":"InventorySnapshot","format":"CSV","structure":"HDR then repeating DTL records, comma-delimited, CRLF-delimited","source":"configured Blob path"}],
+  "outputs":[{"name":"InventoryUpdate","format":"XML","schema":"InventoryUpdate.xsd","destination":"configured Blob path"}],
+  "configurationNeeds":["REPLACE_INVENTORY_INPUT_CONTAINER","REPLACE_INVENTORY_INPUT_FOLDER","REPLACE_INVENTORY_OUTPUT_CONTAINER","REPLACE_INVENTORY_OUTPUT_FOLDER","managed identity Blob RBAC","Key Vault-backed settings if secrets are introduced"],
+  "network":{"publicEndpoints":true,"httpsOnly":true,"privateNetworking":false,"recommendation":"Owner may evaluate IP restrictions or private networking in a later approved change."}
+}

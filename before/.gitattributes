@@ -1,0 +1,15 @@
+* text=auto
+
+# The flat-file schema expects every CSV record to end with CRLF (child_order="postfix").
+*.csv text eol=crlf
+
+# Visual Studio and BizTalk tooling files keep Windows line endings.
+*.sln text eol=crlf
+*.btproj text eol=crlf
+*.csproj text eol=crlf
+*.odx text eol=crlf
+*.btm text eol=crlf
+*.btp text eol=crlf
+*.xsd text eol=crlf
+*.cs text eol=crlf
+*.xml text eol=crlf

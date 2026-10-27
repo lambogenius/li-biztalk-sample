@@ -1,0 +1,7 @@
+[
+  {"name":"File-triggered orchestration","evidence":"RL_HarborLane_Orders_File activates Receive_PurchaseOrder.","sourcePath":"HarborLane.Integration.BindingInfo.xml"},
+  {"name":"Canonical message mapping","evidence":"Map_PurchaseOrder_To_CanonicalOrder transforms PurchaseOrder to CanonicalOrder before business logic.","sourcePath":"src/HarborLane.Integration.Maps/Map_PurchaseOrder_To_CanonicalOrder.btm"},
+  {"name":"Content-based routing","evidence":"Decide_ApprovalRequired sends OrderTotal >= 5000 to approval and all other orders to fulfilment.","sourcePath":"src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx"},
+  {"name":"Scoped exception handling","evidence":"Catch_OrderFailure catches System.Exception, constructs OrderError, and sends it to a dedicated error port.","sourcePath":"src/HarborLane.Integration.Orchestrations/OrderIntakeOrchestration.odx"},
+  {"name":"Transport retry","evidence":"All three FILE send ports specify RetryCount 3 and RetryInterval 5; ordered delivery and stop-on-failure are false.","sourcePath":"HarborLane.Integration.BindingInfo.xml"}
+]

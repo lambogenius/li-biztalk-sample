@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Total below 5000: routed to the fulfilment folder. Synthetic data. -->
+<ns0:PurchaseOrder xmlns:ns0="http://HarborLane.Integration.Schemas.PurchaseOrder">
+  <Header>
+    <OrderNumber>HLS-PO-104233</OrderNumber>
+    <OrderDate>20261019</OrderDate>
+    <CustomerId>RTL-0042</CustomerId>
+    <CustomerTier>Silver</CustomerTier>
+    <TotalAmount>1505.40</TotalAmount>
+    <Currency>USD</Currency>
+  </Header>
+  <Buyer>
+    <FirstName>Avery</FirstName>
+    <LastName>Quill</LastName>
+    <Email>avery.quill@example.com</Email>
+  </Buyer>
+  <ShipTo>
+    <Street>17 Ridgeback Trail</Street>
+    <City>Cedar Hollow</City>
+    <Region>OR</Region>
+    <PostalCode>97000</PostalCode>
+    <Country>US</Country>
+  </ShipTo>
+  <Lines>
+    <Line>
+      <LineNumber>1</LineNumber>
+      <Sku>HLS-TENT-2P</Sku>
+      <Description>Two-person trail tent</Description>
+      <Quantity>4</Quantity>
+      <UnitPrice>219.00</UnitPrice>
+    </Line>
+    <Line>
+      <LineNumber>2</LineNumber>
+      <Sku>HLS-BAG-20F</Sku>
+      <Description>20F down sleeping bag</Description>
+      <Quantity>3</Quantity>
+      <UnitPrice>149.80</UnitPrice>
+    </Line>
+    <Line>
+      <LineNumber>3</LineNumber>
+      <Sku>HLS-LAMP-USB</Sku>
+      <Description>Rechargeable camp lantern</Description>
+      <Quantity>4</Quantity>
+      <UnitPrice>45.00</UnitPrice>
+    </Line>
+  </Lines>
+</ns0:PurchaseOrder>

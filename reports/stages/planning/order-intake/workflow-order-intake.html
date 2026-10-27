@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>order-intake — Workflow order intake</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="workflow-order-intake.md">Source (MD)</a></nav><h1 id="order-intake-workflow-order-intake">order-intake — Workflow order intake</h1>
+<p>Source contract: <a href="workflow-order-intake.json">workflow-order-intake.json</a></p>
+<ul><li><strong>Name:</strong> wf-order-intake</li></ul>
+<ul><li><strong>Runtime Path:</strong> logicapp/wf-order-intake/workflow.json</li></ul>
+<ul><li><strong>Kind:</strong> Stateful</li></ul>
+<h2 id="source-artifact-ids">Source Artifact Ids</h2>
+<ul><li>2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li>3fabf49a-3cac-41e2-b455-73edf3780ff7</li></ul>
+<ul><li>be43cc25-a9be-47dd-b01a-cbcdcff49ddf</li></ul>
+<ul><li>09894875-9b3e-4daa-bc15-335bbdc1f92d</li></ul>
+<ul><li>65305d9c-1266-4e93-97ab-53706ac74bde</li></ul>
+<ul><li>340189a8-5bd2-4871-b052-086477b58c5d</li></ul>
+<ul><li>0a1efce2-5810-42a5-8d11-a2bb79802259</li></ul>
+<ul><li>0b7615ea-4911-4e5f-88bb-eed16c14b762</li></ul>
+<h2 id="trigger">Trigger</h2>
+<ul><li><strong>Name:</strong> Receive_PurchaseOrder</li></ul>
+<ul><li><strong>Type:</strong> ServiceProvider</li></ul>
+<ul><li><strong>Service Provider:</strong> /serviceProviders/AzureBlob</li></ul>
+<ul><li><strong>Operation:</strong> When_a_blob_is_added_or_modified</li></ul>
+<h3 id="recurrence">Recurrence</h3>
+<ul><li><strong>Frequency:</strong> Second</li></ul>
+<ul><li><strong>Interval:</strong> 60</li></ul>
+<h3 id="configuration">Configuration</h3>
+<ul><li>REPLACE_ORDER_INPUT_CONTAINER</li></ul>
+<ul><li>REPLACE_ORDER_INPUT_FOLDER</li></ul>
+<ul><li><strong>Split On:</strong> one workflow run per blob</li></ul>
+<h2 id="actions">Actions</h2>
+<h3 id="item-1">Item 1</h3>
+<ul><li><strong>Name:</strong> Check_PurchaseOrder_MessageType</li></ul>
+<ul><li><strong>Type:</strong> JavaScriptCode</li></ul>
+<ul><li><strong>Behavior:</strong> Parse well-formed XML and require root QName {<a href="http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder">http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder</a>; fail the run before Scope_ProcessOrder on mismatch so Catch_OrderFailure cannot emit OrderError.</li></ul>
+<h3 id="item-2">Item 2</h3>
+<ul><li><strong>Name:</strong> Scope_ProcessOrder</li></ul>
+<ul><li><strong>Type:</strong> Scope</li></ul>
+<h4 id="run-after">Run After</h4>
+<h5 id="check-purchase-order-message-type">Check Purchase Order Message Type</h5>
+<ul><li>Succeeded</li></ul>
+<h4 id="children">Children</h4>
+<ul><li>ConstructMessage_CanonicalOrder</li></ul>
+<ul><li>Expr_CalculateDiscount</li></ul>
+<ul><li>ConstructMessage_PricedOrder</li></ul>
+<ul><li>Decide_ApprovalRequired</li></ul>
+<ul><li>Catch_OrderFailure</li></ul>
+<h3 id="item-3">Item 3</h3>
+<ul><li><strong>Name:</strong> ConstructMessage_CanonicalOrder</li></ul>
+<ul><li><strong>Type:</strong> Scope</li></ul>
+<ul><li><strong>Parent:</strong> Scope_ProcessOrder</li></ul>
+<h4 id="children-1">Children</h4>
+<ul><li>Transform_PurchaseOrderToCanonical</li></ul>
+<ul><li>Construct_CanonicalOrder_MessagePartReference_1</li></ul>
+<ul><li>Construct_CanonicalOrder_MessagePartReference_2</li></ul>
+<ul><li>Construct_CanonicalOrder_MessageRef</li></ul>
+<h3 id="item-4">Item 4</h3>
+<ul><li><strong>Name:</strong> Transform_PurchaseOrderToCanonical</li></ul>
+<ul><li><strong>Type:</strong> Xslt</li></ul>
+<ul><li><strong>Parent:</strong> ConstructMessage_CanonicalOrder</li></ul>
+<ul><li><strong>Map:</strong> Map_PurchaseOrder_To_CanonicalOrder.xslt</li></ul>
+<h3 id="item-5">Item 5</h3>
+<ul><li><strong>Name:</strong> Expr_CalculateDiscount</li></ul>
+<ul><li><strong>Type:</strong> InvokeFunction</li></ul>
+<ul><li><strong>Parent:</strong> Scope_ProcessOrder</li></ul>
+<ul><li><strong>Function:</strong> PricingRules_CalculateDiscount</li></ul>
+<h3 id="item-6">Item 6</h3>
+<ul><li><strong>Name:</strong> ConstructMessage_PricedOrder</li></ul>
+<ul><li><strong>Type:</strong> Scope</li></ul>
+<ul><li><strong>Parent:</strong> Scope_ProcessOrder</li></ul>
+<h4 id="children-2">Children</h4>
+<ul><li>Construct_PricedOrder_Assign_PricedOrder</li></ul>
+<ul><li>Construct_PricedOrder_MessageRef</li></ul>
+<h3 id="item-7">Item 7</h3>
+<ul><li><strong>Name:</strong> Construct_PricedOrder_Assign_PricedOrder</li></ul>
+<ul><li><strong>Type:</strong> Compose</li></ul>
+<ul><li><strong>Parent:</strong> ConstructMessage_PricedOrder</li></ul>
+<h3 id="item-8">Item 8</h3>
+<ul><li><strong>Name:</strong> Decide_ApprovalRequired</li></ul>
+<ul><li><strong>Type:</strong> If</li></ul>
+<ul><li><strong>Parent:</strong> Scope_ProcessOrder</li></ul>
+<ul><li><strong>Expression:</strong> decimal(OrderTotal) &gt;= 5000</li></ul>
+<ul><li><strong>True Action:</strong> Send_ToApproval</li></ul>
+<ul><li><strong>False Action:</strong> Send_ToFulfilment</li></ul>
+<h3 id="item-9">Item 9</h3>
+<ul><li><strong>Name:</strong> Send_ToApproval</li></ul>
+<ul><li><strong>Type:</strong> ServiceProvider</li></ul>
+<ul><li><strong>Parent:</strong> Decide_ApprovalRequired/actions</li></ul>
+<ul><li><strong>Service Provider:</strong> /serviceProviders/AzureBlob</li></ul>
+<ul><li><strong>Operation:</strong> uploadBlob</li></ul>
+<h4 id="retry">Retry</h4>
+<ul><li><strong>Type:</strong> fixed</li></ul>
+<ul><li><strong>Count:</strong> 3</li></ul>
+<ul><li><strong>Interval:</strong> PT5M</li></ul>
+<h3 id="item-10">Item 10</h3>
+<ul><li><strong>Name:</strong> Send_ToFulfilment</li></ul>
+<ul><li><strong>Type:</strong> ServiceProvider</li></ul>
+<ul><li><strong>Parent:</strong> Decide_ApprovalRequired/else/actions</li></ul>
+<ul><li><strong>Service Provider:</strong> /serviceProviders/AzureBlob</li></ul>
+<ul><li><strong>Operation:</strong> uploadBlob</li></ul>
+<h4 id="retry-1">Retry</h4>
+<ul><li><strong>Type:</strong> fixed</li></ul>
+<ul><li><strong>Count:</strong> 3</li></ul>
+<ul><li><strong>Interval:</strong> PT5M</li></ul>
+<h3 id="item-11">Item 11</h3>
+<ul><li><strong>Name:</strong> Catch_OrderFailure</li></ul>
+<ul><li><strong>Type:</strong> Scope</li></ul>
+<ul><li><strong>Parent:</strong> Scope_ProcessOrder</li></ul>
+<h4 id="run-after-1">Run After</h4>
+<h5 id="decide-approval-required">Decide Approval Required</h5>
+<ul><li>Failed</li></ul>
+<ul><li>TimedOut</li></ul>
+<ul><li>Skipped</li></ul>
+<h4 id="children-3">Children</h4>
+<ul><li>ConstructMessage_OrderError</li></ul>
+<ul><li>Send_OrderError</li></ul>
+<h3 id="item-12">Item 12</h3>
+<ul><li><strong>Name:</strong> ConstructMessage_OrderError</li></ul>
+<ul><li><strong>Type:</strong> Scope</li></ul>
+<ul><li><strong>Parent:</strong> Catch_OrderFailure</li></ul>
+<h4 id="children-4">Children</h4>
+<ul><li>Construct_OrderError_Assign_OrderError</li></ul>
+<ul><li>Construct_OrderError_MessageRef</li></ul>
+<h3 id="item-13">Item 13</h3>
+<ul><li><strong>Name:</strong> Construct_OrderError_Assign_OrderError</li></ul>
+<ul><li><strong>Type:</strong> InvokeFunction</li></ul>
+<ul><li><strong>Parent:</strong> ConstructMessage_OrderError</li></ul>
+<ul><li><strong>Function:</strong> ErrorMessageBuilder_BuildOrderError</li></ul>
+<h3 id="item-14">Item 14</h3>
+<ul><li><strong>Name:</strong> Send_OrderError</li></ul>
+<ul><li><strong>Type:</strong> ServiceProvider</li></ul>
+<ul><li><strong>Parent:</strong> Catch_OrderFailure</li></ul>
+<ul><li><strong>Service Provider:</strong> /serviceProviders/AzureBlob</li></ul>
+<ul><li><strong>Operation:</strong> uploadBlob</li></ul>
+<h4 id="retry-2">Retry</h4>
+<ul><li><strong>Type:</strong> fixed</li></ul>
+<ul><li><strong>Count:</strong> 3</li></ul>
+<ul><li><strong>Interval:</strong> PT5M</li></ul>
+<ul><li><strong>Ordering:</strong> The XML well-formedness/root-QName check completes before Scope_ProcessOrder. Inside the scope, mapping, pricing, construction, and exactly one routing branch run sequentially. Catch_OrderFailure explicitly runs after Decide_ApprovalRequired is Failed, TimedOut, or Skipped and is skipped when that action succeeds. Ordered delivery is not enabled.</li></ul>
+<ul><li><strong>Retry Error Behavior:</strong> Blob uploads use three fixed retries at five-minute intervals. Processing failures build OrderError. Error-upload or terminal send failure fails the run and alerts are an unresolved owner gate.</li></ul>
+<h2 id="inputs">Inputs</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Name</th><th scope="col">Format</th><th scope="col">Message Type</th><th scope="col">Runtime Validation</th><th scope="col">Source</th></tr></thead><tbody><tr><td>PurchaseOrder</td><td>XML</td><td>{<a href="http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder">http://HarborLane.Integration.Schemas.PurchaseOrder}PurchaseOrder</a></td><td>well-formed XML and root QName only; no strict XSD validation</td><td>configured Blob container/folder</td></tr></tbody></table></div>
+<h2 id="outputs">Outputs</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Name</th><th scope="col">Condition</th><th scope="col">Destination</th></tr></thead><tbody><tr><td>CanonicalOrder</td><td>OrderTotal &gt;= 5000</td><td>approval Blob container/folder</td></tr><tr><td>CanonicalOrder</td><td>else</td><td>fulfilment Blob container/folder</td></tr><tr><td>OrderError</td><td>processing failure</td><td>error Blob container/folder</td></tr></tbody></table></div>
+<h2 id="configuration-needs">Configuration Needs</h2>
+<ul><li>REPLACE_ORDER_INPUT_CONTAINER</li></ul>
+<ul><li>REPLACE_ORDER_INPUT_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_APPROVAL_CONTAINER</li></ul>
+<ul><li>REPLACE_ORDER_APPROVAL_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_FULFILMENT_CONTAINER</li></ul>
+<ul><li>REPLACE_ORDER_FULFILMENT_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_ERROR_CONTAINER</li></ul>
+<ul><li>REPLACE_ORDER_ERROR_FOLDER</li></ul>
+<ul><li>managed identity Blob RBAC</li></ul>
+<ul><li>Key Vault-backed settings if secrets are introduced</li></ul>
+<h2 id="network">Network</h2>
+<ul><li><strong>Public Endpoints:</strong> Yes</li></ul>
+<ul><li><strong>Https Only:</strong> Yes</li></ul>
+<ul><li><strong>Private Networking:</strong> No</li></ul>
+<ul><li><strong>Recommendation:</strong> Owner may evaluate IP restrictions or private networking in a later approved change.</li></ul>
+
+</main></body></html>

@@ -1,0 +1,11 @@
+{
+  "id": "shipment-notification",
+  "name": "Shipment Notification",
+  "category": "request-response-orchestration",
+  "entryPoint": "RL_HarborLane_Shipments_Http",
+  "orchestration": "HarborLane.Integration.Orchestrations.ShipmentNotificationOrchestration",
+  "sourcePath": "src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx",
+  "orchestrationArtifactId": "932c2a59-e3c4-4e78-bd9d-3a5fdab0c032",
+  "bindingArtifactId": "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd",
+  "summary": "Receives ShipmentNotice XML over HTTPS POST, validates it, calculates a business-day ETA, responds with ShipmentAck XML, and writes only accepted notices to a FILE archive port."
+}

@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Shipment Notification — Analysis</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="analysis.md">Source (MD)</a></nav><h1 id="shipment-notification-analysis">Shipment Notification — Analysis</h1>
+<p>Source contract: <a href="analysis.json">analysis.json</a></p>
+<ul><li><strong>Summary:</strong> ShipmentNotificationOrchestration implements one request-response entry point. Every request receives an Accepted or Rejected acknowledgement when normal processing completes; only validated notices are subsequently sent to the FILE archive port.</li></ul>
+<ul><li><strong>Mermaid Code:</strong> flowchart LR<br>  A[&quot;Carrier HTTPS POST /notices&quot;] --&gt; B[&quot;XMLReceive&quot;]<br>  B --&gt; C[&quot;ShipmentNotificationOrchestration&quot;]<br>  C --&gt; D[&quot;ShipmentRules.IsValidNotice&quot;]<br>  C --&gt; E[&quot;DeliveryCalendar.EstimateDeliveryDate&quot;]<br>  D --&gt; F[&quot;Map Notice to Ack&quot;]<br>  E --&gt; F<br>  F --&gt; G[&quot;ShipmentRules.AckStatus&quot;]<br>  G --&gt; H[&quot;HTTP ShipmentAck response&quot;]<br>  D --&gt; I{&quot;isValid?&quot;}<br>  I --&gt;|Yes| J[&quot;FILE: Out/Shipments archive&quot;]<br>  I --&gt;|No| K[&quot;No archive&quot;]</li></ul>
+<h2 id="message-flow">Message Flow</h2>
+<ul><li>A carrier POSTs ShipmentNotice XML to /HarborLaneShipments/ShipmentService.svc/notices.</li></ul>
+<ul><li>IsValidNotice checks shipment id, tracking-number length, and package-count range; EstimateDeliveryDate adds service-level business days while skipping weekends.</li></ul>
+<ul><li>Map_ShipmentNotice_To_ShipmentAck copies identifiers and stamps UTC ReceivedAt; orchestration assigns Accepted/Rejected status and ETA.</li></ul>
+<ul><li>ShipmentAck is returned on the two-way port.</li></ul>
+<ul><li>After the reply, isValid == true causes the original ShipmentNotice to be written by SP_HarborLane_Shipments_Archive; rejected notices are not archived.</li></ul>
+<h2 id="component-details">Component Details</h2>
+<h3 id="entry-point">Entry Point</h3>
+<ul><li><strong>Name:</strong> RL_HarborLane_Shipments_Http</li></ul>
+<ul><li><strong>Binding Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Method:</strong> POST</li></ul>
+<ul><li><strong>Url:</strong> /HarborLaneShipments/ShipmentService.svc/notices</li></ul>
+<h3 id="orchestration">Orchestration</h3>
+<ul><li><strong>Name:</strong> ShipmentNotificationOrchestration</li></ul>
+<ul><li><strong>Artifact Id:</strong> 932c2a59-e3c4-4e78-bd9d-3a5fdab0c032</li></ul>
+<h3 id="pipelines">Pipelines</h3>
+<ul><li>Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<ul><li>Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<h3 id="schemas">Schemas</h3>
+<ul><li>ShipmentNotice (86609c47-41a2-4823-8165-bcb24c2632c5)</li></ul>
+<ul><li>ShipmentAck (d6ea3ebe-4481-4f01-a6aa-c6555214e101)</li></ul>
+<ul><li><strong>Map:</strong> Map_ShipmentNotice_To_ShipmentAck (ccf378ed-8b47-4221-adeb-0c4fde245709)</li></ul>
+<ul><li><strong>Archive Behavior:</strong> Only valid notices are archived, as the original ShipmentNotice XML, to SP_HarborLane_Shipments_Archive after the HTTP acknowledgement is sent. No retention or purge policy is evidenced.</li></ul>
+<h2 id="gaps">Gaps</h2>
+<ul><li>External migration standards and extension resources are not configured.</li></ul>
+<ul><li>Target public hostname, certificate, DNS, ingress, authorization, identity, and throttling equivalents are unresolved.</li></ul>
+<ul><li>Target archive storage and lifecycle policy are unresolved.</li></ul>
+<ul><li>No HTTP fault contract or terminal archive-failure handling is defined.</li></ul>
+<ul><li>Response-before-archive failure semantics require confirmation.</li></ul>
+<h2 id="patterns">Patterns</h2>
+<ul><li>HTTPS request-response</li></ul>
+<ul><li>Validation and enrichment</li></ul>
+<ul><li>Response mapping</li></ul>
+<ul><li>Conditional archive</li></ul>
+<ul><li>Transport retry</li></ul>
+<h2 id="dependency-analysis">Dependency Analysis</h2>
+<h3 id="custom-code">Custom Code</h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Class</th><th scope="col">Method</th><th scope="col">Source Path</th><th scope="col">Use</th></tr></thead><tbody><tr><td>HarborLane.Integration.Helpers.ShipmentRules</td><td>IsValidNotice</td><td>src/HarborLane.Integration.Helpers/ShipmentRules.cs</td><td>Validates shipment id, tracking number, and package count in Expr_ValidateAndComputeEta.</td></tr><tr><td>HarborLane.Integration.Helpers.DeliveryCalendar</td><td>EstimateDeliveryDate</td><td>src/HarborLane.Integration.Helpers/DeliveryCalendar.cs</td><td>Computes the yyyy-MM-dd ETA using service-level business days and weekend exclusion.</td></tr><tr><td>HarborLane.Integration.Helpers.ShipmentRules</td><td>AckStatus</td><td>src/HarborLane.Integration.Helpers/ShipmentRules.cs</td><td>Converts the validation Boolean to Accepted or Rejected in Assign_AckStatus.</td></tr></tbody></table></div>
+<h3 id="transport">Transport</h3>
+<ul><li><strong>Receive:</strong> WCF-WebHttp POST over Transport security, no client credential, XMLReceive</li></ul>
+<ul><li><strong>Response:</strong> XMLTransmit with a one-minute send timeout</li></ul>
+<ul><li><strong>Archive:</strong> FILE with XMLTransmit; 3 retries at 5-minute intervals</li></ul>
+<h3 id="source-references">Source References</h3>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+<ul><li>src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx</li></ul>
+<ul><li>src/HarborLane.Integration.Maps/Map_ShipmentNotice_To_ShipmentAck.btm</li></ul>
+
+</main></body></html>

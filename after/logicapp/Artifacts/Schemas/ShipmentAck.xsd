@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.ShipmentAck" targetNamespace="http://HarborLane.Integration.Schemas.ShipmentAck" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ShipmentAck"><xs:complexType><xs:sequence><xs:element name="ShipmentId" type="xs:string"/><xs:element name="OrderNumber" type="xs:string"/><xs:element name="Status" type="xs:string"/><xs:element name="EstimatedDelivery" type="xs:string"/><xs:element name="ReceivedAt" type="xs:string"/></xs:sequence></xs:complexType></xs:element>
+</xs:schema>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.ShipmentAck" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.ShipmentAck" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="ShipmentAck" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ShipmentAck">
+    <xs:annotation>
+      <xs:appinfo>
+        <b:properties>
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentAck' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentAck']/*[local-name()='Status' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='ShipmentAck' and namespace-uri()='http://HarborLane.Integration.Schemas.ShipmentAck']/*[local-name()='EstimatedDelivery' and namespace-uri()='']" />
+        </b:properties>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ShipmentId" type="xs:string" />
+        <xs:element name="OrderNumber" type="xs:string" />
+        <xs:element name="Status" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Accepted or Rejected.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="EstimatedDelivery" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Estimated delivery date, yyyy-MM-dd, computed from ShipDate and ServiceLevel in business days.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ReceivedAt" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

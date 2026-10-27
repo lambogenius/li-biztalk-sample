@@ -1,0 +1,9 @@
+{"flowId":"shipment-notification","patterns":[
+  {"name":"HTTPS request-response","implementation":"Native Request trigger and Response action in one stateful workflow","sourcePattern":"WCF-WebHttp two-way receive location"},
+  {"name":"Validation and enrichment","implementation":"Distinct ShipmentRules and DeliveryCalendar local implementations","sourcePattern":"Supplied helper code"},
+  {"name":"Response mapping","implementation":"XSLT followed by status/ETA assignments","sourcePattern":"BTM plus orchestration assignments"},
+  {"name":"Response-before-side-effect","implementation":"Response precedes accepted-notice archive decision","sourcePattern":"Send_ShipmentAck before Decide_NoticeAccepted"},
+  {"name":"Conditional archive","implementation":"If true branch uploads original XML with Azure Blob built-in connector","sourcePattern":"isValid == true FILE send"},
+  {"name":"Transport retry","implementation":"Archive upload retries 3 times at PT5M","sourcePattern":"BizTalk FILE send retry"},
+  {"name":"Managed identity","implementation":"Workflow identity authorizes Blob and Key Vault","sourcePattern":"Target security requirement"}
+]}

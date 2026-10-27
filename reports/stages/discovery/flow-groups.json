@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "id": "order-intake",
+      "name": "Order Intake",
+      "description": "File-triggered purchase-order orchestration that maps and prices an order, routes it for approval or fulfilment, and emits an error document on processing failure.",
+      "category": "orchestration",
+      "artifactIds": ["64309414-6fb8-4757-8e67-38561963e937", "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd", "cf84db1c-883c-4821-a8a5-34fc188d8388", "0b7615ea-4911-4e5f-88bb-eed16c14b762", "1ac28413-7002-49d0-a111-63fb5bbf352f", "0a1efce2-5810-42a5-8d11-a2bb79802259", "cef60b4a-7370-41d7-aec2-b42400663c94", "340189a8-5bd2-4871-b052-086477b58c5d", "7cb3e9cd-2c91-44f3-95ab-b3ab0b5fc18f", "582b6ffa-2335-4def-a700-68fa7d7fd60d", "3fabf49a-3cac-41e2-b455-73edf3780ff7", "e83b752e-7892-4e46-ad76-7fe23201cdc9", "09894875-9b3e-4daa-bc15-335bbdc1f92d", "cbb7be4f-b567-4da7-8c16-d132ae657b9d", "65305d9c-1266-4e93-97ab-53706ac74bde", "8a1fa5cd-7f70-4fd4-8049-bd5c8683c692", "be43cc25-a9be-47dd-b01a-cbcdcff49ddf", "2680d701-febd-4f6f-8295-50d6a7e0edbe", "74850739-85f4-495a-9304-e5e0e1a7be9e"]
+    },
+    {
+      "id": "inventory-update",
+      "name": "Inventory Update",
+      "description": "Messaging-only route that disassembles an inventory CSV, subscribes by receive-port name, maps the message, and writes InventoryUpdate XML.",
+      "category": "messaging",
+      "artifactIds": ["64309414-6fb8-4757-8e67-38561963e937", "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd", "cef60b4a-7370-41d7-aec2-b42400663c94", "6c00b69b-2efc-4e0b-a722-6b017ac04c9f", "7cb3e9cd-2c91-44f3-95ab-b3ab0b5fc18f", "43239399-dea7-41ae-b026-546a26f91cde", "8b374df5-c3df-49e4-8c0d-70c8f0758e66", "b06efa70-72ef-4396-a059-0d75227223d3", "cbb7be4f-b567-4da7-8c16-d132ae657b9d", "34872ed2-8c16-4108-bc40-3fe72970de23", "b64dd345-a34a-440a-99ee-889a021cfcce", "8a1fa5cd-7f70-4fd4-8049-bd5c8683c692"]
+    },
+    {
+      "id": "shipment-notification",
+      "name": "Shipment Notification",
+      "description": "HTTPS request-response orchestration that validates a shipment notice, calculates an ETA, returns an acknowledgement, and archives accepted notices to a file endpoint.",
+      "category": "request-response-orchestration",
+      "artifactIds": ["64309414-6fb8-4757-8e67-38561963e937", "2f24ba50-d70a-438c-9f1a-cdd172fbdfcd", "cf84db1c-883c-4821-a8a5-34fc188d8388", "1ac28413-7002-49d0-a111-63fb5bbf352f", "f55951bb-a9ef-4521-82b1-949162d8261b", "cef60b4a-7370-41d7-aec2-b42400663c94", "ccf378ed-8b47-4221-adeb-0c4fde245709", "7cb3e9cd-2c91-44f3-95ab-b3ab0b5fc18f", "582b6ffa-2335-4def-a700-68fa7d7fd60d", "e83b752e-7892-4e46-ad76-7fe23201cdc9", "932c2a59-e3c4-4e78-bd9d-3a5fdab0c032", "cbb7be4f-b567-4da7-8c16-d132ae657b9d", "8a1fa5cd-7f70-4fd4-8049-bd5c8683c692", "d6ea3ebe-4481-4f01-a6aa-c6555214e101", "86609c47-41a2-4823-8165-bcb24c2632c5", "d746c890-75ad-4b81-a575-fc452439f9ad", "1144569a-df26-4de8-9cb0-379d4bbbccd6"]
+    }
+  ],
+  "ungroupedArtifactIds": [],
+  "explanation": "The catalog and source define three independent executable entry points. Each shaped orchestration is assigned once. The binding, solution, and shared project evidence appear with every flow they support. The catalog has no ESB section and no empty orchestrations. The one messagingRoutes entry is assigned to inventory-update and is not omitted. No external migration standards paths or extension resources were configured; that limitation is recorded in each flow's gaps."
+}

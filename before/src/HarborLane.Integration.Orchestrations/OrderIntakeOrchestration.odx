@@ -1,0 +1,425 @@
+#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="231a7279-320c-4878-b2f6-c902cd605ac5">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="HarborLane.Integration.Orchestrations" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="aa831b9d-3522-44cb-a37f-e1ba86a2606c" ParentLink="Module_PortType">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_PurchaseOrderIn" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="6a734acf-7ae8-45ea-a0cd-67ac81329772" ParentLink="PortType_OperationDeclaration">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_ReceivePurchaseOrder" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="045f51f4-1079-4a30-9cda-8e73df365f14" ParentLink="OperationDeclaration_RequestMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.PurchaseOrder" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="93fa17d4-5b21-47f6-bdee-3f50994ebf43" ParentLink="Module_PortType">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_CanonicalOrderOut" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="47610f98-92a0-44ba-a1ad-f09de771bbba" ParentLink="PortType_OperationDeclaration">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_SendCanonicalOrder" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="b160e085-fdb7-49d2-8c35-a7476554b586" ParentLink="OperationDeclaration_RequestMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.CanonicalOrder" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="624a5ecd-0403-449d-8fbd-09bcc2fc1efa" ParentLink="Module_PortType">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_OrderErrorOut" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="87bb2a01-efe6-4de5-8546-977ffd3df382" ParentLink="PortType_OperationDeclaration">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_SendOrderError" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="4922f97a-fefe-4bb5-8f02-482b16ccb286" ParentLink="OperationDeclaration_RequestMessageRef">
+                    <om:Property Name="Ref" Value="HarborLane.Integration.Schemas.OrderError" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="5c9ef1a2-d013-4a51-af96-efbb5bc7c189" ParentLink="Module_ServiceDeclaration">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="OrderIntakeOrchestration" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="VariableDeclaration" OID="d840520c-4fca-48d9-8842-1639c03e39f2" ParentLink="ServiceDeclaration_VariableDeclaration">
+                <om:Property Name="InitialValue" Value="0" />
+                <om:Property Name="UseDefaultConstructor" Value="False" />
+                <om:Property Name="Type" Value="System.Decimal" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="discountAmount" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="VariableDeclaration" OID="9922d2c9-bffa-44e1-b516-7ebf39b3e054" ParentLink="ServiceDeclaration_VariableDeclaration">
+                <om:Property Name="InitialValue" Value="0" />
+                <om:Property Name="UseDefaultConstructor" Value="False" />
+                <om:Property Name="Type" Value="System.Decimal" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="netTotal" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="b0cf058f-974e-4137-b194-b150d672db2e" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.PurchaseOrder" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="PurchaseOrderMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="4ed96255-6073-4474-a034-7c14b3c1021f" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.CanonicalOrder" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="CanonicalOrderMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="06afa8cc-3085-4d72-8b36-f86eb392425e" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.CanonicalOrder" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="PricedOrderMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="7da71ade-d0fa-44b1-b9fc-16974267cc41" ParentLink="ServiceDeclaration_MessageDeclaration">
+                <om:Property Name="Type" Value="HarborLane.Integration.Schemas.OrderError" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="OrderErrorMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="ServiceBody" OID="d13ef772-e866-4680-a766-0615c314082d" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="8c7e1ce4-1f6a-409c-a92a-6290897a732b" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="ReceivePurchaseOrderPort" />
+                    <om:Property Name="MessageName" Value="PurchaseOrderMsg" />
+                    <om:Property Name="OperationName" Value="Operation_ReceivePurchaseOrder" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_PurchaseOrder" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Scope" OID="1c280d3e-561c-40e0-97a1-1805aa7ea77c" ParentLink="ServiceBody_Statement">
+                    <om:Property Name="InitializedTransactionType" Value="True" />
+                    <om:Property Name="IsSynchronized" Value="False" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Scope_ProcessOrder" />
+                    <om:Property Name="Signal" Value="True" />
+                    <om:Element Type="Construct" OID="8870709a-5246-4639-8dec-62fd576ff7e5" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="ConstructMessage_CanonicalOrder" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="Transform" OID="c9073b80-ed71-4a1d-b70a-78f8d5ae640b" ParentLink="ComplexStatement_Statement">
+                            <om:Property Name="ClassName" Value="HarborLane.Integration.Maps.Map_PurchaseOrder_To_CanonicalOrder" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Transform_PurchaseOrderToCanonical" />
+                            <om:Property Name="Signal" Value="False" />
+                            <om:Element Type="MessagePartRef" OID="49d904fd-51e6-47c6-b07b-dc2cd72cb0b2" ParentLink="Transform_InputMessagePartRef">
+                                <om:Property Name="MessageRef" Value="PurchaseOrderMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_1" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                            <om:Element Type="MessagePartRef" OID="77618953-288a-40ab-8531-fe4a171ef064" ParentLink="Transform_OutputMessagePartRef">
+                                <om:Property Name="MessageRef" Value="CanonicalOrderMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_2" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="MessageRef" OID="284ee37f-aee7-4652-ad4a-4f8fc7e77657" ParentLink="Construct_MessageRef">
+                            <om:Property Name="Ref" Value="CanonicalOrderMsg" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="VariableAssignment" OID="59df1065-9bfa-4f9b-8a24-877a2c302ef5" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="Expression" Value="discountAmount = HarborLane.Integration.Helpers.PricingRules.CalculateDiscount(CanonicalOrderMsg.OrderTotal, CanonicalOrderMsg.CustomerTier);&#xD;&#xA;netTotal = CanonicalOrderMsg.OrderTotal - discountAmount;" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Expr_CalculateDiscount" />
+                        <om:Property Name="Signal" Value="True" />
+                    </om:Element>
+                    <om:Element Type="Construct" OID="37794941-da90-4668-b298-08f61436139e" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="ConstructMessage_PricedOrder" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="MessageAssignment" OID="2b8c9f3d-a334-4806-9055-c9b688b4167d" ParentLink="ComplexStatement_Statement">
+                            <om:Property Name="Expression" Value="PricedOrderMsg = CanonicalOrderMsg;&#xD;&#xA;PricedOrderMsg.DiscountAmount = discountAmount;&#xD;&#xA;PricedOrderMsg.NetTotal = netTotal;" />
+                            <om:Property Name="ReportToAnalyst" Value="False" />
+                            <om:Property Name="Name" Value="Assign_PricedOrder" />
+                            <om:Property Name="Signal" Value="True" />
+                        </om:Element>
+                        <om:Element Type="MessageRef" OID="a8c3e340-a4bf-4b57-865e-1576ab2c0b9c" ParentLink="Construct_MessageRef">
+                            <om:Property Name="Ref" Value="PricedOrderMsg" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="Decision" OID="e92438fa-25f3-4c07-8ad9-29f34b6f0d39" ParentLink="ComplexStatement_Statement">
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Decide_ApprovalRequired" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="DecisionBranch" OID="5a954666-5d13-44a0-a186-362d2f605bed" ParentLink="ReallyComplexStatement_Branch">
+                            <om:Property Name="Expression" Value="PricedOrderMsg.OrderTotal &gt;= 5000" />
+                            <om:Property Name="IsGhostBranch" Value="True" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Rule_ManualApproval" />
+                            <om:Property Name="Signal" Value="True" />
+                            <om:Element Type="Send" OID="455c9b8a-5788-4d21-9fd1-169f6d36f47d" ParentLink="ComplexStatement_Statement">
+                                <om:Property Name="PortName" Value="SendApprovalPort" />
+                                <om:Property Name="MessageName" Value="PricedOrderMsg" />
+                                <om:Property Name="OperationName" Value="Operation_SendCanonicalOrder" />
+                                <om:Property Name="OperationMessageName" Value="Request" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="Send_ToApproval" />
+                                <om:Property Name="Signal" Value="True" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="DecisionBranch" OID="db5d7488-c519-474b-b9a9-4dbf12c3bb74" ParentLink="ReallyComplexStatement_Branch">
+                            <om:Property Name="IsGhostBranch" Value="True" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Else" />
+                            <om:Property Name="Signal" Value="True" />
+                            <om:Element Type="Send" OID="e6d99d57-59b2-4c8b-96f3-9d4f3eed7079" ParentLink="ComplexStatement_Statement">
+                                <om:Property Name="PortName" Value="SendFulfilmentPort" />
+                                <om:Property Name="MessageName" Value="PricedOrderMsg" />
+                                <om:Property Name="OperationName" Value="Operation_SendCanonicalOrder" />
+                                <om:Property Name="OperationMessageName" Value="Request" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="Send_ToFulfilment" />
+                                <om:Property Name="Signal" Value="True" />
+                            </om:Element>
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="Catch" OID="0bd7cb54-5a87-450c-89c2-100badaa9392" ParentLink="Scope_Catch">
+                        <om:Property Name="ExceptionName" Value="ex" />
+                        <om:Property Name="ExceptionType" Value="System.Exception" />
+                        <om:Property Name="IsFaultMessage" Value="False" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Catch_OrderFailure" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="Construct" OID="218ebf57-ff80-4e44-8e9f-0912530b622b" ParentLink="Catch_Statement">
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="ConstructMessage_OrderError" />
+                            <om:Property Name="Signal" Value="True" />
+                            <om:Element Type="MessageAssignment" OID="508ddaa3-0055-4257-8628-0e0da92a0342" ParentLink="ComplexStatement_Statement">
+                                <om:Property Name="Expression" Value="OrderErrorMsg = HarborLane.Integration.Helpers.ErrorMessageBuilder.BuildOrderError(&quot;OrderIntake&quot;, PurchaseOrderMsg.Header.OrderNumber, ex.Message);" />
+                                <om:Property Name="ReportToAnalyst" Value="False" />
+                                <om:Property Name="Name" Value="Assign_OrderError" />
+                                <om:Property Name="Signal" Value="True" />
+                            </om:Element>
+                            <om:Element Type="MessageRef" OID="e2d26188-b7e3-4c14-8f2a-1d2b1e009034" ParentLink="Construct_MessageRef">
+                                <om:Property Name="Ref" Value="OrderErrorMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="Send" OID="4d68cc63-6692-4ae9-8377-43838d49a6db" ParentLink="Catch_Statement">
+                            <om:Property Name="PortName" Value="SendErrorPort" />
+                            <om:Property Name="MessageName" Value="OrderErrorMsg" />
+                            <om:Property Name="OperationName" Value="Operation_SendOrderError" />
+                            <om:Property Name="OperationMessageName" Value="Request" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Send_OrderError" />
+                            <om:Property Name="Signal" Value="True" />
+                        </om:Element>
+                    </om:Element>
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="dc50fb3b-4980-4514-b6bd-dc035389feee" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_PurchaseOrderIn" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ReceivePurchaseOrderPort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="ed783311-dd9a-4d05-938f-ebb696cc082a" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="c2d31bd2-6133-49be-acfd-db25e2a0788c" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="11" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_CanonicalOrderOut" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendApprovalPort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="aa1d7981-34d2-45f6-88c6-c50b2afe4b1f" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="a5a5fffc-6977-43c8-b123-98f6bcd432a3" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="13" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_CanonicalOrderOut" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendFulfilmentPort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="706d8706-731b-4325-b3b3-fb14a5a36895" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="770a36c3-72e4-4ec4-b6c3-86461cb2197a" ParentLink="ServiceDeclaration_PortDeclaration">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="20" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="HarborLane.Integration.Orchestrations.PortType_OrderErrorOut" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendErrorPort" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="2df65373-b9a0-4fa3-94e8-4d2672ef6ba3" ParentLink="PortDeclaration_CLRAttribute">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module HarborLane.Integration.Orchestrations
+{
+    internal porttype PortType_PurchaseOrderIn
+    {
+        oneway Operation_ReceivePurchaseOrder
+        {
+            HarborLane.Integration.Schemas.PurchaseOrder
+        };
+    };
+    internal porttype PortType_CanonicalOrderOut
+    {
+        oneway Operation_SendCanonicalOrder
+        {
+            HarborLane.Integration.Schemas.CanonicalOrder
+        };
+    };
+    internal porttype PortType_OrderErrorOut
+    {
+        oneway Operation_SendOrderError
+        {
+            HarborLane.Integration.Schemas.OrderError
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service OrderIntakeOrchestration
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements PortType_PurchaseOrderIn ReceivePurchaseOrderPort;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_CanonicalOrderOut SendApprovalPort;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_CanonicalOrderOut SendFulfilmentPort;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_OrderErrorOut SendErrorPort;
+        message HarborLane.Integration.Schemas.PurchaseOrder PurchaseOrderMsg;
+        message HarborLane.Integration.Schemas.CanonicalOrder CanonicalOrderMsg;
+        message HarborLane.Integration.Schemas.CanonicalOrder PricedOrderMsg;
+        message HarborLane.Integration.Schemas.OrderError OrderErrorMsg;
+        System.Decimal discountAmount;
+        System.Decimal netTotal;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("8c7e1ce4-1f6a-409c-a92a-6290897a732b")]
+            activate receive (ReceivePurchaseOrderPort.Operation_ReceivePurchaseOrder, PurchaseOrderMsg);
+            discountAmount = 0;
+            netTotal = 0;
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("1c280d3e-561c-40e0-97a1-1805aa7ea77c")]
+            scope
+            {
+                body
+                {
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("8870709a-5246-4639-8dec-62fd576ff7e5")]
+                    construct CanonicalOrderMsg
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("c9073b80-ed71-4a1d-b70a-78f8d5ae640b")]
+                        transform (CanonicalOrderMsg) = HarborLane.Integration.Maps.Map_PurchaseOrder_To_CanonicalOrder (PurchaseOrderMsg);
+                    }
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("59df1065-9bfa-4f9b-8a24-877a2c302ef5")]
+                    discountAmount = HarborLane.Integration.Helpers.PricingRules.CalculateDiscount(CanonicalOrderMsg.OrderTotal, CanonicalOrderMsg.CustomerTier);
+                    netTotal = CanonicalOrderMsg.OrderTotal - discountAmount;
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("37794941-da90-4668-b298-08f61436139e")]
+                    construct PricedOrderMsg
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("2b8c9f3d-a334-4806-9055-c9b688b4167d")]
+                        PricedOrderMsg = CanonicalOrderMsg;
+                        PricedOrderMsg.DiscountAmount = discountAmount;
+                        PricedOrderMsg.NetTotal = netTotal;
+                    }
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("e92438fa-25f3-4c07-8ad9-29f34b6f0d39")]
+                    if (PricedOrderMsg.OrderTotal >= 5000)
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("455c9b8a-5788-4d21-9fd1-169f6d36f47d")]
+                        send (SendApprovalPort.Operation_SendCanonicalOrder, PricedOrderMsg);
+                    }
+                    else
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("e6d99d57-59b2-4c8b-96f3-9d4f3eed7079")]
+                        send (SendFulfilmentPort.Operation_SendCanonicalOrder, PricedOrderMsg);
+                    }
+                }
+                exceptions
+                {
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("0bd7cb54-5a87-450c-89c2-100badaa9392")]
+                    catch (System.Exception ex)
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("218ebf57-ff80-4e44-8e9f-0912530b622b")]
+                        construct OrderErrorMsg
+                        {
+                            [Microsoft.XLANGs.BaseTypes.DesignerPosition("508ddaa3-0055-4257-8628-0e0da92a0342")]
+                            OrderErrorMsg = HarborLane.Integration.Helpers.ErrorMessageBuilder.BuildOrderError("OrderIntake", PurchaseOrderMsg.Header.OrderNumber, ex.Message);
+                        }
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("4d68cc63-6692-4ae9-8377-43838d49a6db")]
+                        send (SendErrorPort.Operation_SendOrderError, OrderErrorMsg);
+                    }
+                }
+            }
+        }
+    }
+}

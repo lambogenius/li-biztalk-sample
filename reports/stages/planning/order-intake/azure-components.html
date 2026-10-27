@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>order-intake — Azure components</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="azure-components.md">Source (MD)</a></nav><h1 id="order-intake-azure-components">order-intake — Azure components</h1>
+<p>Source contract: <a href="azure-components.json">azure-components.json</a></p>
+<ul><li><strong>Flow Id:</strong> order-intake</li></ul>
+<h2 id="components">Components</h2>
+<h3 id="item-1">Item 1</h3>
+<ul><li><strong>Type:</strong> Microsoft.Web/serverfarms</li></ul>
+<ul><li><strong>Purpose:</strong> Multitenant Workflow Standard plan</li></ul>
+<ul><li><strong>Sku:</strong> REPLACE_WORKFLOW_STANDARD_SKU</li></ul>
+<ul><li><strong>Public Network Access:</strong> Enabled</li></ul>
+<h3 id="item-2">Item 2</h3>
+<ul><li><strong>Type:</strong> Microsoft.Web/sites</li></ul>
+<ul><li><strong>Kind:</strong> functionapp,workflowapp</li></ul>
+<ul><li><strong>Purpose:</strong> Stateful Logic Apps Standard host</li></ul>
+<ul><li><strong>Identity:</strong> SystemAssigned</li></ul>
+<ul><li><strong>Https Only:</strong> Yes</li></ul>
+<ul><li><strong>Public Network Access:</strong> Enabled</li></ul>
+<h3 id="item-3">Item 3</h3>
+<ul><li><strong>Type:</strong> Microsoft.Storage/storageAccounts</li></ul>
+<ul><li><strong>Purpose:</strong> Workflow runtime storage and source/target Blob containers or folders</li></ul>
+<ul><li><strong>Identity Access:</strong> RBAC</li></ul>
+<ul><li><strong>Public Network Access:</strong> Enabled</li></ul>
+<h4 id="containers-or-folders">Containers Or Folders</h4>
+<ul><li>REPLACE_ORDER_INPUT_CONTAINER/REPLACE_ORDER_INPUT_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_APPROVAL_CONTAINER/REPLACE_ORDER_APPROVAL_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_FULFILMENT_CONTAINER/REPLACE_ORDER_FULFILMENT_FOLDER</li></ul>
+<ul><li>REPLACE_ORDER_ERROR_CONTAINER/REPLACE_ORDER_ERROR_FOLDER</li></ul>
+<h3 id="item-4">Item 4</h3>
+<ul><li><strong>Type:</strong> Microsoft.KeyVault/vaults</li></ul>
+<ul><li><strong>Purpose:</strong> Secrets referenced by app settings if required</li></ul>
+<ul><li><strong>Authentication:</strong> ManagedIdentity</li></ul>
+<ul><li><strong>Public Network Access:</strong> Enabled</li></ul>
+<h3 id="item-5">Item 5</h3>
+<ul><li><strong>Type:</strong> Microsoft.Insights/components</li></ul>
+<ul><li><strong>Purpose:</strong> Workflow telemetry</li></ul>
+<h3 id="item-6">Item 6</h3>
+<ul><li><strong>Type:</strong> Microsoft.OperationalInsights/workspaces</li></ul>
+<ul><li><strong>Purpose:</strong> Central logs</li></ul>
+<h2 id="connections">Connections</h2>
+<h3 id="item-1-1">Item 1</h3>
+<ul><li><strong>Api:</strong> /serviceProviders/AzureBlob</li></ul>
+<ul><li><strong>Authentication:</strong> ManagedIdentity</li></ul>
+<h4 id="uses">Uses</h4>
+<ul><li>blob trigger</li></ul>
+<ul><li>approval upload</li></ul>
+<ul><li>fulfilment upload</li></ul>
+<ul><li>error upload</li></ul>
+<h2 id="prohibited">Prohibited</h2>
+<ul><li>/serviceProviders/FileSystem</li></ul>
+<ul><li>App Service Environment</li></ul>
+<ul><li>virtual network</li></ul>
+<ul><li>subnet</li></ul>
+<ul><li>private endpoint</li></ul>
+<ul><li>private DNS zone</li></ul>
+<ul><li>VNet integration</li></ul>
+<ul><li>API Management</li></ul>
+<ul><li>custom domain</li></ul>
+
+</main></body></html>

@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>shipment-notification — Action mappings</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="action-mappings.md">Source (MD)</a></nav><h1 id="shipment-notification-action-mappings">shipment-notification — Action mappings</h1>
+<p>Source contract: <a href="action-mappings.json">action-mappings.json</a></p>
+<ul><li><strong>Flow Id:</strong> shipment-notification</li></ul>
+<h2 id="mappings">Mappings</h2>
+<h3 id="item-1">Item 1</h3>
+<ul><li><strong>Source:</strong> RL_HarborLane_Shipments_Http / WCF-WebHttp POST /notices</li></ul>
+<ul><li><strong>Target:</strong> Request trigger Receive_ShipmentNotice plus Measure_Request_Body_Bytes, Check_Request_Size, and Check_ShipmentNotice_MessageType</li></ul>
+<ul><li><strong>Notes:</strong> Own workflow and HTTPS/application-xml semantics. Callers migrate to the platform callback URL with SAS query signature; JavaScriptCode measures raw UTF-8 bytes, the Condition rejects and terminates above 65536 bytes, and only its success permits well-formed XML/root-QName checking without strict XSD validation.</li></ul>
+<h3 id="item-2">Item 2</h3>
+<ul><li><strong>Source:</strong> ShipmentRules.IsValidNotice</li></ul>
+<ul><li><strong>Target:</strong> InvokeFunction action Validate_ShipmentNotice</li></ul>
+<ul><li><strong>Notes:</strong> Dedicated supplied ShipmentRules implementation.</li></ul>
+<h3 id="item-3">Item 3</h3>
+<ul><li><strong>Source:</strong> DeliveryCalendar.EstimateDeliveryDate</li></ul>
+<ul><li><strong>Target:</strong> InvokeFunction action Compute_EstimatedDelivery</li></ul>
+<ul><li><strong>Notes:</strong> Dedicated supplied DeliveryCalendar implementation; retains its ShipmentRules transit-day dependency.</li></ul>
+<h3 id="item-4">Item 4</h3>
+<ul><li><strong>Source:</strong> Map_ShipmentNotice_To_ShipmentAck</li></ul>
+<ul><li><strong>Target:</strong> Xslt action Transform_NoticeToAck</li></ul>
+<ul><li><strong>Notes:</strong> Copies identifiers, Pending status, UTC ReceivedAt.</li></ul>
+<h3 id="item-5">Item 5</h3>
+<ul><li><strong>Source:</strong> ShipmentRules.AckStatus and Ack assignment</li></ul>
+<ul><li><strong>Target:</strong> InvokeFunction Assign_AckStatus then Compose Assign_EstimatedDelivery</li></ul>
+<ul><li><strong>Notes:</strong> Finalize status and ETA.</li></ul>
+<h3 id="item-6">Item 6</h3>
+<ul><li><strong>Source:</strong> Send_ShipmentAck</li></ul>
+<ul><li><strong>Target:</strong> Response action Send_ShipmentAck</li></ul>
+<ul><li><strong>Notes:</strong> Return XML before archive decision.</li></ul>
+<h3 id="item-7">Item 7</h3>
+<ul><li><strong>Source:</strong> Decide_NoticeAccepted</li></ul>
+<ul><li><strong>Target:</strong> If action Decide_NoticeAccepted</li></ul>
+<ul><li><strong>Notes:</strong> True only when isValid.</li></ul>
+<h3 id="item-8">Item 8</h3>
+<ul><li><strong>Source:</strong> SP_HarborLane_Shipments_Archive / FILE</li></ul>
+<ul><li><strong>Target:</strong> AzureBlob ServiceProvider upload Send_NoticeToFolder</li></ul>
+<h4 id="configuration">Configuration</h4>
+<ul><li>REPLACE_SHIPMENT_ARCHIVE_CONTAINER</li></ul>
+<ul><li>REPLACE_SHIPMENT_ARCHIVE_FOLDER</li></ul>
+<h4 id="retry">Retry</h4>
+<ul><li><strong>Count:</strong> 3</li></ul>
+<ul><li><strong>Interval:</strong> PT5M</li></ul>
+
+</main></body></html>

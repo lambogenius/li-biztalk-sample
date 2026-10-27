@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Order Intake — Message Flow</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="messageFlow.md">Source (MD)</a></nav><h1 id="order-intake-message-flow">Order Intake — Message Flow</h1>
+<p>Source contract: <a href="messageFlow.json">messageFlow.json</a></p>
+<h2 id="diagram">Diagram</h2>
+<pre class="mermaid">flowchart LR
+    classDef endpoint fill:#dbeafe,stroke:#2563eb,color:#172554
+    classDef process fill:#ecfccb,stroke:#65a30d,color:#1a2e05
+    classDef data fill:#fef3c7,stroke:#d97706,color:#451a03
+    classDef code fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+    classDef external fill:#fff3cd,stroke:#9a6700,color:#422006
+    classDef failure fill:#fee2e2,stroke:#dc2626,color:#450a0a
+    classDef azure fill:#ccfbf1,stroke:#0f766e,color:#042f2e
+    classDef neutral fill:#f3f4f6,stroke:#6b7280,color:#111827
+    C__HarborLane_In_Orders___xml[&quot;C:\\HarborLane\\In\\Orders\\*.xml&quot;]:::endpoint
+    RL_HarborLane_Orders_File[&quot;RL_HarborLane_Orders_File&quot;]:::process
+    Receive_PurchaseOrder[&quot;Receive_PurchaseOrder&quot;]:::endpoint
+    Transform_PurchaseOrderToCanonical[&quot;Transform_PurchaseOrderToCanonical&quot;]:::process
+    CanonicalOrderMsg[&quot;CanonicalOrderMsg&quot;]:::endpoint
+    Expr_CalculateDiscount[&quot;Expr_CalculateDiscount&quot;]:::process
+    ConstructMessage_PricedOrder[&quot;ConstructMessage_PricedOrder&quot;]:::endpoint
+    Decide_ApprovalRequired[&quot;Decide_ApprovalRequired&quot;]:::process
+    SP_HarborLane_Orders_Approval[&quot;SP_HarborLane_Orders_Approval&quot;]:::process
+    SP_HarborLane_Orders_Fulfilment[&quot;SP_HarborLane_Orders_Fulfilment&quot;]:::process
+    Catch_OrderFailure[&quot;Catch_OrderFailure&quot;]:::endpoint
+    SP_HarborLane_Orders_Error[&quot;SP_HarborLane_Orders_Error&quot;]:::process
+    C__HarborLane_In_Orders___xml --&gt; RL_HarborLane_Orders_File
+    Receive_PurchaseOrder --&gt; Transform_PurchaseOrderToCanonical
+    CanonicalOrderMsg --&gt; Expr_CalculateDiscount
+    ConstructMessage_PricedOrder --&gt; Decide_ApprovalRequired
+    Decide_ApprovalRequired --&gt; SP_HarborLane_Orders_Approval
+    Decide_ApprovalRequired --&gt; SP_HarborLane_Orders_Fulfilment
+    Catch_OrderFailure --&gt; SP_HarborLane_Orders_Error</pre>
+<h2 id="details">Details</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Sequence</th><th scope="col">From</th><th scope="col">To</th><th scope="col">Message</th><th scope="col">Behavior</th><th scope="col">Condition</th></tr></thead><tbody><tr><td>1</td><td>C:\HarborLane\In\Orders*.xml</td><td>RL_HarborLane_Orders_File</td><td>PurchaseOrder</td><td>FILE adapter polling through XMLReceive activates Receive_PurchaseOrder.</td><td><em>Not specified</em></td></tr><tr><td>2</td><td>Receive_PurchaseOrder</td><td>Transform_PurchaseOrderToCanonical</td><td>PurchaseOrder -&gt; CanonicalOrder</td><td>Map copies fields and lines, formats the order date, concatenates names/address, and supplies initial values.</td><td><em>Not specified</em></td></tr><tr><td>3</td><td>CanonicalOrderMsg</td><td>Expr_CalculateDiscount</td><td>CanonicalOrder</td><td>CalculateDiscount returns discountAmount; netTotal is OrderTotal minus discountAmount.</td><td><em>Not specified</em></td></tr><tr><td>4</td><td>ConstructMessage_PricedOrder</td><td>Decide_ApprovalRequired</td><td>CanonicalOrder</td><td>Copies the canonical message and assigns DiscountAmount and NetTotal.</td><td><em>Not specified</em></td></tr><tr><td>5</td><td>Decide_ApprovalRequired</td><td>SP_HarborLane_Orders_Approval</td><td>CanonicalOrder</td><td>Writes XML to the approval folder.</td><td>OrderTotal &gt;= 5000</td></tr><tr><td>6</td><td>Decide_ApprovalRequired</td><td>SP_HarborLane_Orders_Fulfilment</td><td>CanonicalOrder</td><td>Writes XML to the fulfilment folder.</td><td>else</td></tr><tr><td>7</td><td>Catch_OrderFailure</td><td>SP_HarborLane_Orders_Error</td><td>OrderError</td><td>BuildOrderError creates an error document and the FILE port writes it to the errors folder.</td><td>System.Exception in Scope_ProcessOrder</td></tr></tbody></table></div>
+<noscript>JavaScript is disabled. Mermaid source is shown instead of diagrams.</noscript><script src="../../.report-assets/mermaid-renderer.js"></script>
+</main></body></html>

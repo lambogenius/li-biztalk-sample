@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Strong-name keys are never committed. Create your own with: sn -k HarborLane.snk
+*.snk

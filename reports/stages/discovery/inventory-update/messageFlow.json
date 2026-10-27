@@ -1,0 +1,7 @@
+[
+  {"sequence":1,"from":"C:\\HarborLane\\In\\Inventory\\*.csv","to":"RL_HarborLane_Inventory_File","message":"Inventory CSV","behavior":"FILE adapter polls for CSV files."},
+  {"sequence":2,"from":"RL_HarborLane_Inventory_File","to":"InventoryFlatFileReceive","message":"Inventory CSV -> InventoryFlatFile XML","behavior":"Flat File Disassembler validates structure; HDR and repeating DTL records are comma-delimited and records are CRLF-delimited."},
+  {"sequence":3,"from":"BizTalk MessageBox","to":"SP_HarborLane_Inventory_Update","message":"InventoryFlatFile XML","condition":"BTS.ReceivePortName == RP_HarborLane_Inventory_File","behavior":"Direct messaging subscription; no orchestration is involved."},
+  {"sequence":4,"from":"SP_HarborLane_Inventory_Update","to":"Map_InventoryFlatFile_To_InventoryUpdate","message":"InventoryFlatFile -> InventoryUpdate","behavior":"Outbound map loops over details, copies inventory fields, and formats SnapshotDate."},
+  {"sequence":5,"from":"XMLTransmit","to":"C:\\HarborLane\\Out\\Inventory\\%MessageID%.xml","message":"InventoryUpdate XML","behavior":"FILE send port writes mapped XML."}
+]

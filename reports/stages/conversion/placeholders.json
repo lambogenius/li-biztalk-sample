@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "placeholders": {
+    "REPLACE_AZURE_LOCATION": "The approved Azure region name; the application owner or platform team supplies it and it may differ by environment.",
+    "REPLACE_ORDER_INPUT_CONTAINER": "The Blob container replacing C:\\HarborLane\\In\\Orders; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_INPUT_FOLDER": "The folder prefix within the order input container replacing the source Orders folder; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_APPROVAL_CONTAINER": "The Blob container replacing C:\\HarborLane\\Out\\Approval; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_APPROVAL_FOLDER": "The folder prefix within the order approval container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_FULFILMENT_CONTAINER": "The Blob container replacing C:\\HarborLane\\Out\\Fulfilment; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_FULFILMENT_FOLDER": "The folder prefix within the order fulfilment container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_ERROR_CONTAINER": "The Blob container replacing C:\\HarborLane\\Out\\Errors; the application owner supplies it and it may differ by environment.",
+    "REPLACE_ORDER_ERROR_FOLDER": "The folder prefix within the order error container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_INVENTORY_INPUT_CONTAINER": "The Blob container replacing C:\\HarborLane\\In\\Inventory; the application owner supplies it and it may differ by environment.",
+    "REPLACE_INVENTORY_INPUT_FOLDER": "The folder prefix within the inventory input container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_INVENTORY_OUTPUT_CONTAINER": "The Blob container replacing C:\\HarborLane\\Out\\Inventory; the application owner supplies it and it may differ by environment.",
+    "REPLACE_INVENTORY_OUTPUT_FOLDER": "The folder prefix within the inventory output container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_SHIPMENT_ARCHIVE_CONTAINER": "The Blob container replacing C:\\HarborLane\\Out\\Shipments; the application owner supplies it and it may differ by environment.",
+    "REPLACE_SHIPMENT_ARCHIVE_FOLDER": "The folder prefix within the shipment archive container; the application owner supplies it and it may differ by environment.",
+    "REPLACE_SHIPMENT_OVERSIZE_STATUS_CODE": "The owner-approved fail-closed HTTP status for requests over 65536 bytes, resolving planning gap shipment-fault-contract; the application owner supplies it and it may differ by environment."
+  }
+}

@@ -1,0 +1,8 @@
+{"flowId":"inventory-update","artifacts":[
+  {"sourceArtifactId":"2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","source":"HarborLane.Integration.BindingInfo.xml","disposition":"convert","target":"Blob trigger, dedicated workflow subscription boundary, and Blob upload"},
+  {"sourceArtifactId":"8b374df5-c3df-49e4-8c0d-70c8f0758e66","source":"InventoryFlatFileReceive.btp","disposition":"convert","target":"built-in Logic Apps Standard Flat File Decoding action configured with InventoryFlatFile.xsd"},
+  {"sourceArtifactId":"34872ed2-8c16-4108-bc40-3fe72970de23","source":"InventoryFlatFile.xsd","disposition":"retain","target":"logicapp Artifacts/Schemas and parser contract"},
+  {"sourceArtifactId":"6c00b69b-2efc-4e0b-a722-6b017ac04c9f","source":"Map_InventoryFlatFile_To_InventoryUpdate.btm","disposition":"convert","target":"logicapp Artifacts/Maps/Map_InventoryFlatFile_To_InventoryUpdate.xslt"},
+  {"sourceArtifactId":"b64dd345-a34a-440a-99ee-889a021cfcce","source":"InventoryUpdate.xsd","disposition":"retain","target":"logicapp Artifacts/Schemas"},
+  {"source":"Microsoft.BizTalk.DefaultPipelines.XMLTransmit","disposition":"replace","target":"XML serialization and Azure Blob built-in upload"}
+],"omitted":[]}

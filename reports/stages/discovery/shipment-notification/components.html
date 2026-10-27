@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Shipment Notification — Components</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="components.md">Source (MD)</a></nav><h1 id="shipment-notification-components">Shipment Notification — Components</h1>
+<p>Source contract: <a href="components.json">components.json</a></p>
+<h2 id="item-1">Item 1</h2>
+<ul><li><strong>Kind:</strong> receive-location</li></ul>
+<ul><li><strong>Name:</strong> RL_HarborLane_Shipments_Http</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details">Details</h3>
+<ul><li><strong>Receive Port:</strong> RP_HarborLane_Shipments_Http</li></ul>
+<ul><li><strong>Two Way:</strong> Yes</li></ul>
+<ul><li><strong>Adapter:</strong> WCF-WebHttp</li></ul>
+<ul><li><strong>Base Address:</strong> /HarborLaneShipments/ShipmentService.svc</li></ul>
+<ul><li><strong>Operation:</strong> SubmitNotice</li></ul>
+<ul><li><strong>Method:</strong> POST</li></ul>
+<ul><li><strong>Relative Url:</strong> /notices</li></ul>
+<ul><li><strong>Security Mode:</strong> Transport</li></ul>
+<ul><li><strong>Client Credential Type:</strong> None</li></ul>
+<ul><li><strong>Content Type:</strong> application/xml</li></ul>
+<ul><li><strong>Max Received Message Size:</strong> 65536</li></ul>
+<ul><li><strong>Max Concurrent Calls:</strong> 200</li></ul>
+<ul><li><strong>Receive Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLReceive</li></ul>
+<ul><li><strong>Send Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Open Close Send Timeout:</strong> 00:01:00</li></ul>
+<ul><li><strong>Include Exception Detail In Faults:</strong> No</li></ul>
+<ul><li><strong>Suspend Message On Failure:</strong> No</li></ul>
+<h2 id="item-2">Item 2</h2>
+<ul><li><strong>Kind:</strong> orchestration</li></ul>
+<ul><li><strong>Name:</strong> ShipmentNotificationOrchestration</li></ul>
+<ul><li><strong>Artifact Id:</strong> 932c2a59-e3c4-4e78-bd9d-3a5fdab0c032</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx</li></ul>
+<h3 id="details-1">Details</h3>
+<ul><li><strong>Activation Receive:</strong> Receive_ShipmentNotice</li></ul>
+<ul><li><strong>Request Response Operation:</strong> Operation_SubmitNotice</li></ul>
+<ul><li><strong>Archive Decision:</strong> isValid == true</li></ul>
+<h2 id="item-3">Item 3</h2>
+<ul><li><strong>Kind:</strong> schema</li></ul>
+<ul><li><strong>Name:</strong> ShipmentNotice</li></ul>
+<ul><li><strong>Artifact Id:</strong> 86609c47-41a2-4823-8165-bcb24c2632c5</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Schemas/ShipmentNotice.xsd</li></ul>
+<h3 id="details-2">Details</h3>
+<ul><li><strong>Namespace:</strong> <a href="http://HarborLane.Integration.Schemas.ShipmentNotice">http://HarborLane.Integration.Schemas.ShipmentNotice</a></li></ul>
+<h2 id="item-4">Item 4</h2>
+<ul><li><strong>Kind:</strong> map</li></ul>
+<ul><li><strong>Name:</strong> Map_ShipmentNotice_To_ShipmentAck</li></ul>
+<ul><li><strong>Artifact Id:</strong> ccf378ed-8b47-4221-adeb-0c4fde245709</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Maps/Map_ShipmentNotice_To_ShipmentAck.btm</li></ul>
+<h3 id="details-3">Details</h3>
+<ul><li><strong>Source:</strong> ShipmentNotice</li></ul>
+<ul><li><strong>Target:</strong> ShipmentAck</li></ul>
+<ul><li><strong>Behavior:</strong> Copies ShipmentId and OrderNumber, initializes Status to Pending, and stamps ReceivedAt with current UTC time; orchestration then overwrites Status and EstimatedDelivery.</li></ul>
+<h2 id="item-5">Item 5</h2>
+<ul><li><strong>Kind:</strong> schema</li></ul>
+<ul><li><strong>Name:</strong> ShipmentAck</li></ul>
+<ul><li><strong>Artifact Id:</strong> d6ea3ebe-4481-4f01-a6aa-c6555214e101</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Schemas/ShipmentAck.xsd</li></ul>
+<h3 id="details-4">Details</h3>
+<ul><li><strong>Namespace:</strong> <a href="http://HarborLane.Integration.Schemas.ShipmentAck">http://HarborLane.Integration.Schemas.ShipmentAck</a></li></ul>
+<h2 id="item-6">Item 6</h2>
+<ul><li><strong>Kind:</strong> custom-code</li></ul>
+<ul><li><strong>Name:</strong> ShipmentRules</li></ul>
+<ul><li><strong>Artifact Id:</strong> f55951bb-a9ef-4521-82b1-949162d8261b</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Helpers/ShipmentRules.cs</li></ul>
+<h3 id="details-5">Details</h3>
+<h4 id="called-methods">Called Methods</h4>
+<ul><li>IsValidNotice</li></ul>
+<ul><li>AckStatus</li></ul>
+<h2 id="item-7">Item 7</h2>
+<ul><li><strong>Kind:</strong> custom-code</li></ul>
+<ul><li><strong>Name:</strong> DeliveryCalendar</li></ul>
+<ul><li><strong>Artifact Id:</strong> cf84db1c-883c-4821-a8a5-34fc188d8388</li></ul>
+<ul><li><strong>Source Path:</strong> src/HarborLane.Integration.Helpers/DeliveryCalendar.cs</li></ul>
+<h3 id="details-6">Details</h3>
+<ul><li><strong>Called Method:</strong> EstimateDeliveryDate</li></ul>
+<h2 id="item-8">Item 8</h2>
+<ul><li><strong>Kind:</strong> send-port</li></ul>
+<ul><li><strong>Name:</strong> SP_HarborLane_Shipments_Archive</li></ul>
+<ul><li><strong>Artifact Id:</strong> 2f24ba50-d70a-438c-9f1a-cdd172fbdfcd</li></ul>
+<ul><li><strong>Source Path:</strong> HarborLane.Integration.BindingInfo.xml</li></ul>
+<h3 id="details-7">Details</h3>
+<ul><li><strong>Adapter:</strong> FILE</li></ul>
+<ul><li><strong>Address:</strong> C:\HarborLane\Out\Shipments\%MessageID%.xml</li></ul>
+<ul><li><strong>Pipeline:</strong> Microsoft.BizTalk.DefaultPipelines.XMLTransmit</li></ul>
+<ul><li><strong>Retry Count:</strong> 3</li></ul>
+<ul><li><strong>Retry Interval Minutes:</strong> 5</li></ul>
+<ul><li><strong>Condition:</strong> isValid == true</li></ul>
+
+</main></body></html>

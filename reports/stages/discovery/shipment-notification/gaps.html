@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="generator" content="lambogenius-report">
+<title>Shipment Notification — Gaps</title><style>body{font:16px/1.55 system-ui,sans-serif;background:#f1f5f9;color:#172033;margin:0}main{max-width:1280px;margin:auto;padding:28px}article,header,section{background:white;padding:24px;margin-bottom:20px;border:1px solid #cbd5e1;border-radius:12px}h1,h2,h3,h4{line-height:1.2}a{color:#164fbc;text-decoration:underline}.crumbs{font-size:14px;margin-bottom:16px}.table-scroll,.mermaid{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}th{background:#eef2ff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;padding:12px;border-radius:8px}code{font:13px/1.45 ui-monospace,Consolas,monospace}.mermaid{background:#fff;color:#172033;padding:12px;white-space:pre;min-height:60px}.mermaid svg{max-width:100%;height:auto}blockquote{border-left:4px solid #cbd5e1;margin:0;padding:4px 16px}.muted{color:#64748b;font-size:14px}.error{border-left:4px solid #b91c1c;padding:12px;background:#fff1f2}.metrics{display:flex;gap:20px;flex-wrap:wrap}.metrics strong{font-size:22px}ul.pages{padding-left:20px}ul.pages li{margin:4px 0}@media(prefers-color-scheme:dark){body{background:#0f172a;color:#e2e8f0}article,header,section{background:#1e293b;border-color:#475569}th{background:#334155}a{color:#93c5fd}pre{background:#0f172a}.muted{color:#94a3b8}.error{background:#381d29}td,th{border-color:#475569}}@media print{body{background:white;color:black}main{max-width:none;padding:0}article,header,section{border-radius:0}.crumbs{display:none}.table-scroll,.mermaid{overflow:visible}a{color:inherit}th{background:#eee}}</style></head><body><main>
+<nav class="crumbs"><a href="../../../../../../HarborLane.Integration/solution-report.html">Solution report</a> · <a href="gaps.md">Source (MD)</a></nav><h1 id="shipment-notification-gaps">Shipment Notification — Gaps</h1>
+<p>Source contract: <a href="gaps.json">gaps.json</a></p>
+<h2 id="item-1">Item 1</h2>
+<ul><li><strong>Id:</strong> standards-not-configured</li></ul>
+<ul><li><strong>Severity:</strong> blocker</li></ul>
+<ul><li><strong>Category:</strong> governance</li></ul>
+<ul><li><strong>Description:</strong> No external migration standards paths were configured and the extension evidence manifest contains no resources (input hash 5b1d74f72d5f8d7746a3bac90b12b7a4e3b15264854c4ebd92c989f23a926174). Architecture and implementation conventions therefore cannot be validated against external standards.</li></ul>
+<h3 id="evidence">Evidence</h3>
+<ul><li>discovery/b5c67cd54931/evidence/extensions/manifest.json</li></ul>
+<h2 id="item-2">Item 2</h2>
+<ul><li><strong>Id:</strong> shipment-public-endpoint</li></ul>
+<ul><li><strong>Severity:</strong> blocker</li></ul>
+<ul><li><strong>Category:</strong> environment</li></ul>
+<ul><li><strong>Description:</strong> The binding supplies only an application-relative WCF-WebHttp address and Transport security. Target hostname, certificate, DNS, ingress exposure, authorization policy, client identity requirements, and throttling equivalents are not supplied; client credential type is explicitly None in the source.</li></ul>
+<h3 id="evidence-1">Evidence</h3>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+<h2 id="item-3">Item 3</h2>
+<ul><li><strong>Id:</strong> shipment-target-archive-storage</li></ul>
+<ul><li><strong>Severity:</strong> blocker</li></ul>
+<ul><li><strong>Category:</strong> environment</li></ul>
+<ul><li><strong>Description:</strong> The accepted-notice archive is a local Windows FILE path. No target Azure storage service, connection, share/container, identity, network configuration, retention, replay, or purge policy is supplied.</li></ul>
+<h3 id="evidence-2">Evidence</h3>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+<h2 id="item-4">Item 4</h2>
+<ul><li><strong>Id:</strong> shipment-fault-contract</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Category:</strong> error-handling</li></ul>
+<ul><li><strong>Description:</strong> No orchestration catch/fault response contract is defined. The WCF binding disables exception details and SuspendMessageOnFailure, but externally visible failure status/body and operational handling are not specified.</li></ul>
+<h3 id="evidence-3">Evidence</h3>
+<ul><li>src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx</li></ul>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+<h2 id="item-5">Item 5</h2>
+<ul><li><strong>Id:</strong> shipment-archive-send-failure</li></ul>
+<ul><li><strong>Severity:</strong> warning</li></ul>
+<ul><li><strong>Category:</strong> operations</li></ul>
+<ul><li><strong>Description:</strong> The response is sent before conditional archival. The source defines three archive FILE retries at five-minute intervals but no terminal alert/dead-letter behavior, so the desired response-versus-archive failure semantics need confirmation.</li></ul>
+<h3 id="evidence-4">Evidence</h3>
+<ul><li>src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx</li></ul>
+<ul><li>HarborLane.Integration.BindingInfo.xml</li></ul>
+
+</main></body></html>

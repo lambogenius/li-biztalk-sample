@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4F1C2A6E-8B3D-4E59-9C71-2D5A8E0B6F13}</ProjectGuid>
+    <ProjectTypeGuids>{EF7E3281-CD33-11D4-8326-00C04FA0CE8D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>library</OutputType>
+    <GenericProcessing>true</GenericProcessing>
+    <RootNamespace>HarborLane.Integration.Schemas</RootNamespace>
+    <AssemblyName>HarborLane.Integration.Schemas</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <BpelCompliance>True</BpelCompliance>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- BizTalk assemblies must be strong-named. Create your own key with "sn -k HarborLane.snk" in the repository root; no key is committed. -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\HarborLane.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Name>System.Configuration</Name>
+    </Reference>
+    <Reference Include="Microsoft.BizTalk.Pipeline">
+      <Name>Microsoft.BizTalk.Pipeline</Name>
+    </Reference>
+    <Reference Include="Microsoft.BizTalk.DefaultPipelines">
+      <Name>Microsoft.BizTalk.DefaultPipelines</Name>
+    </Reference>
+    <Reference Include="Microsoft.BizTalk.GlobalPropertySchemas">
+      <Name>Microsoft.BizTalk.GlobalPropertySchemas</Name>
+    </Reference>
+    <Reference Include="Microsoft.BizTalk.TestTools">
+      <Name>Microsoft.BizTalk.TestTools</Name>
+    </Reference>
+    <Reference Include="Microsoft.XLANGs.BaseTypes">
+      <Name>Microsoft.XLANGs.BaseTypes</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Schema Include="PurchaseOrder.xsd">
+      <TypeName>PurchaseOrder</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="CanonicalOrder.xsd">
+      <TypeName>CanonicalOrder</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="OrderError.xsd">
+      <TypeName>OrderError</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="InventoryFlatFile.xsd">
+      <TypeName>InventoryFlatFile</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="InventoryUpdate.xsd">
+      <TypeName>InventoryUpdate</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="ShipmentNotice.xsd">
+      <TypeName>ShipmentNotice</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+    <Schema Include="ShipmentAck.xsd">
+      <TypeName>ShipmentAck</TypeName>
+      <Namespace>HarborLane.Integration.Schemas</Namespace>
+      <SubType>Task</SubType>
+    </Schema>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\BizTalk\BizTalkC.targets" />
+</Project>

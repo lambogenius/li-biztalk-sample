@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "flowId": "shipment-notification",
+  "tasks": [
+    {
+      "id": "workspace-agent-conversion",
+      "type": "generate",
+      "status": "completed",
+      "optional": false,
+      "output": {
+        "candidateHash": "e4e778d2cc79e054ea4fa44cddf465d4cd1294457853d5b10fd82390157fd38e"
+      }
+    }
+  ]
+}

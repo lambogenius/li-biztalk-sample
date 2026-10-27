@@ -1,0 +1,11 @@
+{
+  "schemas": ["86609c47-41a2-4823-8165-bcb24c2632c5", "d6ea3ebe-4481-4f01-a6aa-c6555214e101"],
+  "maps": ["ccf378ed-8b47-4221-adeb-0c4fde245709"],
+  "bindings": [{"artifactId":"2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","sourcePath":"HarborLane.Integration.BindingInfo.xml","ports":["RP_HarborLane_Shipments_Http","SP_HarborLane_Shipments_Archive"]}],
+  "customCode": [
+    {"class":"HarborLane.Integration.Helpers.ShipmentRules","method":"IsValidNotice","artifactId":"f55951bb-a9ef-4521-82b1-949162d8261b","sourcePath":"src/HarborLane.Integration.Helpers/ShipmentRules.cs","orchestration":"src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx","use":"Returns true only when shipment id is nonblank, trimmed tracking number has at least 8 characters, and package count is 1 through 99."},
+    {"class":"HarborLane.Integration.Helpers.DeliveryCalendar","method":"EstimateDeliveryDate","artifactId":"cf84db1c-883c-4821-a8a5-34fc188d8388","sourcePath":"src/HarborLane.Integration.Helpers/DeliveryCalendar.cs","orchestration":"src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx","use":"Adds business days to ShipDate, skipping weekends, using 2 days for Express, 8 for Freight, and 5 for Ground or unknown service levels; returns yyyy-MM-dd."},
+    {"class":"HarborLane.Integration.Helpers.ShipmentRules","method":"AckStatus","artifactId":"f55951bb-a9ef-4521-82b1-949162d8261b","sourcePath":"src/HarborLane.Integration.Helpers/ShipmentRules.cs","orchestration":"src/HarborLane.Integration.Orchestrations/ShipmentNotificationOrchestration.odx","use":"Returns Accepted for true validation and Rejected for false validation, assigning ShipmentAck.Status."}
+  ],
+  "externalSystems": [{"type":"https-client","role":"request-response","address":"/HarborLaneShipments/ShipmentService.svc/notices"},{"type":"file-system","role":"accepted-notice-archive","address":"C:\\HarborLane\\Out\\Shipments\\%MessageID%.xml"}]
+}

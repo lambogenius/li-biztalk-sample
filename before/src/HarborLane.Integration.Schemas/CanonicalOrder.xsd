@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.CanonicalOrder" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.CanonicalOrder" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="CanonicalOrder" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CanonicalOrder">
+    <xs:annotation>
+      <xs:appinfo>
+        <b:properties>
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='OrderId' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='CustomerTier' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='OrderTotal' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='DiscountAmount' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='NetTotal' and namespace-uri()='']" />
+          <b:property distinguished="true" xpath="/*[local-name()='CanonicalOrder' and namespace-uri()='http://HarborLane.Integration.Schemas.CanonicalOrder']/*[local-name()='Status' and namespace-uri()='']" />
+        </b:properties>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="OrderId" type="xs:string" />
+        <xs:element name="OrderDate" type="xs:date" />
+        <xs:element name="CustomerId" type="xs:string" />
+        <xs:element name="CustomerName" type="xs:string" />
+        <xs:element name="CustomerEmail" type="xs:string" />
+        <xs:element name="CustomerTier" type="xs:string" />
+        <xs:element name="Currency" type="xs:string" />
+        <xs:element name="OrderTotal" type="xs:decimal" />
+        <xs:element name="DiscountAmount" type="xs:decimal" />
+        <xs:element name="NetTotal" type="xs:decimal" />
+        <xs:element name="Status" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Received, PendingApproval or ReadyForFulfilment.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ShippingAddress" type="xs:string" />
+        <xs:element name="Items">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Item" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="LineNumber" type="xs:int" />
+                    <xs:element name="Sku" type="xs:string" />
+                    <xs:element name="Description" type="xs:string" />
+                    <xs:element name="Quantity" type="xs:int" />
+                    <xs:element name="UnitPrice" type="xs:decimal" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

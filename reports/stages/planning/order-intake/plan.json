@@ -1,0 +1,52 @@
+{
+  "flowId": "order-intake",
+  "scope": "Convert the FILE-activated OrderIntakeOrchestration, XML schemas, map, supplied pricing and error helpers, content-based routing, scoped failure path, and three FILE sends to one stateful Logic Apps Standard workflow using built-in Azure Blob operations.",
+  "workflows": [
+    {"name": "wf-order-intake", "designFile": "workflow-order-intake.json", "runtimePath": "logicapp/wf-order-intake/workflow.json", "kind": "Stateful", "trigger": "Azure Blob built-in polling trigger", "purpose": "Consume purchase-order XML, map and price it, route it, and emit an OrderError on processing failure."}
+  ],
+  "sequence": [
+    "Poll the blob container/folder configured by REPLACE_ORDER_INPUT_CONTAINER and REPLACE_ORDER_INPUT_FOLDER every 60 seconds for purchase-order XML.",
+    "Before entering Scope_ProcessOrder, parse the payload as well-formed XML and verify the PurchaseOrder root QName, preserving XMLReceive message-type resolution without adding strict XSD validation; failure ends the run before the orchestration scope and does not create an OrderError.",
+    "Run Map_PurchaseOrder_To_CanonicalOrder as an XSLT transform, including repeating lines, concatenations, yyyyMMdd date conversion, and initial values.",
+    "Invoke the dedicated local PricingRules implementation, then construct PricedOrder by copying the canonical document and assigning DiscountAmount and NetTotal.",
+    "If original OrderTotal is at least 5000, upload XML to the approval container/folder; otherwise upload it to fulfilment.",
+    "If the processing scope fails, invoke the dedicated ErrorMessageBuilder implementation and upload the resulting OrderError XML to the errors container/folder.",
+    "Each Blob upload uses 3 retries separated by 5 minutes; retry exhaustion is surfaced as a failed run pending owner-defined terminal operations handling."
+  ],
+  "dependencies": {
+    "schemas": ["PurchaseOrder.xsd", "CanonicalOrder.xsd", "OrderError.xsd"],
+    "maps": ["Map_PurchaseOrder_To_CanonicalOrder.btm converted to XSLT"],
+    "customCode": ["PricingRules.CalculateDiscount as its own Logic Apps Standard local function", "ErrorMessageBuilder.BuildOrderError as its own Logic Apps Standard local function"],
+    "connections": ["/serviceProviders/AzureBlob using workflow app managed identity"],
+    "infrastructure": ["Workflow Standard workflow app and plan", "Azure Storage account with blob service and input/approval/fulfilment/error container or folder paths", "Key Vault", "Application Insights and Log Analytics"]
+  },
+  "decisions": [
+    "The built-in File System connector is prohibited because it requires App Service Environment v3. Every source FILE endpoint is replaced by the built-in Azure Blob connector /serviceProviders/AzureBlob.",
+    "The source input folder becomes REPLACE_ORDER_INPUT_CONTAINER plus REPLACE_ORDER_INPUT_FOLDER; each source output folder becomes a REPLACE_* container/folder app setting. Values are not invented.",
+    "The application uses public HTTPS endpoints because no network policy is configured. No VNet, subnet, private endpoint, private DNS zone, VNet integration, APIM, custom domain, or publicNetworkAccess Disabled setting is planned.",
+    "Managed identity authorizes Blob and Key Vault access. Secrets, if any, are Key Vault-backed app settings; storage keys are not embedded.",
+    "Blob naming uses the Logic Apps run id plus .xml as the %MessageID%.xml equivalent; exact naming acceptance is a deployment gate.",
+    "No ordered delivery is added because the BizTalk send ports set OrderedDelivery false."
+  ],
+  "validation": [
+    "Use the supplied XSDs in offline tests for sample and produced-document conformance; the runtime input path performs only XML well-formedness and PurchaseOrder root-QName checks, matching XMLReceive rather than adding strict validation.",
+    "Golden-message tests compare converted XSLT output for PurchaseOrder_Approval.xml and PurchaseOrder_Fulfilment.xml with BizTalk map semantics.",
+    "Unit-test PricingRules boundary values, tier casing/whitespace, nonpositive totals, volume discount, and midpoint rounding away from zero.",
+    "Verify total >= 5000 uploads only to approval and total < 5000 uploads only to fulfilment.",
+    "Inject transform/function/upload failures and verify the catch path builds and uploads schema-valid OrderError XML.",
+    "Verify Blob trigger polling, duplicate-delivery/idempotency behavior, 3-at-5-minute retries, managed-identity RBAC, and telemetry before promotion."
+  ],
+  "assumptions": [
+    "The supplied source is the authoritative business behavior and contains all helper implementations used by this flow.",
+    "The Azure Blob built-in connector is available on the multitenant Workflow Standard plan.",
+    "No external migration standards were configured; repository instructions and the explicit stage constraints are the only standards applied.",
+    "Public service endpoints remain enabled; recommended owner hardening is to review IP restrictions and network isolation later without changing source caller behavior in this migration."
+  ],
+  "deploymentGates": [
+    "Owner supplies all REPLACE_* storage container/folder values and approves resource names.",
+    "Owner defines idempotency policy for Blob re-delivery and verifies runtime equivalence with representative production payloads.",
+    "Owner defines terminal alert/dead-letter handling after retries and archive/retention/replay/purge requirements.",
+    "Managed identity receives least-privilege Blob data and Key Vault permissions; credentials and environment values are verified outside source control.",
+    "External standards gap is acknowledged, all tests pass, acceptance evidence is recorded, and an independent approval is obtained before promotion or deployment."
+  ]
+}

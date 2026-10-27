@@ -1,0 +1,8 @@
+{
+  "schemas": ["34872ed2-8c16-4108-bc40-3fe72970de23", "b64dd345-a34a-440a-99ee-889a021cfcce"],
+  "maps": ["6c00b69b-2efc-4e0b-a722-6b017ac04c9f"],
+  "pipelines": ["8b374df5-c3df-49e4-8c0d-70c8f0758e66"],
+  "bindings": [{"artifactId":"2f24ba50-d70a-438c-9f1a-cdd172fbdfcd","sourcePath":"HarborLane.Integration.BindingInfo.xml","ports":["RP_HarborLane_Inventory_File","SP_HarborLane_Inventory_Update"],"subscription":"BTS.ReceivePortName == RP_HarborLane_Inventory_File"}],
+  "customCode": [],
+  "externalSystems": [{"type":"file-system","role":"input","address":"C:\\HarborLane\\In\\Inventory\\*.csv"},{"type":"file-system","role":"output","address":"C:\\HarborLane\\Out\\Inventory\\%MessageID%.xml"}]
+}

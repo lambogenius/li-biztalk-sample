@@ -1,0 +1,18 @@
+{
+  "serviceProviderConnections": {
+    "AzureBlob": {
+      "displayName": "Harbor Lane Blob transport (managed identity)",
+      "parameterSetName": "ManagedServiceIdentity",
+      "parameterValues": {
+        "authProvider": {
+          "Type": "ManagedServiceIdentity"
+        },
+        "blobStorageEndpoint": "@appsetting('BLOB_STORAGE_ENDPOINT')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/AzureBlob"
+      }
+    }
+  },
+  "managedApiConnections": {}
+}

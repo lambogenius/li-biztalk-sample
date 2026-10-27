@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://HarborLane.Integration.Schemas.OrderError" xmlns:b="http://schemas.microsoft.com/BizTalk/2003" targetNamespace="http://HarborLane.Integration.Schemas.OrderError" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo>
+      <b:schemaInfo standard="XML" root_reference="OrderError" />
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="OrderError">
+    <xs:annotation>
+      <xs:documentation>Written to the error folder when order intake fails. Built by HarborLane.Integration.Helpers.ErrorMessageBuilder.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FlowName" type="xs:string" />
+        <xs:element name="OrderReference" type="xs:string" />
+        <xs:element name="ErrorMessage" type="xs:string" />
+        <xs:element name="OccurredAt" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
